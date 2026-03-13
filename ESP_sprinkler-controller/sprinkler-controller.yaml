@@ -1,0 +1,41 @@
+# ════════════════════════════════════════════════════════════════════════
+#
+#      A ESP 32 based sprinkler controller which can run independently 
+#      of Home Assiatant in case WiFi or HA is down. HA is only used 
+#      to set schedules and to monitor watering progress.
+#      
+#      The aim was to create a controller which is more user friendly
+#      and with more features than a typical controller. No buttons or 
+#      monitor on the controller device. Everything is controlled and 
+#      monitored through HA which means you can integrate it into 
+#      your dashboard as you like.
+#      
+#      Feature list:
+#      - HA integration for all control and monitoring of the system
+#      - run every X days, which eliminates the odd/even issue at the end of month
+#      - odd/even days
+#      - specific day selection
+#      - weekdays/weekends
+#      - pause/resume, for when you got friends over for a BBQ, you want to do gardening, car parked on your lawn...
+#      - soak cycles, to avoid water run offs, gives your soil more chance to absorb all water
+#      - seasonal runtime adjustment per schedule, quick and easy control over watering times on hot/colder days
+#      - rain delay, for rainy periods delay watering for a couple days instead turning the 
+#        controller off and then forget to turn it back on
+#      - simple manual station run
+#      - simple manual schedule run
+#      - queue stations and programs
+#
+#      - can be combined with weather and soil moisture data to e.g. control the seasonal adjustment
+#      - watering statistics, important when you have weather and soil moisture data control integrated
+
+# ════════════════════════════════════════════════════════════════════════
+
+substitutions:
+  device_name: sprinkler-controller
+  friendly_name: "Sprinkler Controller"
+  version: "2.0.2"
+
+packages:
+  sprinkler_controller: !include ESP_sprinkler-controller/package.yaml
+
+

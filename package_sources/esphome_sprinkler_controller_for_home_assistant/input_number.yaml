@@ -1,0 +1,176 @@
+############################################################
+#                                                          #
+#        SPRINKLER SCHEDULE SEASONAL OVERRIDES             #
+#         Per-Schedule Runtime Adjustment                  #
+#                                                          #
+############################################################
+# Schedule 1 Seasonal 
+sprinkler_schedule_1_seasonal:
+  name: "Schedule 1 Seasonal %"
+  min: 50
+  max: 150
+  step: 5
+  unit_of_measurement: "%"
+  icon: mdi:percent
+  mode: slider
+
+# Schedule 2 Seasonal 
+sprinkler_schedule_2_seasonal:
+  name: "Schedule 2 Seasonal %"
+  min: 50
+  max: 150
+  step: 5
+  unit_of_measurement: "%"
+  icon: mdi:percent
+  mode: slider
+
+# Schedule 3 Seasonal 
+sprinkler_schedule_3_seasonal:
+  name: "Schedule 3 Seasonal %"
+  min: 50
+  max: 150
+  step: 5
+  unit_of_measurement: "%"
+  icon: mdi:percent
+  mode: slider
+
+# Schedule 4 Seasonal 
+sprinkler_schedule_4_seasonal:
+  name: "Schedule 4 Seasonal %"
+  min: 50
+  max: 150
+  step: 5
+  unit_of_measurement: "%"
+  icon: mdi:percent
+  mode: slider
+
+# Schedule 5 Seasonal 
+sprinkler_schedule_5_seasonal:
+  name: "Schedule 5 Seasonal %"
+  min: 50
+  max: 150
+  step: 5
+  unit_of_measurement: "%"
+  icon: mdi:percent
+  mode: slider
+
+# Schedule 6 Seasonal 
+sprinkler_schedule_6_seasonal:
+  name: "Schedule 6 Seasonal %"
+  min: 50
+  max: 150
+  step: 5
+  unit_of_measurement: "%"
+  icon: mdi:percent
+  mode: slider
+
+# Schedule 7 Seasonal 
+sprinkler_schedule_7_seasonal:
+  name: "Schedule 7 Seasonal %"
+  min: 50
+  max: 150
+  step: 5
+  unit_of_measurement: "%"
+  icon: mdi:percent
+  mode: slider
+
+# Schedule 8 Seasonal 
+sprinkler_schedule_8_seasonal:
+  name: "Schedule 8 Seasonal %"
+  min: 50
+  max: 150
+  step: 5
+  unit_of_measurement: "%"
+  icon: mdi:percent
+  mode: slider
+
+sprinkler_rain_delay_days:
+  name: "Rain Delay (Days)"
+  min: 0
+  max: 14
+  step: 1
+  mode: box
+  icon: mdi:weather-rainy
+  unit_of_measurement: "days"
+  
+# Schedule Intervals (for "Every X Days" mode)
+sprinkler_schedule_1_interval:
+  name: "Schedule 1 Interval"
+  min: 1
+  max: 30
+  step: 1
+  initial: 1
+  icon: mdi:calendar-range
+
+sprinkler_schedule_2_interval:
+  name: "Schedule 2 Interval"
+  min: 1
+  max: 30
+  step: 1
+  initial: 1
+  icon: mdi:calendar-range
+
+sprinkler_schedule_3_interval:
+  name: "Schedule 3 Interval"
+  min: 1
+  max: 30
+  step: 1
+  initial: 1
+  icon: mdi:calendar-range
+
+sprinkler_schedule_4_interval:
+  name: "Schedule 4 Interval"
+  min: 1
+  max: 30
+  step: 1
+  initial: 1
+  icon: mdi:calendar-range
+
+sprinkler_schedule_5_interval:
+  name: "Schedule 5 Interval"
+  min: 1
+  max: 30
+  step: 1
+  initial: 1
+  icon: mdi:calendar-range
+
+sprinkler_schedule_6_interval:
+  name: "Schedule 6 Interval"
+  min: 1
+  max: 30
+  step: 1
+  initial: 1
+  icon: mdi:calendar-range
+
+sprinkler_schedule_7_interval:
+  name: "Schedule 7 Interval"
+  min: 1
+  max: 30
+  step: 1
+  initial: 1
+  icon: mdi:calendar-range
+
+sprinkler_schedule_8_interval:
+  name: "Schedule 8 Interval"
+  min: 1
+  max: 30
+  step: 1
+  initial: 1
+  icon: mdi:calendar-range
+
+sprinkler_zone_original_time_locked:
+  name: "Zone Original Time Locked"
+  min: 0
+  max: 7200
+  step: 1
+  unit_of_measurement: 's'
+  mode: box
+
+sprinkler_zone_elapsed_at_pause:
+  name: "Zone Elapsed at Pause"
+  min: 0
+  max: 7200
+  step: 1
+  unit_of_measurement: 's'
+  mode: box
+  

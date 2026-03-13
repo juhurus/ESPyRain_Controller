@@ -1,0 +1,10 @@
+packages:
+  base: !include base.yaml
+  globals_stations: !include globals_stations.yaml
+  globals_schedules: !include globals_schedules.yaml
+  globals_system: !include globals_system.yaml
+  entities_stations: !include entities_stations.yaml
+  entities_schedules: !include entities_schedules.yaml
+  entities_system: !include entities_system.yaml
+  sensors: !include sensors.yaml
+  schedule_interval: !include schedule_interval.yaml

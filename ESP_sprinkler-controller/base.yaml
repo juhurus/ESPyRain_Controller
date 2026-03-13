@@ -1,0 +1,241 @@
+# ════════════════════════════════════════════════════════════
+# ESP32 board details
+# ════════════════════════════════════════════════════════════
+esp32:
+  board: esp32-s3-devkitc-1
+  framework:
+    type: esp-idf
+
+# ════════════════════════════════════════════════════════════
+# LOGGER
+# ════════════════════════════════════════════════════════════
+logger:
+  #level: DEBUG # Use DEBUG only when actively troubleshooting.
+  level: INFO  # Use INFO for normal run
+
+# ════════════════════════════════════════════════════════════
+# DEBUG
+# ════════════════════════════════════════════════════════════
+debug:
+  update_interval: 60s  
+
+
+# ════════════════════════════════════════════════════════════
+# OTA
+# ════════════════════════════════════════════════════════════
+ota:
+  - platform: esphome
+    password: !secret sprinkler_ota_password
+
+# ════════════════════════════════════════════════════════════
+# WiFi
+# ════════════════════════════════════════════════════════════
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  ap:
+    ssid: "${friendly_name} Fallback"
+    password: !secret sprinkler_ap_password
+  power_save_mode: none
+  fast_connect: true
+  reboot_timeout: 15min
+  # Package-safe default: use DHCP.
+  # If you want a static IP, add a local override file based on
+  # ESP_sprinkler-controller/network_static_ip.example.yaml
+  # and then uncomment the line below.
+  manual_ip: !include network_static_ip.yaml
+  
+# ════════════════════════════════════════════════════════════
+# CAPTIVE PORTAL
+# ════════════════════════════════════════════════════════════
+captive_portal:
+
+# ════════════════════════════════════════════════════════════
+# WEB SERVER
+# ════════════════════════════════════════════════════════════
+web_server:
+  port: 80
+  
+# ════════════════════════════════════════════════════════════
+# TIME
+# ════════════════════════════════════════════════════════════
+time:
+  - platform: sntp
+    id: esp_time
+    timezone: Australia/Perth
+    servers:
+      - 0.pool.ntp.org
+      - 1.pool.ntp.org
+      - time.google.com
+
+    on_time_sync:
+      - lambda: |-
+          ESP_LOGI("time", "SNTP time synchronized, calculating next runs");
+          int num_sched = (int)id(num_schedules);
+          for (int i = 1; i <= num_sched; i++) {
+            id(calculate_next_7_runs)(i);
+          }
+
+    on_time:
+      # ══════════════════════════════════════════════════════════════
+      # MIDNIGHT: Rain Delay Decrement + Next Run Recalculation
+      # ══════════════════════════════════════════════════════════════
+      - hours: 0
+        minutes: 0
+        seconds: 0
+        then:
+          - lambda: |-
+              // Decrement rain delay
+              uint8_t current_delay = id(rain_delay_days);
+              if (current_delay > 0) {
+                id(rain_delay_days) = current_delay - 1;
+                ESP_LOGI("system", "Rain delay decremented: %d -> %d days",
+                         current_delay, current_delay - 1);
+              }
+
+              // Recalculate all next runs at midnight
+              int num_sched = (int)id(num_schedules);
+              for (int i = 1; i <= num_sched; i++) {
+                id(calculate_next_7_runs)(i);
+              }
+              ESP_LOGI("system", "Midnight recalculation complete");
+
+# ════════════════════════════════════════════════════════════
+# API
+# ════════════════════════════════════════════════════════════
+api:
+  encryption:
+    key: !secret sprinkler_api_key
+  reboot_timeout: 0s
+  services:
+    - service: manual_queue_station
+      variables:
+        station_num: int
+        duration_sec: int
+      then:
+        - lambda: |-
+            if (station_num < 1 || station_num > (int)id(num_stations)) {
+              ESP_LOGW("manual", "Manual: invalid station %d", station_num);
+              return;
+            }
+            if (!id(get_station_enabled)(station_num)) {
+              ESP_LOGW("manual", "Manual: S%d disabled", station_num);
+              return;
+            }
+            int pin = id(get_station_pin)(station_num);
+            if (pin <= 0) {
+              ESP_LOGW("manual", "Manual: S%d no GPIO", station_num);
+              return;
+            }
+            int requested_station = station_num;
+            station_num = id(resolve_station_run_head)(station_num);
+            if (station_num != requested_station) {
+              ESP_LOGI("manual", "Manual: S%d resolved to coupled head S%d", requested_station, station_num);
+            }
+
+            uint32_t runtime = (duration_sec > 0)
+              ? (uint32_t)duration_sec
+              : (uint32_t)id(get_station_runtime)(station_num) * 60;
+
+            id(queue_add_station)(station_num, runtime);
+    - service: receive_heartbeat
+      then:
+        - lambda: |-
+            uint32_t now_ms = millis();
+            bool was_connected = id(ha_connected);
+            id(last_heartbeat_time) = now_ms;
+            id(ha_connected) = true;
+            id(ha_last_connected_time) = now_ms;
+            if (!was_connected) {
+              id(ha_last_disconnected_time) = 0;
+              ESP_LOGI("heartbeat", "HA heartbeat restored");
+            } else {
+              ESP_LOGD("heartbeat", "HA heartbeat received");
+            }
+
+# ════════════════════════════════════════════════════════════
+# ESP HOME
+# ════════════════════════════════════════════════════════════
+esphome:
+  name: ${device_name}
+  friendly_name: ${friendly_name}
+  comment: "Sprinkler Controller v${version}"
+  on_boot:
+    - priority: 600
+      then:
+        - lambda: |-
+            ESP_LOGI("boot", "v${version} boot sequence starting");
+            // Initialize station GPIOs based on stored globals
+            int num = (int)id(num_stations);
+            for (int i = 1; i <= num && i <= 16; i++) {
+              uint8_t pin = 0;
+              switch (i) {
+                case 1: pin = id(station_1_pin); break;
+                case 2: pin = id(station_2_pin); break;
+                case 3: pin = id(station_3_pin); break;
+                case 4: pin = id(station_4_pin); break;
+                case 5: pin = id(station_5_pin); break;
+                case 6: pin = id(station_6_pin); break;
+                case 7: pin = id(station_7_pin); break;
+                case 8: pin = id(station_8_pin); break;
+                case 9: pin = id(station_9_pin); break;
+                case 10: pin = id(station_10_pin); break;
+                case 11: pin = id(station_11_pin); break;
+                case 12: pin = id(station_12_pin); break;
+                case 13: pin = id(station_13_pin); break;
+                case 14: pin = id(station_14_pin); break;
+                case 15: pin = id(station_15_pin); break;
+                case 16: pin = id(station_16_pin); break;
+              }
+              if (pin > 0) {
+                gpio_set_direction((gpio_num_t)(int)pin, GPIO_MODE_OUTPUT);
+                gpio_set_level((gpio_num_t)(int)pin, 1); // OFF (active-low)
+                ESP_LOGI("boot", "Station %d: GPIO %d initialized (OFF)", i, pin);
+              }
+            }
+            if (id(master_valve_enabled) != 0) {
+              uint8_t mv_pin = id(master_valve_pin);
+              if (mv_pin > 0) {
+                gpio_set_direction((gpio_num_t)(int)mv_pin, GPIO_MODE_OUTPUT);
+                gpio_set_level((gpio_num_t)(int)mv_pin, 1);
+                ESP_LOGI("boot", "Master valve: GPIO %d initialized (OFF)", mv_pin);
+              }
+            }
+            // Restore and log station configuration state
+            ESP_LOGI("boot", "Station configuration restoration:");
+            for (int i = 1; i <= 16; i++) {
+              bool enabled = false;
+              std::string name = "";
+              uint8_t runtime = 0;
+              switch (i) {
+                case 1: enabled = id(station_1_enabled); name = id(station_1_name); runtime = id(station_1_runtime); break;
+                case 2: enabled = id(station_2_enabled); name = id(station_2_name); runtime = id(station_2_runtime); break;
+                case 3: enabled = id(station_3_enabled); name = id(station_3_name); runtime = id(station_3_runtime); break;
+                case 4: enabled = id(station_4_enabled); name = id(station_4_name); runtime = id(station_4_runtime); break;
+                case 5: enabled = id(station_5_enabled); name = id(station_5_name); runtime = id(station_5_runtime); break;
+                case 6: enabled = id(station_6_enabled); name = id(station_6_name); runtime = id(station_6_runtime); break;
+                case 7: enabled = id(station_7_enabled); name = id(station_7_name); runtime = id(station_7_runtime); break;
+                case 8: enabled = id(station_8_enabled); name = id(station_8_name); runtime = id(station_8_runtime); break;
+                case 9: enabled = id(station_9_enabled); name = id(station_9_name); runtime = id(station_9_runtime); break;
+                case 10: enabled = id(station_10_enabled); name = id(station_10_name); runtime = id(station_10_runtime); break;
+                case 11: enabled = id(station_11_enabled); name = id(station_11_name); runtime = id(station_11_runtime); break;
+                case 12: enabled = id(station_12_enabled); name = id(station_12_name); runtime = id(station_12_runtime); break;
+                case 13: enabled = id(station_13_enabled); name = id(station_13_name); runtime = id(station_13_runtime); break;
+                case 14: enabled = id(station_14_enabled); name = id(station_14_name); runtime = id(station_14_runtime); break;
+                case 15: enabled = id(station_15_enabled); name = id(station_15_name); runtime = id(station_15_runtime); break;
+                case 16: enabled = id(station_16_enabled); name = id(station_16_name); runtime = id(station_16_runtime); break;
+              }
+              ESP_LOGI("boot", "  S%d: %s [%s] %d min", i, name.c_str(), enabled ? "ENABLED" : "disabled", runtime);
+            }
+            ESP_LOGI("boot", "v${version} boot scaffold complete: %d stations, %d schedules", (int)id(num_stations), (int)id(num_schedules));
+    - priority: 500
+      then:
+        - delay: 3s
+        - lambda: |-
+            // Restore enabled states from HA (if synced via API)
+            ESP_LOGI("boot", "Restoring enabled states from NVS/HA sync");
+
+
+
+
+

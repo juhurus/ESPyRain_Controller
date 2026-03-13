@@ -1,0 +1,45 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.claude/
+.spec/
+*.code-workspace
+
+# Build / cache / generated output
+dist/
+build/
+.esphome/
+__pycache__/
+*.log
+*.tmp
+*.cache
+
+# Local secrets / machine-specific config
+.env
+config.json
+secrets.yaml
+**/secrets.yaml
+ESP_sprinkler-controller/network_static_ip.yaml
+network_static_ip.yaml
+
+# Home Assistant / ESPHome local state or exports
+archive/
+HA_files/
+sprinkler-v2/
+sprinkler-v2_copy*/
+
+# Local backups / scratch files
+*.bak
+*.backup
+*.orig
+*.rej
+*.pre_*
+
+# Personal debug exports / logs
+history.csv
+logs_*.txt
+ULTIMATE SCHEDULE DEBUGGING*.txt
+
+# Optional private dashboard assets
+HA_dashboard/private_assets/

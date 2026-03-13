@@ -1,0 +1,173 @@
+############################################################
+#                                                          #
+#                  SPRINKLER SCHEDULE                      #
+#                   8 Schedules Total                      #
+#                                                          #
+############################################################
+sprinkler_backup_queue:
+  name: "Sprinkler Backup Queue"
+  max: 255
+
+sprinkler_backup_current_program:
+  name: "Sprinkler Backup Current Program"  
+  max: 255
+
+sprinkler_backup_current_station:
+  name: "Sprinkler Backup Current Station"
+  max: 255
+
+# Schedule 1 Name
+sprinkler_schedule_1_name:
+  name: "Schedule 1 Name"
+  max: 50
+  icon: mdi:rename-box
+
+# Schedule 2 Name
+sprinkler_schedule_2_name:
+  name: "Schedule 2 Name"
+  max: 50
+  icon: mdi:rename-box
+
+# Schedule 3 Name
+sprinkler_schedule_3_name:
+  name: "Schedule 3 Name"
+  max: 50
+  icon: mdi:rename-box
+
+# Schedule 4 Name
+sprinkler_schedule_4_name:
+  name: "Schedule 4 Name"
+  max: 50
+  icon: mdi:rename-box
+
+# Schedule 5 Name
+sprinkler_schedule_5_name:
+  name: "Schedule 5 Name"
+  max: 50
+  icon: mdi:rename-box
+
+# Schedule 6 Name
+sprinkler_schedule_6_name:
+  name: "Schedule 6 Name"
+  max: 50
+  icon: mdi:rename-box
+
+# Schedule 7 Name
+sprinkler_schedule_7_name:
+  name: "Schedule 7 Name"
+  max: 50
+  icon: mdi:rename-box
+
+# Schedule 8 Name
+sprinkler_schedule_8_name:
+  name: "Schedule 8 Name"
+  max: 50
+  icon: mdi:rename-box
+
+############################################################
+#                                                          #
+#               SPRINKLER STATION NAMES                    #
+#                  16 Stations Total                       #
+#                                                          #
+############################################################
+
+# Station 1 Name
+sprinkler_station_1_name:
+  name: "Station 1 Name"
+  max: 50
+  icon: mdi:label-outline
+
+# Station 2 Name
+sprinkler_station_2_name:
+  name: "Station 2 Name"
+  max: 50
+  icon: mdi:label-outline
+
+# Station 3 Name
+sprinkler_station_3_name:
+  name: "Station 3 Name"
+  max: 50
+  icon: mdi:label-outline
+
+# Station 4 Name
+sprinkler_station_4_name:
+  name: "Station 4 Name"
+  max: 50
+  icon: mdi:label-outline
+
+# Station 5 Name
+sprinkler_station_5_name:
+  name: "Station 5 Name"
+  max: 50
+  icon: mdi:label-outline
+
+# Station 6 Name
+sprinkler_station_6_name:
+  name: "Station 6 Name"
+  max: 50
+  icon: mdi:label-outline
+
+# Station 7 Name
+sprinkler_station_7_name:
+  name: "Station 7 Name"
+  max: 50
+  icon: mdi:label-outline
+
+# Station 8 Name
+sprinkler_station_8_name:
+  name: "Station 8 Name"
+  max: 50
+  icon: mdi:label-outline
+
+# Station 9 Name
+sprinkler_station_9_name:
+  name: "Station 9 Name"
+  max: 50
+  icon: mdi:label-outline
+
+# Station 10 Name
+sprinkler_station_10_name:
+  name: "Station 10 Name"
+  max: 50
+  icon: mdi:label-outline
+
+# Station 11 Name
+sprinkler_station_11_name:
+  name: "Station 11 Name"
+  max: 50
+  icon: mdi:label-outline
+
+# Station 12 Name
+sprinkler_station_12_name:
+  name: "Station 12 Name"
+  max: 50
+  icon: mdi:label-outline
+
+# Station 13 Name
+sprinkler_station_13_name:
+  name: "Station 13 Name"
+  max: 50
+  icon: mdi:label-outline
+
+# Station 14 Name
+sprinkler_station_14_name:
+  name: "Station 14 Name"
+  max: 50
+  icon: mdi:label-outline
+
+# Station 15 Name
+sprinkler_station_15_name:
+  name: "Station 15 Name"
+  max: 50
+  icon: mdi:label-outline
+
+# Station 16 Name
+sprinkler_station_16_name:
+  name: "Station 16 Name"
+  max: 50
+  icon: mdi:label-outline
+
+sprinkler_active_program:
+  name: "Sprinkler Active Program"
+  max: 50
+  initial: "Idle"

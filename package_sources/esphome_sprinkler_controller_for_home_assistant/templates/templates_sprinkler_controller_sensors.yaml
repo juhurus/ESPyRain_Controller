@@ -300,6 +300,19 @@
           {% endif %}
         {% endif %}
 
+    - name: "Sprinkler Active Schedules Count"
+      unique_id: sprinkler_active_schedules_count
+      icon: mdi:counter
+      unit_of_measurement: "schedules"
+      state: >
+        {% set ns = namespace(count=0) %}
+        {% for i in range(1, 9) %}
+          {% if is_state('input_boolean.sprinkler_schedule_' ~ i ~ '_enabled', 'on') %}
+            {% set ns.count = ns.count + 1 %}
+          {% endif %}
+        {% endfor %}
+        {{ ns.count }}
+
     # ──────────────────────────────────────────────────────────
     # 6. Station Coupled To Sensors (1-16)
     #    For each station N, checks whether any OTHER station H

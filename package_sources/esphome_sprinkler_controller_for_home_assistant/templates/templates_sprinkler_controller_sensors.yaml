@@ -802,127 +802,7 @@
         {{ h }}h {{ m }}min
 
 
-# v2 station watering visual binary sensors (dynamic valve icon)
-- binary_sensor:
-    - name: "Sprinkler Controller HA Link"
-      unique_id: sprinkler_controller_ha_link
-      state: >
-        {% set conn = states('sensor.sprinkler_controller_connection_status') %}
-        {{ conn not in ['unknown', 'unavailable', 'None', ''] and 'Connected' in conn }}
-      icon: >
-        {% if is_state('binary_sensor.sprinkler_controller_ha_link', 'on') %}
-          mdi:lan-connect
-        {% else %}
-          mdi:lan-disconnect
-        {% endif %}
-    - name: "Sprinkler Controller Paused"
-      unique_id: sprinkler_controller_paused
-      state: >
-        {% set status = states('sensor.sprinkler_controller_sprinkler_status') %}
-        {{ status == 'Paused' }}
-      icon: >
-        {% if is_state('binary_sensor.sprinkler_controller_paused', 'on') %}
-          mdi:pause-circle
-        {% else %}
-          mdi:play-circle
-        {% endif %}
-    - name: "Sprinkler Station 1 Watering"
-      unique_id: sprinkler_station_1_watering
-      state: >
-        {{ is_state('binary_sensor.sprinkler_controller_station_1_watering', 'on') }}
-      icon: >
-        {% if is_state('binary_sensor.sprinkler_controller_station_1_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
-    - name: "Sprinkler Station 2 Watering"
-      unique_id: sprinkler_station_2_watering
-      state: >
-        {{ is_state('binary_sensor.sprinkler_controller_station_2_watering', 'on') }}
-      icon: >
-        {% if is_state('binary_sensor.sprinkler_controller_station_2_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
-    - name: "Sprinkler Station 3 Watering"
-      unique_id: sprinkler_station_3_watering
-      state: >
-        {{ is_state('binary_sensor.sprinkler_controller_station_3_watering', 'on') }}
-      icon: >
-        {% if is_state('binary_sensor.sprinkler_controller_station_3_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
-    - name: "Sprinkler Station 4 Watering"
-      unique_id: sprinkler_station_4_watering
-      state: >
-        {{ is_state('binary_sensor.sprinkler_controller_station_4_watering', 'on') }}
-      icon: >
-        {% if is_state('binary_sensor.sprinkler_controller_station_4_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
-    - name: "Sprinkler Station 5 Watering"
-      unique_id: sprinkler_station_5_watering
-      state: >
-        {{ is_state('binary_sensor.sprinkler_controller_station_5_watering', 'on') }}
-      icon: >
-        {% if is_state('binary_sensor.sprinkler_controller_station_5_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
-    - name: "Sprinkler Station 6 Watering"
-      unique_id: sprinkler_station_6_watering
-      state: >
-        {{ is_state('binary_sensor.sprinkler_controller_station_6_watering', 'on') }}
-      icon: >
-        {% if is_state('binary_sensor.sprinkler_controller_station_6_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
-    - name: "Sprinkler Station 7 Watering"
-      unique_id: sprinkler_station_7_watering
-      state: >
-        {{ is_state('binary_sensor.sprinkler_controller_station_7_watering', 'on') }}
-      icon: >
-        {% if is_state('binary_sensor.sprinkler_controller_station_7_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
-    - name: "Sprinkler Station 8 Watering"
-      unique_id: sprinkler_station_8_watering
-      state: >
-        {{ is_state('binary_sensor.sprinkler_controller_station_8_watering', 'on') }}
-      icon: >
-        {% if is_state('binary_sensor.sprinkler_controller_station_8_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
-    - name: "Sprinkler Station 9 Watering"
-      unique_id: sprinkler_station_9_watering
-      state: >
-        {{ is_state('binary_sensor.sprinkler_controller_station_9_watering', 'on') }}
-      icon: >
-        {% if is_state('binary_sensor.sprinkler_controller_station_9_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
-    - name: "Sprinkler Station 10 Watering"
-      unique_id: sprinkler_station_10_watering
-      state: >
-        {{ is_state('binary_sensor.sprinkler_controller_station_10_watering', 'on') }}
-      icon: >
-        {% if is_state('binary_sensor.sprinkler_controller_station_10_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
-    - name: "Sprinkler Station 11 Watering"
-      unique_id: sprinkler_station_11_watering
-      state: >
-        {{ is_state('binary_sensor.sprinkler_controller_station_11_watering', 'on') }}
-      icon: >
-        {% if is_state('binary_sensor.sprinkler_controller_station_11_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
-    - name: "Sprinkler Station 12 Watering"
-      unique_id: sprinkler_station_12_watering
-      state: >
-        {{ is_state('binary_sensor.sprinkler_controller_station_12_watering', 'on') }}
-      icon: >
-        {% if is_state('binary_sensor.sprinkler_controller_station_12_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
-    - name: "Sprinkler Station 13 Watering"
-      unique_id: sprinkler_station_13_watering
-      state: >
-        {{ is_state('binary_sensor.sprinkler_controller_station_13_watering', 'on') }}
-      icon: >
-        {% if is_state('binary_sensor.sprinkler_controller_station_13_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
-    - name: "Sprinkler Station 14 Watering"
-      unique_id: sprinkler_station_14_watering
-      state: >
-        {{ is_state('binary_sensor.sprinkler_controller_station_14_watering', 'on') }}
-      icon: >
-        {% if is_state('binary_sensor.sprinkler_controller_station_14_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
-    - name: "Sprinkler Station 15 Watering"
-      unique_id: sprinkler_station_15_watering
-      state: >
-        {{ is_state('binary_sensor.sprinkler_controller_station_15_watering', 'on') }}
-      icon: >
-        {% if is_state('binary_sensor.sprinkler_controller_station_15_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
-    - name: "Sprinkler Station 16 Watering"
-      unique_id: sprinkler_station_16_watering
-      state: >
-        {{ is_state('binary_sensor.sprinkler_controller_station_16_watering', 'on') }}
-      icon: >
-        {% if is_state('binary_sensor.sprinkler_controller_station_16_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
-
+- sensor:
     # V2 formatted runtime sensors extension (S11-S16)
     - name: "S11 Runtime Today Formatted"
       unique_id: s11_runtime_today_formatted
@@ -1103,6 +983,127 @@
         {% set h = (total_minutes // 60) | int(0) %}
         {% set m = (total_minutes % 60) | int(0) %}
         {{ h }}h {{ m }}min
+# v2 station watering visual binary sensors (dynamic valve icon)
+- binary_sensor:
+    - name: "Sprinkler Controller HA Link"
+      unique_id: sprinkler_controller_ha_link
+      state: >
+        {% set conn = states('sensor.sprinkler_controller_connection_status') %}
+        {{ conn not in ['unknown', 'unavailable', 'None', ''] and 'Connected' in conn }}
+      icon: >
+        {% if is_state('binary_sensor.sprinkler_controller_ha_link', 'on') %}
+          mdi:lan-connect
+        {% else %}
+          mdi:lan-disconnect
+        {% endif %}
+    - name: "Sprinkler Controller Paused"
+      unique_id: sprinkler_controller_paused
+      state: >
+        {% set status = states('sensor.sprinkler_controller_sprinkler_status') %}
+        {{ status == 'Paused' }}
+      icon: >
+        {% if is_state('binary_sensor.sprinkler_controller_paused', 'on') %}
+          mdi:pause-circle
+        {% else %}
+          mdi:play-circle
+        {% endif %}
+    - name: "Sprinkler Station 1 Watering"
+      unique_id: sprinkler_station_1_watering
+      state: >
+        {{ is_state('binary_sensor.sprinkler_controller_station_1_watering', 'on') }}
+      icon: >
+        {% if is_state('binary_sensor.sprinkler_controller_station_1_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
+    - name: "Sprinkler Station 2 Watering"
+      unique_id: sprinkler_station_2_watering
+      state: >
+        {{ is_state('binary_sensor.sprinkler_controller_station_2_watering', 'on') }}
+      icon: >
+        {% if is_state('binary_sensor.sprinkler_controller_station_2_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
+    - name: "Sprinkler Station 3 Watering"
+      unique_id: sprinkler_station_3_watering
+      state: >
+        {{ is_state('binary_sensor.sprinkler_controller_station_3_watering', 'on') }}
+      icon: >
+        {% if is_state('binary_sensor.sprinkler_controller_station_3_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
+    - name: "Sprinkler Station 4 Watering"
+      unique_id: sprinkler_station_4_watering
+      state: >
+        {{ is_state('binary_sensor.sprinkler_controller_station_4_watering', 'on') }}
+      icon: >
+        {% if is_state('binary_sensor.sprinkler_controller_station_4_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
+    - name: "Sprinkler Station 5 Watering"
+      unique_id: sprinkler_station_5_watering
+      state: >
+        {{ is_state('binary_sensor.sprinkler_controller_station_5_watering', 'on') }}
+      icon: >
+        {% if is_state('binary_sensor.sprinkler_controller_station_5_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
+    - name: "Sprinkler Station 6 Watering"
+      unique_id: sprinkler_station_6_watering
+      state: >
+        {{ is_state('binary_sensor.sprinkler_controller_station_6_watering', 'on') }}
+      icon: >
+        {% if is_state('binary_sensor.sprinkler_controller_station_6_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
+    - name: "Sprinkler Station 7 Watering"
+      unique_id: sprinkler_station_7_watering
+      state: >
+        {{ is_state('binary_sensor.sprinkler_controller_station_7_watering', 'on') }}
+      icon: >
+        {% if is_state('binary_sensor.sprinkler_controller_station_7_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
+    - name: "Sprinkler Station 8 Watering"
+      unique_id: sprinkler_station_8_watering
+      state: >
+        {{ is_state('binary_sensor.sprinkler_controller_station_8_watering', 'on') }}
+      icon: >
+        {% if is_state('binary_sensor.sprinkler_controller_station_8_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
+    - name: "Sprinkler Station 9 Watering"
+      unique_id: sprinkler_station_9_watering
+      state: >
+        {{ is_state('binary_sensor.sprinkler_controller_station_9_watering', 'on') }}
+      icon: >
+        {% if is_state('binary_sensor.sprinkler_controller_station_9_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
+    - name: "Sprinkler Station 10 Watering"
+      unique_id: sprinkler_station_10_watering
+      state: >
+        {{ is_state('binary_sensor.sprinkler_controller_station_10_watering', 'on') }}
+      icon: >
+        {% if is_state('binary_sensor.sprinkler_controller_station_10_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
+    - name: "Sprinkler Station 11 Watering"
+      unique_id: sprinkler_station_11_watering
+      state: >
+        {{ is_state('binary_sensor.sprinkler_controller_station_11_watering', 'on') }}
+      icon: >
+        {% if is_state('binary_sensor.sprinkler_controller_station_11_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
+    - name: "Sprinkler Station 12 Watering"
+      unique_id: sprinkler_station_12_watering
+      state: >
+        {{ is_state('binary_sensor.sprinkler_controller_station_12_watering', 'on') }}
+      icon: >
+        {% if is_state('binary_sensor.sprinkler_controller_station_12_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
+    - name: "Sprinkler Station 13 Watering"
+      unique_id: sprinkler_station_13_watering
+      state: >
+        {{ is_state('binary_sensor.sprinkler_controller_station_13_watering', 'on') }}
+      icon: >
+        {% if is_state('binary_sensor.sprinkler_controller_station_13_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
+    - name: "Sprinkler Station 14 Watering"
+      unique_id: sprinkler_station_14_watering
+      state: >
+        {{ is_state('binary_sensor.sprinkler_controller_station_14_watering', 'on') }}
+      icon: >
+        {% if is_state('binary_sensor.sprinkler_controller_station_14_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
+    - name: "Sprinkler Station 15 Watering"
+      unique_id: sprinkler_station_15_watering
+      state: >
+        {{ is_state('binary_sensor.sprinkler_controller_station_15_watering', 'on') }}
+      icon: >
+        {% if is_state('binary_sensor.sprinkler_controller_station_15_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
+    - name: "Sprinkler Station 16 Watering"
+      unique_id: sprinkler_station_16_watering
+      state: >
+        {{ is_state('binary_sensor.sprinkler_controller_station_16_watering', 'on') }}
+      icon: >
+        {% if is_state('binary_sensor.sprinkler_controller_station_16_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
+
 
 # Interval-blocked warning on schedule cards
     - name: "Sprinkler Schedule 1 Blocked By Interval Today"

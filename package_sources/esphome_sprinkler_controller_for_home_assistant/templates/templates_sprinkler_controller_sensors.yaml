@@ -997,6 +997,303 @@
         {% set m = (total_minutes % 60) | int(0) %}
         {{ h }}h {{ m }}min
 # v2 station watering visual binary sensors (dynamic valve icon)
+
+- sensor:
+    - name: "Sprinkler Schedule 1 Last Run"
+      unique_id: sprinkler_schedule_1_last_run
+      state: >
+        {% set ts = states('sensor.sprinkler_controller_schedule_1_last_run_raw') %}
+        {% if ts in ['unknown', 'unavailable', 'none', ''] %}
+          never
+        {% else %}
+          {% set ts_num = ts | float(0) %}
+          {% if ts_num == 0 %}
+            never
+          {% else %}
+            {{ ts_num | timestamp_custom('%Y-%m-%d %H:%M', true) }}
+          {% endif %}
+        {% endif %}
+      attributes:
+        timestamp: >
+          {% set ts = states('sensor.sprinkler_controller_schedule_1_last_run_raw') %}
+          {% if ts in ['unknown', 'unavailable', 'none', ''] %}
+            0
+          {% else %}
+            {{ ts | float(0) | int }}
+          {% endif %}
+        ran_today: >
+          {% set ts = states('sensor.sprinkler_controller_schedule_1_last_run_raw') %}
+          {% if ts in ['unknown', 'unavailable', 'none', ''] %}
+            false
+          {% else %}
+            {% set ts_num = ts | float(0) | int %}
+            {% if ts_num == 0 %}
+              false
+            {% else %}
+              {% set now_ts = now().timestamp() | int %}
+              {% set today_midnight = now_ts - (now().hour * 3600 + now().minute * 60 + now().second) %}
+              {{ ts_num >= today_midnight }}
+            {% endif %}
+          {% endif %}
+
+    - name: "Sprinkler Schedule 2 Last Run"
+      unique_id: sprinkler_schedule_2_last_run
+      state: >
+        {% set ts = states('sensor.sprinkler_controller_schedule_2_last_run_raw') %}
+        {% if ts in ['unknown', 'unavailable', 'none', ''] %}
+          never
+        {% else %}
+          {% set ts_num = ts | float(0) %}
+          {% if ts_num == 0 %}
+            never
+          {% else %}
+            {{ ts_num | timestamp_custom('%Y-%m-%d %H:%M', true) }}
+          {% endif %}
+        {% endif %}
+      attributes:
+        timestamp: >
+          {% set ts = states('sensor.sprinkler_controller_schedule_2_last_run_raw') %}
+          {% if ts in ['unknown', 'unavailable', 'none', ''] %}
+            0
+          {% else %}
+            {{ ts | float(0) | int }}
+          {% endif %}
+        ran_today: >
+          {% set ts = states('sensor.sprinkler_controller_schedule_2_last_run_raw') %}
+          {% if ts in ['unknown', 'unavailable', 'none', ''] %}
+            false
+          {% else %}
+            {% set ts_num = ts | float(0) | int %}
+            {% if ts_num == 0 %}
+              false
+            {% else %}
+              {% set now_ts = now().timestamp() | int %}
+              {% set today_midnight = now_ts - (now().hour * 3600 + now().minute * 60 + now().second) %}
+              {{ ts_num >= today_midnight }}
+            {% endif %}
+          {% endif %}
+
+    - name: "Sprinkler Schedule 3 Last Run"
+      unique_id: sprinkler_schedule_3_last_run
+      state: >
+        {% set ts = states('sensor.sprinkler_controller_schedule_3_last_run_raw') %}
+        {% if ts in ['unknown', 'unavailable', 'none', ''] %}
+          never
+        {% else %}
+          {% set ts_num = ts | float(0) %}
+          {% if ts_num == 0 %}
+            never
+          {% else %}
+            {{ ts_num | timestamp_custom('%Y-%m-%d %H:%M', true) }}
+          {% endif %}
+        {% endif %}
+      attributes:
+        timestamp: >
+          {% set ts = states('sensor.sprinkler_controller_schedule_3_last_run_raw') %}
+          {% if ts in ['unknown', 'unavailable', 'none', ''] %}
+            0
+          {% else %}
+            {{ ts | float(0) | int }}
+          {% endif %}
+        ran_today: >
+          {% set ts = states('sensor.sprinkler_controller_schedule_3_last_run_raw') %}
+          {% if ts in ['unknown', 'unavailable', 'none', ''] %}
+            false
+          {% else %}
+            {% set ts_num = ts | float(0) | int %}
+            {% if ts_num == 0 %}
+              false
+            {% else %}
+              {% set now_ts = now().timestamp() | int %}
+              {% set today_midnight = now_ts - (now().hour * 3600 + now().minute * 60 + now().second) %}
+              {{ ts_num >= today_midnight }}
+            {% endif %}
+          {% endif %}
+
+    - name: "Sprinkler Schedule 4 Last Run"
+      unique_id: sprinkler_schedule_4_last_run
+      state: >
+        {% set ts = states('sensor.sprinkler_controller_schedule_4_last_run_raw') %}
+        {% if ts in ['unknown', 'unavailable', 'none', ''] %}
+          never
+        {% else %}
+          {% set ts_num = ts | float(0) %}
+          {% if ts_num == 0 %}
+            never
+          {% else %}
+            {{ ts_num | timestamp_custom('%Y-%m-%d %H:%M', true) }}
+          {% endif %}
+        {% endif %}
+      attributes:
+        timestamp: >
+          {% set ts = states('sensor.sprinkler_controller_schedule_4_last_run_raw') %}
+          {% if ts in ['unknown', 'unavailable', 'none', ''] %}
+            0
+          {% else %}
+            {{ ts | float(0) | int }}
+          {% endif %}
+        ran_today: >
+          {% set ts = states('sensor.sprinkler_controller_schedule_4_last_run_raw') %}
+          {% if ts in ['unknown', 'unavailable', 'none', ''] %}
+            false
+          {% else %}
+            {% set ts_num = ts | float(0) | int %}
+            {% if ts_num == 0 %}
+              false
+            {% else %}
+              {% set now_ts = now().timestamp() | int %}
+              {% set today_midnight = now_ts - (now().hour * 3600 + now().minute * 60 + now().second) %}
+              {{ ts_num >= today_midnight }}
+            {% endif %}
+          {% endif %}
+
+    - name: "Sprinkler Schedule 5 Last Run"
+      unique_id: sprinkler_schedule_5_last_run
+      state: >
+        {% set ts = states('sensor.sprinkler_controller_schedule_5_last_run_raw') %}
+        {% if ts in ['unknown', 'unavailable', 'none', ''] %}
+          never
+        {% else %}
+          {% set ts_num = ts | float(0) %}
+          {% if ts_num == 0 %}
+            never
+          {% else %}
+            {{ ts_num | timestamp_custom('%Y-%m-%d %H:%M', true) }}
+          {% endif %}
+        {% endif %}
+      attributes:
+        timestamp: >
+          {% set ts = states('sensor.sprinkler_controller_schedule_5_last_run_raw') %}
+          {% if ts in ['unknown', 'unavailable', 'none', ''] %}
+            0
+          {% else %}
+            {{ ts | float(0) | int }}
+          {% endif %}
+        ran_today: >
+          {% set ts = states('sensor.sprinkler_controller_schedule_5_last_run_raw') %}
+          {% if ts in ['unknown', 'unavailable', 'none', ''] %}
+            false
+          {% else %}
+            {% set ts_num = ts | float(0) | int %}
+            {% if ts_num == 0 %}
+              false
+            {% else %}
+              {% set now_ts = now().timestamp() | int %}
+              {% set today_midnight = now_ts - (now().hour * 3600 + now().minute * 60 + now().second) %}
+              {{ ts_num >= today_midnight }}
+            {% endif %}
+          {% endif %}
+
+    - name: "Sprinkler Schedule 6 Last Run"
+      unique_id: sprinkler_schedule_6_last_run
+      state: >
+        {% set ts = states('sensor.sprinkler_controller_schedule_6_last_run_raw') %}
+        {% if ts in ['unknown', 'unavailable', 'none', ''] %}
+          never
+        {% else %}
+          {% set ts_num = ts | float(0) %}
+          {% if ts_num == 0 %}
+            never
+          {% else %}
+            {{ ts_num | timestamp_custom('%Y-%m-%d %H:%M', true) }}
+          {% endif %}
+        {% endif %}
+      attributes:
+        timestamp: >
+          {% set ts = states('sensor.sprinkler_controller_schedule_6_last_run_raw') %}
+          {% if ts in ['unknown', 'unavailable', 'none', ''] %}
+            0
+          {% else %}
+            {{ ts | float(0) | int }}
+          {% endif %}
+        ran_today: >
+          {% set ts = states('sensor.sprinkler_controller_schedule_6_last_run_raw') %}
+          {% if ts in ['unknown', 'unavailable', 'none', ''] %}
+            false
+          {% else %}
+            {% set ts_num = ts | float(0) | int %}
+            {% if ts_num == 0 %}
+              false
+            {% else %}
+              {% set now_ts = now().timestamp() | int %}
+              {% set today_midnight = now_ts - (now().hour * 3600 + now().minute * 60 + now().second) %}
+              {{ ts_num >= today_midnight }}
+            {% endif %}
+          {% endif %}
+
+    - name: "Sprinkler Schedule 7 Last Run"
+      unique_id: sprinkler_schedule_7_last_run
+      state: >
+        {% set ts = states('sensor.sprinkler_controller_schedule_7_last_run_raw') %}
+        {% if ts in ['unknown', 'unavailable', 'none', ''] %}
+          never
+        {% else %}
+          {% set ts_num = ts | float(0) %}
+          {% if ts_num == 0 %}
+            never
+          {% else %}
+            {{ ts_num | timestamp_custom('%Y-%m-%d %H:%M', true) }}
+          {% endif %}
+        {% endif %}
+      attributes:
+        timestamp: >
+          {% set ts = states('sensor.sprinkler_controller_schedule_7_last_run_raw') %}
+          {% if ts in ['unknown', 'unavailable', 'none', ''] %}
+            0
+          {% else %}
+            {{ ts | float(0) | int }}
+          {% endif %}
+        ran_today: >
+          {% set ts = states('sensor.sprinkler_controller_schedule_7_last_run_raw') %}
+          {% if ts in ['unknown', 'unavailable', 'none', ''] %}
+            false
+          {% else %}
+            {% set ts_num = ts | float(0) | int %}
+            {% if ts_num == 0 %}
+              false
+            {% else %}
+              {% set now_ts = now().timestamp() | int %}
+              {% set today_midnight = now_ts - (now().hour * 3600 + now().minute * 60 + now().second) %}
+              {{ ts_num >= today_midnight }}
+            {% endif %}
+          {% endif %}
+
+    - name: "Sprinkler Schedule 8 Last Run"
+      unique_id: sprinkler_schedule_8_last_run
+      state: >
+        {% set ts = states('sensor.sprinkler_controller_schedule_8_last_run_raw') %}
+        {% if ts in ['unknown', 'unavailable', 'none', ''] %}
+          never
+        {% else %}
+          {% set ts_num = ts | float(0) %}
+          {% if ts_num == 0 %}
+            never
+          {% else %}
+            {{ ts_num | timestamp_custom('%Y-%m-%d %H:%M', true) }}
+          {% endif %}
+        {% endif %}
+      attributes:
+        timestamp: >
+          {% set ts = states('sensor.sprinkler_controller_schedule_8_last_run_raw') %}
+          {% if ts in ['unknown', 'unavailable', 'none', ''] %}
+            0
+          {% else %}
+            {{ ts | float(0) | int }}
+          {% endif %}
+        ran_today: >
+          {% set ts = states('sensor.sprinkler_controller_schedule_8_last_run_raw') %}
+          {% if ts in ['unknown', 'unavailable', 'none', ''] %}
+            false
+          {% else %}
+            {% set ts_num = ts | float(0) | int %}
+            {% if ts_num == 0 %}
+              false
+            {% else %}
+              {% set now_ts = now().timestamp() | int %}
+              {% set today_midnight = now_ts - (now().hour * 3600 + now().minute * 60 + now().second) %}
+              {{ ts_num >= today_midnight }}
+            {% endif %}
+          {% endif %}
 - binary_sensor:
     - name: "Sprinkler Controller HA Link"
       unique_id: sprinkler_controller_ha_link
@@ -1116,6 +1413,7 @@
         {{ is_state('binary_sensor.sprinkler_controller_station_16_watering', 'on') }}
       icon: >
         {% if is_state('binary_sensor.sprinkler_controller_station_16_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
+
 
 
 # Interval-blocked warning on schedule cards

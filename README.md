@@ -45,6 +45,10 @@ The key design goal is reliability:
 - Winter mode
 - Optional automatic winter mode using start/end dates
 
+![Sprinkler Controller](./screenshots/controller_config_rain_delay_and_winter_mode.png)![Sprinkler Controller](./screenshots/system_config.png)
+
+
+
 ### Reliability and Autonomy
 
 - Scheduled watering continues on the ESP32 even if Home Assistant is unavailable

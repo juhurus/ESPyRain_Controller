@@ -6,6 +6,8 @@ This project combines the flexibility and visibility of Home Assistant with loca
 
 It is built for users who want a powerful, transparent, highly configurable irrigation system without depending on a cloud service or a closed commercial controller.
 
+![Sprinkler Controller](./screenshots/watering_in_progress_schedule.jpg)
+
 ## What This Project Is
 
 This system provides a full-featured sprinkler controller built with:

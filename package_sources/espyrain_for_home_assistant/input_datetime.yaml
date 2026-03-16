@@ -1,0 +1,92 @@
+############################################################
+#                                                          #
+#              SPRINKLER SCHEDULE TIMES                    #
+#                   8 Schedules Total                      #
+#                                                          #
+############################################################
+# # Schedule 1
+espyrain_schedule_1_time:
+  name: "Schedule 1 Time"
+  has_date: false
+  has_time: true
+  icon: mdi:clock-outline
+
+# Schedule 2
+espyrain_schedule_2_time:
+  name: "Schedule 2 Time"
+  has_date: false
+  has_time: true
+  icon: mdi:clock-outline
+
+# Schedule 3
+espyrain_schedule_3_time:
+  name: "Schedule 3 Time"
+  has_date: false
+  has_time: true
+  icon: mdi:clock-outline
+
+# Schedule 4
+espyrain_schedule_4_time:
+  name: "Schedule 4 Time"
+  has_date: false
+  has_time: true
+  icon: mdi:clock-outline
+
+# Schedule 5
+espyrain_schedule_5_time:
+  name: "Schedule 5 Time"
+  has_date: false
+  has_time: true
+  icon: mdi:clock-outline
+
+# Schedule 6
+espyrain_schedule_6_time:
+  name: "Schedule 6 Time"
+  has_date: false
+  has_time: true
+  icon: mdi:clock-outline
+
+# Schedule 7
+espyrain_schedule_7_time:
+  name: "Schedule 7 Time"
+  has_date: false
+  has_time: true
+  icon: mdi:clock-outline
+
+# Schedule 8
+espyrain_schedule_8_time:
+  name: "Schedule 8 Time"
+  has_date: false
+  has_time: true
+  icon: mdi:clock-outline
+
+espyrain_manual_runtime:
+  name: "Manual Runtime"
+  has_date: false
+  has_time: true
+     
+rain_delay_date:
+  name: "Rain Delay Until"
+  has_date: true
+  has_time: false
+  icon: mdi:weather-rainy
+   
+# Add to input_datetime.yaml
+espyrain_winter_mode_since:
+  name: "Winter Mode Since"
+  has_date: true
+  has_time: false
+
+espyrain_winter_start:
+  name: "Winter Start"
+  has_date: true
+  has_time: false
+  icon: mdi:calendar-start
+
+espyrain_winter_end:
+  name: "Winter End"
+  has_date: true
+  has_time: false
+  icon: mdi:calendar-end
+
+

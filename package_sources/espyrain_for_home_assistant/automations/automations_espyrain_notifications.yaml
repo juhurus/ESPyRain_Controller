@@ -1,0 +1,570 @@
+# Sprinkler Notifications
+# Extracted from legacy sprinkler notification automations and updated for current entities.
+
+- id: sprinkler_notify_run_started
+  alias: "ESPyRain: Run Started (Notifications)"
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: sensor.espyrain_controller_status
+  condition:
+    - condition: template
+      value_template: >
+        {% set old = trigger.from_state.state if trigger.from_state is not none else 'unknown' %}
+        {% set new = trigger.to_state.state if trigger.to_state is not none else 'unknown' %}
+        {{ old in ['Idle', 'unknown', 'unavailable'] and new not in ['Idle', 'unknown', 'unavailable'] }}
+    - condition: state
+      entity_id: input_boolean.espyrain_notifications
+      state: "on"
+
+  action:
+    - delay:
+        milliseconds: 700
+    - variables:
+        status: "{{ states('sensor.espyrain_controller_status') }}"
+        schedule_num: >
+          {% if status.startswith('Running Schedule ') %}
+            {{ status.replace('Running Schedule ', '') | int(0) }}
+          {% else %}
+            0
+          {% endif %}
+        schedule_name: >
+          {% if schedule_num > 0 %}
+            {{ states('input_text.espyrain_schedule_' ~ schedule_num ~ '_name') }}
+          {% else %}
+            Manual Run
+          {% endif %}
+    - service: notify.send_message
+      data:
+        entity_id: !secret sprinkler_telegram_notifier
+        title: >
+          {% if schedule_num > 0 %}
+            *🟢 Sprinkler Schedule {{ schedule_num }} Started*
+          {% else %}
+            *🟢 Sprinkler Manual Run Started*
+          {% endif %}
+        message: >
+          ➡ {{ schedule_name }}
+
+          🕒 Started at {{ now().strftime('%H:%M:%S') }}
+          
+          Active station: {{ states('sensor.espyrain_controller_active_station') }}
+          
+          ⛓ Queue: {{ states('sensor.espyrain_controller_queue') }}
+          
+          🕔 Remaining: {{ states('sensor.espyrain_controller_total_queue_time_remaining_formatted') }}
+
+- id: sprinkler_notify_run_stopped
+  alias: "ESPyRain: Run Stopped Manually (Notifications)"
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: button.espyrain_controller_stop
+  condition:
+    - condition: template
+      value_template: >
+        {{ states('sensor.espyrain_controller_status') not in ['Idle', 'unknown', 'unavailable'] }}
+    - condition: state
+      entity_id: input_boolean.espyrain_notifications
+      state: "on"
+
+  action:
+    - delay:
+        milliseconds: 300
+    - service: notify.send_message
+      data:
+        entity_id: !secret sprinkler_telegram_notifier
+        title: "🛑 *Sprinkler Run Stopped* 🛑"
+        message: >
+          Stopped manually at {{ now().strftime('%H:%M:%S') }}.
+
+          ✔ Last station: {{ states('sensor.espyrain_controller_active_station') }}
+          🕒 Remaining: {{ states('sensor.espyrain_controller_total_queue_time_remaining_formatted') }}
+
+- id: sprinkler_notify_run_completed
+  alias: "ESPyRain: Run Completed (Notifications)"
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: sensor.espyrain_controller_status
+      to: "Idle"
+  condition:
+    - condition: template
+      value_template: >
+        {% set old = trigger.from_state.state if trigger.from_state is not none else 'unknown' %}
+        {% set secs_since_stop_btn = as_timestamp(now()) - as_timestamp(states.button.espyrain_controller_stop.last_changed) %}
+        {{ old not in ['Idle', 'unknown', 'unavailable'] and secs_since_stop_btn > 8 }}
+    - condition: state
+      entity_id: input_boolean.espyrain_notifications
+      state: "on"
+
+  action:
+    - service: notify.send_message
+      data:
+        entity_id: !secret sprinkler_telegram_notifier
+        title: "🛑 *Sprinkler Run Completed* 🛑"
+        message: >
+          Completed {{ trigger.from_state.state if trigger.from_state is not none else 'n/a' }} at {{ now().strftime('%H:%M:%S') }}.
+
+- id: sprinkler_notify_station_started
+  alias: "ESPyRain: Station Started (Notifications)"
+  mode: queued
+  max: 20
+  trigger:
+    - platform: state
+      entity_id:
+        - binary_sensor.espyrain_controller_station_1_watering
+        - binary_sensor.espyrain_controller_station_2_watering
+        - binary_sensor.espyrain_controller_station_3_watering
+        - binary_sensor.espyrain_controller_station_4_watering
+        - binary_sensor.espyrain_controller_station_5_watering
+        - binary_sensor.espyrain_controller_station_6_watering
+        - binary_sensor.espyrain_controller_station_7_watering
+        - binary_sensor.espyrain_controller_station_8_watering
+        - binary_sensor.espyrain_controller_station_9_watering
+        - binary_sensor.espyrain_controller_station_10_watering
+        - binary_sensor.espyrain_controller_station_11_watering
+        - binary_sensor.espyrain_controller_station_12_watering
+        - binary_sensor.espyrain_controller_station_13_watering
+        - binary_sensor.espyrain_controller_station_14_watering
+        - binary_sensor.espyrain_controller_station_15_watering
+        - binary_sensor.espyrain_controller_station_16_watering
+      to: "on"
+  condition:
+    - condition: state
+      entity_id: input_boolean.espyrain_notifications
+      state: "on"
+
+  action:
+    - variables:
+        station_num: "{{ trigger.entity_id.split('station_')[1].split('_')[0] | int(0) }}"
+        station_name: >
+          {% set n = trigger.entity_id.split('station_')[1].split('_')[0] | int(0) %}
+          {{ states('input_text.espyrain_station_' ~ n ~ '_name') }}
+    - service: notify.send_message
+      data:
+        entity_id: !secret sprinkler_telegram_notifier
+        title: "✅ *Station Started*"
+        message: >
+          💧 S{{ station_num }} {{ station_name }}
+
+          🕒 Started at {{ now().strftime('%H:%M:%S') }}
+
+- id: sprinkler_notify_station_finished
+  alias: "ESPyRain: Station Finished (Notifications)"
+  mode: queued
+  max: 20
+  trigger:
+    - platform: state
+      entity_id:
+        - binary_sensor.espyrain_controller_station_1_watering
+        - binary_sensor.espyrain_controller_station_2_watering
+        - binary_sensor.espyrain_controller_station_3_watering
+        - binary_sensor.espyrain_controller_station_4_watering
+        - binary_sensor.espyrain_controller_station_5_watering
+        - binary_sensor.espyrain_controller_station_6_watering
+        - binary_sensor.espyrain_controller_station_7_watering
+        - binary_sensor.espyrain_controller_station_8_watering
+        - binary_sensor.espyrain_controller_station_9_watering
+        - binary_sensor.espyrain_controller_station_10_watering
+        - binary_sensor.espyrain_controller_station_11_watering
+        - binary_sensor.espyrain_controller_station_12_watering
+        - binary_sensor.espyrain_controller_station_13_watering
+        - binary_sensor.espyrain_controller_station_14_watering
+        - binary_sensor.espyrain_controller_station_15_watering
+        - binary_sensor.espyrain_controller_station_16_watering
+      from: "on"
+      to: "off"
+  condition:
+    - condition: template
+      value_template: >
+        {{ states('sensor.espyrain_controller_status') not in ['Idle', 'unknown', 'unavailable'] }}
+    - condition: state
+      entity_id: input_boolean.espyrain_notifications
+      state: "on"
+
+  action:
+    - variables:
+        station_num: "{{ trigger.entity_id.split('station_')[1].split('_')[0] | int(0) }}"
+        station_name: >
+          {% set n = trigger.entity_id.split('station_')[1].split('_')[0] | int(0) %}
+          {{ states('input_text.espyrain_station_' ~ n ~ '_name') }}
+        runtime_sec: "{{ (as_timestamp(now()) - as_timestamp(trigger.from_state.last_changed)) | int(0) }}"
+    - service: notify.send_message
+      data:
+        entity_id: !secret sprinkler_telegram_notifier
+        title: "❌ *Station Finished*"
+        message: >
+          💧 S{{ station_num }} {{ station_name }}
+
+          🕔 Finished at {{ now().strftime('%H:%M:%S') }}
+          Runtime: {{ (runtime_sec // 60) | int }}m {{ (runtime_sec % 60) | int }}s
+
+- id: sprinkler_notify_paused
+  alias: "ESPyRain: Paused (Notifications)"
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: sensor.espyrain_controller_status
+      to: "Paused"
+  condition:
+    - condition: state
+      entity_id: input_boolean.espyrain_notifications
+      state: "on"
+
+  action:
+    - service: notify.send_message
+      data:
+        entity_id: !secret sprinkler_telegram_notifier
+        title: "⏸ *Sprinkler Paused*"
+        message: >
+          🕒 Paused at {{ now().strftime('%H:%M:%S') }}
+          
+          Current: {{ states('sensor.espyrain_controller_active_station') }}
+          
+          Remaining: {{ states('sensor.espyrain_controller_station_time_remaining_formatted') }}
+
+- id: sprinkler_notify_resumed
+  alias: "ESPyRain: Resumed (Notifications)"
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: sensor.espyrain_controller_status
+      from: "Paused"
+  condition:
+    - condition: template
+      value_template: "{{ trigger.to_state.state not in ['Idle', 'unknown', 'unavailable'] }}"
+    - condition: state
+      entity_id: input_boolean.espyrain_notifications
+      state: "on"
+
+  action:
+    - service: notify.send_message
+      data:
+        entity_id: !secret sprinkler_telegram_notifier
+        title: "▶ *Sprinkler Resumed*"
+        message: >
+          🕒 Resumed at {{ now().strftime('%H:%M:%S') }}
+          
+          Current: {{ states('sensor.espyrain_controller_active_station') }}
+
+- id: sprinkler_notify_runtime_changed
+  alias: "ESPyRain: Station Runtime Changed (Notifications)"
+  mode: queued
+  max: 20
+  trigger:
+    - platform: state
+      entity_id:
+        - number.espyrain_controller_station_1_runtime
+        - number.espyrain_controller_station_2_runtime
+        - number.espyrain_controller_station_3_runtime
+        - number.espyrain_controller_station_4_runtime
+        - number.espyrain_controller_station_5_runtime
+        - number.espyrain_controller_station_6_runtime
+        - number.espyrain_controller_station_7_runtime
+        - number.espyrain_controller_station_8_runtime
+        - number.espyrain_controller_station_9_runtime
+        - number.espyrain_controller_station_10_runtime
+        - number.espyrain_controller_station_11_runtime
+        - number.espyrain_controller_station_12_runtime
+        - number.espyrain_controller_station_13_runtime
+        - number.espyrain_controller_station_14_runtime
+        - number.espyrain_controller_station_15_runtime
+        - number.espyrain_controller_station_16_runtime
+  condition:
+    - condition: template
+      value_template: >
+        {{
+          trigger.from_state is not none and
+          trigger.to_state is not none and
+          trigger.from_state.state not in ['unknown', 'unavailable'] and
+          trigger.to_state.state not in ['unknown', 'unavailable'] and
+          (trigger.from_state.state | float(0)) != (trigger.to_state.state | float(0))
+        }}
+    - condition: state
+      entity_id: input_boolean.espyrain_notifications
+      state: "on"
+
+  action:
+    - service: notify.send_message
+      data:
+        entity_id: !secret sprinkler_telegram_notifier
+        title: "🕒 *Station Runtime Updated*"
+        message: >
+          {{ trigger.to_state.attributes.friendly_name }}
+          {{ trigger.from_state.state }} min -> {{ trigger.to_state.state }} min
+
+- id: sprinkler_notify_controller_online
+  alias: "ESPyRain: Controller Online (Notifications)"
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.espyrain_controller_ha_link
+      to: "on"
+  condition:
+    - condition: state
+      entity_id: input_boolean.espyrain_notifications
+      state: "on"
+
+  action:
+    - service: notify.send_message
+      data:
+        entity_id: !secret sprinkler_telegram_notifier
+        title: "✅ *Sprinkler Controller Online*"
+        message: >
+          🌍 Controller connected at {{ now().strftime('%H:%M:%S') }}
+          IP: {{ states('sensor.espyrain_controller_ip_address') }}
+
+- id: sprinkler_notify_controller_offline
+  alias: "ESPyRain: Controller Offline (Notifications)"
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.espyrain_controller_ha_link
+      to: "off"
+      for:
+        minutes: 2
+  condition:
+    - condition: state
+      entity_id: input_boolean.espyrain_notifications
+      state: "on"
+
+  action:
+    - service: notify.send_message
+      data:
+        entity_id: !secret sprinkler_telegram_notifier
+        title: "🚨 *Sprinkler Controller Offline* 🚨"
+        message: >
+          📵 Controller disconnected at {{ now().strftime('%H:%M:%S') }}.
+
+- id: sprinkler_notify_master_enable_changed
+  alias: "ESPyRain: Winter Mode Changed (Notifications)"
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: switch.espyrain_controller_winter_mode
+  condition:
+    - condition: state
+      entity_id: input_boolean.espyrain_notifications
+      state: "on"
+
+  action:
+    - service: notify.send_message
+      data:
+        entity_id: !secret sprinkler_telegram_notifier
+        title: >
+          {% if is_state('switch.espyrain_controller_winter_mode', 'on') %}
+            Winter Mode Enabled
+          {% else %}
+            Winter Mode Disabled
+          {% endif %}
+        message: >
+          New state: {{ states('switch.espyrain_controller_winter_mode') }}
+          🕔 Time: {{ now().strftime('%H:%M:%S') }}
+
+- id: sprinkler_notify_rain_delay_changed
+  alias: "ESPyRain: Rain Delay Changed (Notifications)"
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: number.espyrain_controller_rain_delay_days
+  condition:
+    - condition: template
+      value_template: >
+        {{
+          trigger.from_state is not none and
+          trigger.to_state is not none and
+          trigger.from_state.state not in ['unknown', 'unavailable'] and
+          trigger.to_state.state not in ['unknown', 'unavailable'] and
+          (trigger.from_state.state | int(0)) != (trigger.to_state.state | int(0))
+        }}
+    - condition: state
+      entity_id: input_boolean.espyrain_notifications
+      state: "on"
+
+  action:
+    - variables:
+        old_days: "{{ trigger.from_state.state | int(0) }}"
+        new_days: "{{ trigger.to_state.state | int(0) }}"
+    - service: notify.send_message
+      data:
+        entity_id: !secret sprinkler_telegram_notifier
+        title: "⛈ *Rain Delay Updated*"
+        message: >
+          📅 Rain delay: {{ old_days }} -> {{ new_days }} day(s).
+          {% if new_days == 0 %}
+          
+          ✔ Automatic runs are enabled again.
+          {% endif %}
+
+
+
+
+- id: sprinkler_notify_esp_time_drift_high
+  alias: "ESPyRain: ESP Time Drift High (Notifications)"
+  mode: single
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.sprinkler_esp_time_drift_seconds
+      above: 300
+      for:
+        minutes: 10
+    - platform: numeric_state
+      entity_id: sensor.sprinkler_esp_time_drift_seconds
+      below: -300
+      for:
+        minutes: 10
+  condition:
+    - condition: state
+      entity_id: input_boolean.espyrain_notifications
+      state: "on"
+    - condition: state
+      entity_id: binary_sensor.espyrain_controller_ha_link
+      state: "on"
+  action:
+    - variables:
+        drift_abs: "{{ (states('sensor.sprinkler_esp_time_drift_seconds') | float(0)) | abs | round(1) }}"
+        direction: >
+          {% if (states('sensor.sprinkler_esp_time_drift_seconds') | float(0)) > 0 %}
+            behind HA
+          {% else %}
+            ahead of HA
+          {% endif %}
+    - service: notify.send_message
+      data:
+        entity_id: !secret sprinkler_telegram_notifier
+        title: "*Sprinkler ESP Time Drift Detected*"
+        message: >
+          Drift is {{ drift_abs }}s (ESP {{ direction }}) for at least 10 minutes.
+          
+          Controller status: {{ states('sensor.espyrain_controller_status') }}
+          ESP time: {{ states('sensor.espyrain_controller_esp_date_time') }}
+          HA time: {{ now().strftime('%Y-%m-%d %H:%M:%S') }}
+
+- id: sprinkler_auto_recover_esp_time_drift
+  alias: "ESPyRain: Auto Recover ESP Time Drift"
+  mode: single
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.sprinkler_esp_time_drift_seconds
+      above: 300
+      for:
+        minutes: 15
+    - platform: numeric_state
+      entity_id: sensor.sprinkler_esp_time_drift_seconds
+      below: -300
+      for:
+        minutes: 15
+  condition:
+    - condition: state
+      entity_id: binary_sensor.espyrain_controller_ha_link
+      state: "on"
+    - condition: state
+      entity_id: sensor.espyrain_controller_status
+      state: "Idle"
+  action:
+    - variables:
+        drift_before: "{{ states('sensor.sprinkler_esp_time_drift_seconds') | float(0) }}"
+    - service: button.press
+      target:
+        entity_id: button.espyrain_controller_restart_esp
+    - delay:
+        seconds: 90
+    - variables:
+        drift_after_abs: "{{ (states('sensor.sprinkler_esp_time_drift_seconds') | float(9999)) | abs }}"
+    - choose:
+        - conditions:
+            - condition: template
+              value_template: "{{ drift_after_abs > 300 }}"
+            - condition: state
+              entity_id: input_boolean.espyrain_notifications
+              state: "on"
+          sequence:
+            - service: notify.send_message
+              data:
+                entity_id: !secret sprinkler_telegram_notifier
+                title: "*Sprinkler ESP Time Resync Failed*"
+                message: >
+                  Auto-resync attempted (ESP restart) but drift is still high.
+                  
+                  Before: {{ drift_before | round(1) }}s
+                  After: {{ states('sensor.sprinkler_esp_time_drift_seconds') }}s
+                  ESP time: {{ states('sensor.espyrain_controller_esp_date_time') }}
+                  HA time: {{ now().strftime('%Y-%m-%d %H:%M:%S') }}
+        - conditions:
+            - condition: template
+              value_template: "{{ drift_after_abs <= 300 }}"
+            - condition: state
+              entity_id: input_boolean.espyrain_notifications
+              state: "on"
+          sequence:
+            - service: notify.send_message
+              data:
+                entity_id: !secret sprinkler_telegram_notifier
+                title: "*Sprinkler ESP Time Resync Successful*"
+                message: >
+                  Auto-resync completed successfully.
+                  
+                  Before: {{ drift_before | round(1) }}s
+                  After: {{ states('sensor.sprinkler_esp_time_drift_seconds') }}s
+
+# # ============================================================
+# # SPECIAL NOTIFICATIONS
+# # ============================================================
+- id: sprinkler_s3_coupling_active
+  alias: "ESPyRain: S3 Coupling Activated"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.espyrain_controller_station_3_watering
+      to: "on"
+  action:
+    - delay:
+        milliseconds: 2500 # to keep messages in order
+        
+    - service: notify.send_message
+      data:
+        entity_id: !secret sprinkler_telegram_notifier
+        title: "*🔗 S3 S4 S7 Active*"
+        message: >
+          S3 Small Island started → 
+          
+          S4 Garden Beds and →
+          
+          S7 Arena are running simultaneously.
+
+- id: sprinkler_seasonal_changed
+  alias: "ESPyRain: Seasonal Adjustment Changed"
+  trigger:
+    - platform: state
+      entity_id:
+        - input_number.espyrain_schedule_1_seasonal
+        - input_number.espyrain_schedule_2_seasonal
+        - input_number.espyrain_schedule_3_seasonal
+        - input_number.espyrain_schedule_4_seasonal
+        - input_number.espyrain_schedule_5_seasonal
+        - input_number.espyrain_schedule_6_seasonal
+        - input_number.espyrain_schedule_7_seasonal
+        - input_number.espyrain_schedule_8_seasonal
+      
+  condition:
+    - condition: template
+      value_template: >
+        {{ trigger.to_state.state not in ['unknown', 'unavailable'] }}
+ 
+  action:
+    - service: notify.send_message
+      data:
+        entity_id: !secret sprinkler_telegram_notifier
+        title: "*🌡️ Seasonal Adjustment Changed*"
+        message: >
+          {{ trigger.to_state.attributes.friendly_name }}: {{ (trigger.to_state.state | float(100)) | round(0) }}%
+          
+          All station runtimes adjusted proportionally.
+
+#           
+
+
+
+
+
+

@@ -1,0 +1,88 @@
+# ════════════════════════════════════════════════════════════════
+# SYNC INTERVAL FROM HA TO ESP
+# Add to your automations
+# ════════════════════════════════════════════════════════════════
+
+# Sync Schedule 1 Interval to ESP
+- id: espyrain_sync_schedule_1_interval_to_esp
+  alias: "ESPyRain: Sync Schedule 1 Interval to ESP"
+  trigger:
+    - platform: state
+      entity_id: input_number.espyrain_schedule_1_interval
+  condition:
+    - condition: state
+      entity_id: input_boolean.espyrain_sync_lock
+      state: "off"
+  action:
+    - service: number.set_value
+      target:
+        entity_id: number.espyrain_controller_schedule_1_interval
+      data:
+        value: "{{ states('input_number.espyrain_schedule_1_interval') | int }}"
+
+# Sync Schedule 2 Interval to ESP
+- id: espyrain_sync_schedule_2_interval_to_esp
+  alias: "ESPyRain: Sync Schedule 2 Interval to ESP"
+  trigger:
+    - platform: state
+      entity_id: input_number.espyrain_schedule_2_interval
+  condition:
+    - condition: state
+      entity_id: input_boolean.espyrain_sync_lock
+      state: "off"
+  action:
+    - service: number.set_value
+      target:
+        entity_id: number.espyrain_controller_schedule_2_interval
+      data:
+        value: "{{ states('input_number.espyrain_schedule_2_interval') | int }}"
+
+# Sync Schedule 3 Interval to ESP
+- id: espyrain_sync_schedule_3_interval_to_esp
+  alias: "ESPyRain: Sync Schedule 3 Interval to ESP"
+  trigger:
+    - platform: state
+      entity_id: input_number.espyrain_schedule_3_interval
+  condition:
+    - condition: state
+      entity_id: input_boolean.espyrain_sync_lock
+      state: "off"
+  action:
+    - service: number.set_value
+      target:
+        entity_id: number.espyrain_controller_schedule_3_interval
+      data:
+        value: "{{ states('input_number.espyrain_schedule_3_interval') | int }}"
+
+# Sync Schedule 4 Interval to ESP
+- id: espyrain_sync_schedule_4_interval_to_esp
+  alias: "ESPyRain: Sync Schedule 4 Interval to ESP"
+  trigger:
+    - platform: state
+      entity_id: input_number.espyrain_schedule_4_interval
+  condition:
+    - condition: state
+      entity_id: input_boolean.espyrain_sync_lock
+      state: "off"
+  action:
+    - service: number.set_value
+      target:
+        entity_id: number.espyrain_controller_schedule_4_interval
+      data:
+        value: "{{ states('input_number.espyrain_schedule_4_interval') | int }}"
+
+# ESP heartbeat service
+- id: sprinkler_esp_heartbeat
+  alias: "ESPyRain: ESP Heartbeat"
+  description: "Send heartbeat to ESP every 60 seconds to detect HA disconnection"
+  trigger:
+    - platform: time_pattern
+      minutes: "*"
+      seconds: "0"
+    - platform: homeassistant
+      event: start
+  condition: []
+  action:
+    - service: esphome.espyrain_controller_receive_heartbeat
+      data: {}
+  mode: single

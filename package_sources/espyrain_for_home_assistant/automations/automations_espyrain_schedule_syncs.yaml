@@ -1,0 +1,764 @@
+############################################################
+#                                                          #
+#       SCHEDULE SYNC: HA INPUT HELPERS → ESP              #
+#         Allows HA UI control + ESP autonomy              #
+#                                                          #
+############################################################
+# This automation syncs your HA input helpers to the ESP
+# so you can configure schedules in HA but they run on ESP
+
+# ════════════════════════════════════════════════════════
+# SCHEDULE 1 SYNC
+# ════════════════════════════════════════════════════════
+
+# # # # Sync Schedule 1 Time (Hour + Minute)
+# # # - id: espyrain_sync_schedule_1_time
+  # # # alias: "ESPyRain: Sync Schedule 1 Time to ESP"
+  # # # trigger:
+    # # # - platform: state
+      # # # entity_id: input_datetime.espyrain_schedule_1_time
+  # # # condition:
+    # # # - condition: state
+      # # # entity_id: input_boolean.espyrain_sync_lock
+      # # # state: "off"
+  # # # action:
+    # # # - service: number.set_value
+      # # # target:
+        # # # entity_id: number.espyrain_controller_schedule_1_hour
+      # # # data:
+        # # # value: "{{ state_attr('input_datetime.espyrain_schedule_1_time', 'hour') }}"
+    # # # - service: number.set_value
+      # # # target:
+        # # # entity_id: number.espyrain_controller_schedule_1_minute
+      # # # data:
+        # # # value: "{{ state_attr('input_datetime.espyrain_schedule_1_time', 'minute') }}"
+
+# # # # Sync Schedule 1 Program
+# # # - id: espyrain_sync_schedule_1_program
+  # # # alias: "ESPyRain: Sync Schedule 1 Program to ESP"
+  # # # trigger:
+    # # # - platform: state
+      # # # entity_id: input_select.espyrain_schedule_1_program
+  # # # condition:
+    # # # - condition: state
+      # # # entity_id: input_boolean.espyrain_sync_lock
+      # # # state: "off"
+  # # # action:
+    # # # - service: logbook.log
+      # # # data:
+        # # # name: Sprinkler
+        # # # message: "Schedule 1 program changed in HA, but v2 has no program entity on ESP."
+
+# # # # Sync Schedule 1 Enabled
+# # # - id: espyrain_sync_schedule_1_enabled
+  # # # alias: "ESPyRain: Sync Schedule 1 Enabled to ESP"
+  # # # trigger:
+    # # # - platform: state
+      # # # entity_id: input_boolean.espyrain_schedule_1_enabled
+  # # # condition:
+    # # # - condition: state
+      # # # entity_id: input_boolean.espyrain_sync_lock
+      # # # state: "off"
+  # # # action:
+    # # # - service: "switch.turn_{{ 'on' if is_state('input_boolean.espyrain_schedule_1_enabled', 'on') else 'off' }}"
+      # # # target:
+        # # # entity_id: switch.espyrain_controller_schedule_1_enabled
+
+# # # # Sync Schedule 1 Interval (always 1 for daily, unless you want "Every N Days")
+# # # # Sync Schedule 1 Interval
+
+# # # # ════════════════════════════════════════════════════════
+# # # # SCHEDULE 2 SYNC
+# # # # ════════════════════════════════════════════════════════
+
+# # # # Sync Schedule 2 Time
+# # # - id: espyrain_sync_schedule_2_time
+  # # # alias: "ESPyRain: Sync Schedule 2 Time to ESP"
+  # # # trigger:
+    # # # - platform: state
+      # # # entity_id: input_datetime.espyrain_schedule_2_time
+  # # # condition:
+    # # # - condition: state
+      # # # entity_id: input_boolean.espyrain_sync_lock
+      # # # state: "off"
+  # # # action:
+    # # # - service: number.set_value
+      # # # target:
+        # # # entity_id: number.espyrain_controller_schedule_2_hour
+      # # # data:
+        # # # value: "{{ state_attr('input_datetime.espyrain_schedule_2_time', 'hour') }}"
+    # # # - service: number.set_value
+      # # # target:
+        # # # entity_id: number.espyrain_controller_schedule_2_minute
+      # # # data:
+        # # # value: "{{ state_attr('input_datetime.espyrain_schedule_2_time', 'minute') }}"
+
+# # # # Sync Schedule 2 Program
+# # # - id: espyrain_sync_schedule_2_program
+  # # # alias: "ESPyRain: Sync Schedule 2 Program to ESP"
+  # # # trigger:
+    # # # - platform: state
+      # # # entity_id: input_select.espyrain_schedule_2_program
+  # # # condition:
+    # # # - condition: state
+      # # # entity_id: input_boolean.espyrain_sync_lock
+      # # # state: "off"
+  # # # action:
+    # # # - service: logbook.log
+      # # # data:
+        # # # name: Sprinkler
+        # # # message: "Schedule 2 program changed in HA, but v2 has no program entity on ESP."
+
+# # # # Sync Schedule 2 Enabled
+# # # - id: espyrain_sync_schedule_2_enabled
+  # # # alias: "ESPyRain: Sync Schedule 2 Enabled to ESP"
+  # # # trigger:
+    # # # - platform: state
+      # # # entity_id: input_boolean.espyrain_schedule_2_enabled
+  # # # condition:
+    # # # - condition: state
+      # # # entity_id: input_boolean.espyrain_sync_lock
+      # # # state: "off"
+  # # # action:
+    # # # - service: "switch.turn_{{ 'on' if is_state('input_boolean.espyrain_schedule_2_enabled', 'on') else 'off' }}"
+      # # # target:
+        # # # entity_id: switch.espyrain_controller_schedule_2_enabled
+
+# # # # ════════════════════════════════════════════════════════
+# # # # SCHEDULE 3 SYNC (same pattern)
+# # # # ════════════════════════════════════════════════════════
+
+# # # - id: espyrain_sync_schedule_3_time
+  # # # alias: "ESPyRain: Sync Schedule 3 Time to ESP"
+  # # # trigger:
+    # # # - platform: state
+      # # # entity_id: input_datetime.espyrain_schedule_3_time
+  # # # condition:
+    # # # - condition: state
+      # # # entity_id: input_boolean.espyrain_sync_lock
+      # # # state: "off"
+  # # # action:
+    # # # - service: number.set_value
+      # # # target:
+        # # # entity_id: number.espyrain_controller_schedule_3_hour
+      # # # data:
+        # # # value: "{{ state_attr('input_datetime.espyrain_schedule_3_time', 'hour') }}"
+    # # # - service: number.set_value
+      # # # target:
+        # # # entity_id: number.espyrain_controller_schedule_3_minute
+      # # # data:
+        # # # value: "{{ state_attr('input_datetime.espyrain_schedule_3_time', 'minute') }}"
+
+# # # - id: espyrain_sync_schedule_3_program
+  # # # alias: "ESPyRain: Sync Schedule 3 Program to ESP"
+  # # # trigger:
+    # # # - platform: state
+      # # # entity_id: input_select.espyrain_schedule_3_program
+  # # # condition:
+    # # # - condition: state
+      # # # entity_id: input_boolean.espyrain_sync_lock
+      # # # state: "off"
+  # # # action:
+    # # # - service: logbook.log
+      # # # data:
+        # # # name: Sprinkler
+        # # # message: "Schedule 3 program changed in HA, but v2 has no program entity on ESP."
+
+# # # - id: espyrain_sync_schedule_3_enabled
+  # # # alias: "ESPyRain: Sync Schedule 3 Enabled to ESP"
+  # # # trigger:
+    # # # - platform: state
+      # # # entity_id: input_boolean.espyrain_schedule_3_enabled
+  # # # condition:
+    # # # - condition: state
+      # # # entity_id: input_boolean.espyrain_sync_lock
+      # # # state: "off"
+  # # # action:
+    # # # - service: "switch.turn_{{ 'on' if is_state('input_boolean.espyrain_schedule_3_enabled', 'on') else 'off' }}"
+      # # # target:
+        # # # entity_id: switch.espyrain_controller_schedule_3_enabled
+
+# # # # ════════════════════════════════════════════════════════
+# # # # SCHEDULE 4 SYNC (same pattern)
+# # # # ════════════════════════════════════════════════════════
+
+# # # - id: espyrain_sync_schedule_4_time
+  # # # alias: "ESPyRain: Sync Schedule 4 Time to ESP"
+  # # # trigger:
+    # # # - platform: state
+      # # # entity_id: input_datetime.espyrain_schedule_4_time
+  # # # condition:
+    # # # - condition: state
+      # # # entity_id: input_boolean.espyrain_sync_lock
+      # # # state: "off"
+  # # # action:
+    # # # - service: number.set_value
+      # # # target:
+        # # # entity_id: number.espyrain_controller_schedule_4_hour
+      # # # data:
+        # # # value: "{{ state_attr('input_datetime.espyrain_schedule_4_time', 'hour') }}"
+    # # # - service: number.set_value
+      # # # target:
+        # # # entity_id: number.espyrain_controller_schedule_4_minute
+      # # # data:
+        # # # value: "{{ state_attr('input_datetime.espyrain_schedule_4_time', 'minute') }}"
+
+# # # - id: espyrain_sync_schedule_4_program
+  # # # alias: "ESPyRain: Sync Schedule 4 Program to ESP"
+  # # # trigger:
+    # # # - platform: state
+      # # # entity_id: input_select.espyrain_schedule_4_program
+  # # # condition:
+    # # # - condition: state
+      # # # entity_id: input_boolean.espyrain_sync_lock
+      # # # state: "off"
+  # # # action:
+    # # # - service: logbook.log
+      # # # data:
+        # # # name: Sprinkler
+        # # # message: "Schedule 4 program changed in HA, but v2 has no program entity on ESP."
+
+# # # - id: espyrain_sync_schedule_4_enabled
+  # # # alias: "ESPyRain: Sync Schedule 4 Enabled to ESP"
+  # # # trigger:
+    # # # - platform: state
+      # # # entity_id: input_boolean.espyrain_schedule_4_enabled
+  # # # condition:
+    # # # - condition: state
+      # # # entity_id: input_boolean.espyrain_sync_lock
+      # # # state: "off"
+  # # # action:
+    # # # - service: "switch.turn_{{ 'on' if is_state('input_boolean.espyrain_schedule_4_enabled', 'on') else 'off' }}"
+      # # # target:
+        # # # entity_id: switch.espyrain_controller_schedule_4_enabled
+
+############################################################
+#                                                          #
+#    SOAK CYCLES & SEASONAL ADJUSTMENT SYNC                #
+#         HA Input Helpers → ESP Entities                  #
+#                                                          #
+############################################################
+
+# # # ════════════════════════════════════════════════════════
+# # # SCHEDULE 1 - SOAK CYCLES & SEASONAL SYNC
+# # # ════════════════════════════════════════════════════════
+
+# # # Sync Schedule 1 Soak Cycles
+# # - id: espyrain_sync_schedule_1_soak
+  # # alias: "ESPyRain: Sync Schedule 1 Soak Cycles to ESP"
+  # # trigger:
+    # # - platform: state
+      # # entity_id: input_select.espyrain_schedule_1_soak_cycles
+  # # condition:
+    # # - condition: state
+      # # entity_id: input_boolean.espyrain_sync_lock
+      # # state: "off"
+    # # - condition: template
+      # # value_template: "{{ states('input_select.espyrain_schedule_1_soak_cycles') not in ['unknown', 'unavailable'] }}"
+  # # action:
+    # # - service: number.set_value
+      # # target:
+        # # entity_id: number.espyrain_controller_schedule_1_soak_cycles
+      # # data:
+        # # value: >
+          # # {% set soak = states('input_select.espyrain_schedule_1_soak_cycles') | string %}
+          # # {% if soak == 'no soak' or soak == '1x' %}
+            # # 1
+          # # {% elif soak == '2x soak' or soak == '2x' %}
+            # # 2
+          # # {% elif soak == '3x soak' or soak == '3x' %}
+            # # 3
+          # # {% else %}
+            # # 1
+          # # {% endif %}
+
+# # # Sync Schedule 1 Seasonal Adjustment
+# # - id: espyrain_sync_schedule_1_seasonal
+  # # alias: "ESPyRain: Sync Schedule 1 Seasonal to ESP"
+  # # trigger:
+    # # - platform: state
+      # # entity_id: input_number.espyrain_schedule_1_seasonal
+  # # condition:
+    # # - condition: state
+      # # entity_id: input_boolean.espyrain_sync_lock
+      # # state: "off"
+    # # - condition: template
+      # # value_template: "{{ states('input_number.espyrain_schedule_1_seasonal') not in ['unknown', 'unavailable'] }}"
+  # # action:
+    # # - service: number.set_value
+      # # target:
+        # # entity_id: number.espyrain_controller_schedule_1_seasonal_adjust
+      # # data:
+        # # value: >
+          # # {{ states('input_number.espyrain_schedule_1_seasonal') | int(100) }}
+
+# # # ════════════════════════════════════════════════════════
+# # # SCHEDULE 2 - SOAK CYCLES & SEASONAL SYNC
+# # # ════════════════════════════════════════════════════════
+
+# # - id: espyrain_sync_schedule_2_soak
+  # # alias: "ESPyRain: Sync Schedule 2 Soak Cycles to ESP"
+  # # trigger:
+    # # - platform: state
+      # # entity_id: input_select.espyrain_schedule_2_soak_cycles
+  # # condition:
+    # # - condition: state
+      # # entity_id: input_boolean.espyrain_sync_lock
+      # # state: "off"
+    # # - condition: template
+      # # value_template: "{{ states('input_select.espyrain_schedule_2_soak_cycles') not in ['unknown', 'unavailable'] }}"
+  # # action:
+    # # - service: number.set_value
+      # # target:
+        # # entity_id: number.espyrain_controller_schedule_2_soak_cycles
+      # # data:
+        # # value: >
+          # # {% set soak = states('input_select.espyrain_schedule_2_soak_cycles') | string %}
+          # # {% if soak == 'no soak' or soak == '1x' %}
+            # # 1
+          # # {% elif soak == '2x soak' or soak == '2x' %}
+            # # 2
+          # # {% elif soak == '3x soak' or soak == '3x' %}
+            # # 3
+          # # {% else %}
+            # # 1
+          # # {% endif %}
+
+# # - id: espyrain_sync_schedule_2_seasonal
+  # # alias: "ESPyRain: Sync Schedule 2 Seasonal to ESP"
+  # # trigger:
+    # # - platform: state
+      # # entity_id: input_number.espyrain_schedule_2_seasonal
+  # # condition:
+    # # - condition: state
+      # # entity_id: input_boolean.espyrain_sync_lock
+      # # state: "off"
+    # # - condition: template
+      # # value_template: "{{ states('input_number.espyrain_schedule_2_seasonal') not in ['unknown', 'unavailable'] }}"
+  # # action:
+    # # - service: number.set_value
+      # # target:
+        # # entity_id: number.espyrain_controller_schedule_2_seasonal_adjust
+      # # data:
+        # # value: >
+          # # {{ states('input_number.espyrain_schedule_2_seasonal') | int(100) }}
+
+# # # ════════════════════════════════════════════════════════
+# # # SCHEDULE 3 - SOAK CYCLES & SEASONAL SYNC
+# # # ════════════════════════════════════════════════════════
+
+# # - id: espyrain_sync_schedule_3_soak
+  # # alias: "ESPyRain: Sync Schedule 3 Soak Cycles to ESP"
+  # # trigger:
+    # # - platform: state
+      # # entity_id: input_select.espyrain_schedule_3_soak_cycles
+  # # condition:
+    # # - condition: state
+      # # entity_id: input_boolean.espyrain_sync_lock
+      # # state: "off"
+    # # - condition: template
+      # # value_template: "{{ states('input_select.espyrain_schedule_3_soak_cycles') not in ['unknown', 'unavailable'] }}"
+  # # action:
+    # # - service: number.set_value
+      # # target:
+        # # entity_id: number.espyrain_controller_schedule_3_soak_cycles
+      # # data:
+        # # value: >
+          # # {% set soak = states('input_select.espyrain_schedule_3_soak_cycles') | string %}
+          # # {% if soak == 'no soak' or soak == '1x' %}
+            # # 1
+          # # {% elif soak == '2x soak' or soak == '2x' %}
+            # # 2
+          # # {% elif soak == '3x soak' or soak == '3x' %}
+            # # 3
+          # # {% else %}
+            # # 1
+          # # {% endif %}
+
+# # - id: espyrain_sync_schedule_3_seasonal
+  # # alias: "ESPyRain: Sync Schedule 3 Seasonal to ESP"
+  # # trigger:
+    # # - platform: state
+      # # entity_id: input_number.espyrain_schedule_3_seasonal
+  # # condition:
+    # # - condition: state
+      # # entity_id: input_boolean.espyrain_sync_lock
+      # # state: "off"
+    # # - condition: template
+      # # value_template: "{{ states('input_number.espyrain_schedule_3_seasonal') not in ['unknown', 'unavailable'] }}"
+  # # action:
+    # # - service: number.set_value
+      # # target:
+        # # entity_id: number.espyrain_controller_schedule_3_seasonal_adjust
+      # # data:
+        # # value: >
+          # # {{ states('input_number.espyrain_schedule_3_seasonal') | int(100) }}
+
+# # # ════════════════════════════════════════════════════════
+# # # SCHEDULE 4 - SOAK CYCLES & SEASONAL SYNC
+# # # ════════════════════════════════════════════════════════
+
+# # - id: espyrain_sync_schedule_4_soak
+  # # alias: "ESPyRain: Sync Schedule 4 Soak Cycles to ESP"
+  # # trigger:
+    # # - platform: state
+      # # entity_id: input_select.espyrain_schedule_4_soak_cycles
+  # # condition:
+    # # - condition: state
+      # # entity_id: input_boolean.espyrain_sync_lock
+      # # state: "off"
+    # # - condition: template
+      # # value_template: "{{ states('input_select.espyrain_schedule_4_soak_cycles') not in ['unknown', 'unavailable'] }}"
+  # # action:
+    # # - service: number.set_value
+      # # target:
+        # # entity_id: number.espyrain_controller_schedule_4_soak_cycles
+      # # data:
+        # # value: >
+          # # {% set soak = states('input_select.espyrain_schedule_4_soak_cycles') | string %}
+          # # {% if soak == 'no soak' or soak == '1x' %}
+            # # 1
+          # # {% elif soak == '2x soak' or soak == '2x' %}
+            # # 2
+          # # {% elif soak == '3x soak' or soak == '3x' %}
+            # # 3
+          # # {% else %}
+            # # 1
+          # # {% endif %}
+
+# # - id: espyrain_sync_schedule_4_seasonal
+  # # alias: "ESPyRain: Sync Schedule 4 Seasonal to ESP"
+  # # trigger:
+    # # - platform: state
+      # # entity_id: input_number.espyrain_schedule_4_seasonal
+  # # condition:
+    # # - condition: state
+      # # entity_id: input_boolean.espyrain_sync_lock
+      # # state: "off"
+    # # - condition: template
+      # # value_template: "{{ states('input_number.espyrain_schedule_4_seasonal') not in ['unknown', 'unavailable'] }}"
+  # # action:
+    # # - service: number.set_value
+      # # target:
+        # # entity_id: number.espyrain_controller_schedule_4_seasonal_adjust
+      # # data:
+        # # value: >
+          # # {{ states('input_number.espyrain_schedule_4_seasonal') | int(100) }}
+
+# SCHEDULE 1: Calculate and sync bitmask
+- id: espyrain_sync_schedule_1_days_bitmask
+  alias: "ESPyRain: Sync Schedule 1 Days Bitmask to ESP"
+  trigger:
+    - platform: state
+      entity_id:
+        - input_select.espyrain_schedule_1_days
+        - input_boolean.espyrain_schedule_1_monday
+        - input_boolean.espyrain_schedule_1_tuesday
+        - input_boolean.espyrain_schedule_1_wednesday
+        - input_boolean.espyrain_schedule_1_thursday
+        - input_boolean.espyrain_schedule_1_friday
+        - input_boolean.espyrain_schedule_1_saturday
+        - input_boolean.espyrain_schedule_1_sunday
+    - platform: homeassistant
+      event: start
+  condition:
+    - condition: state
+      entity_id: input_boolean.espyrain_sync_lock
+      state: "off"
+  action:
+    - service: number.set_value
+      target:
+        entity_id: number.espyrain_controller_schedule_1_days_bitmask
+      data:
+        value: >
+          {% set days_mode = states('input_select.espyrain_schedule_1_days') %}
+          {% if days_mode == 'Daily' %}
+            127
+          {% elif days_mode == 'Weekdays (Mon-Fri)' %}
+            31
+          {% elif days_mode == 'Weekends (Sat-Sun)' %}
+            96
+          {% elif days_mode == 'Odd Days (1,3,5...)' %}
+            127
+          {% elif days_mode == 'Even Days (2,4,6...)' %}
+            127
+          {% elif days_mode == 'Selected Days' %}
+            {{
+              (1 if is_state('input_boolean.espyrain_schedule_1_monday', 'on') else 0) +
+              (2 if is_state('input_boolean.espyrain_schedule_1_tuesday', 'on') else 0) +
+              (4 if is_state('input_boolean.espyrain_schedule_1_wednesday', 'on') else 0) +
+              (8 if is_state('input_boolean.espyrain_schedule_1_thursday', 'on') else 0) +
+              (16 if is_state('input_boolean.espyrain_schedule_1_friday', 'on') else 0) +
+              (32 if is_state('input_boolean.espyrain_schedule_1_saturday', 'on') else 0) +
+              (64 if is_state('input_boolean.espyrain_schedule_1_sunday', 'on') else 0)
+            }}
+          {% elif 'Every' in days_mode and 'Days' in days_mode %}
+            0
+          {% else %}
+            0
+          {% endif %}
+
+# SCHEDULE 2: Calculate and sync bitmask
+- id: espyrain_sync_schedule_2_days_bitmask
+  alias: "ESPyRain: Sync Schedule 2 Days Bitmask to ESP"
+  trigger:
+    - platform: state
+      entity_id:
+        - input_select.espyrain_schedule_2_days
+        - input_boolean.espyrain_schedule_2_monday
+        - input_boolean.espyrain_schedule_2_tuesday
+        - input_boolean.espyrain_schedule_2_wednesday
+        - input_boolean.espyrain_schedule_2_thursday
+        - input_boolean.espyrain_schedule_2_friday
+        - input_boolean.espyrain_schedule_2_saturday
+        - input_boolean.espyrain_schedule_2_sunday
+    - platform: homeassistant
+      event: start
+  condition:
+    - condition: state
+      entity_id: input_boolean.espyrain_sync_lock
+      state: "off"
+  action:
+    - service: number.set_value
+      target:
+        entity_id: number.espyrain_controller_schedule_2_days_bitmask
+      data:
+        value: >
+          {% set days_mode = states('input_select.espyrain_schedule_2_days') %}
+          {% if days_mode == 'Daily' %}
+            127
+          {% elif days_mode == 'Weekdays (Mon-Fri)' %}
+            31
+          {% elif days_mode == 'Weekends (Sat-Sun)' %}
+            96
+          {% elif days_mode == 'Odd Days (1,3,5...)' %}
+            127
+          {% elif days_mode == 'Even Days (2,4,6...)' %}
+            127
+          {% elif days_mode == 'Selected Days' %}
+            {{
+              (1 if is_state('input_boolean.espyrain_schedule_2_monday', 'on') else 0) +
+              (2 if is_state('input_boolean.espyrain_schedule_2_tuesday', 'on') else 0) +
+              (4 if is_state('input_boolean.espyrain_schedule_2_wednesday', 'on') else 0) +
+              (8 if is_state('input_boolean.espyrain_schedule_2_thursday', 'on') else 0) +
+              (16 if is_state('input_boolean.espyrain_schedule_2_friday', 'on') else 0) +
+              (32 if is_state('input_boolean.espyrain_schedule_2_saturday', 'on') else 0) +
+              (64 if is_state('input_boolean.espyrain_schedule_2_sunday', 'on') else 0)
+            }}
+          {% elif 'Every' in days_mode and 'Days' in days_mode %}
+            0
+          {% else %}
+            0
+          {% endif %}
+
+# SCHEDULE 3: Calculate and sync bitmask
+- id: espyrain_sync_schedule_3_days_bitmask
+  alias: "ESPyRain: Sync Schedule 3 Days Bitmask to ESP"
+  trigger:
+    - platform: state
+      entity_id:
+        - input_select.espyrain_schedule_3_days
+        - input_boolean.espyrain_schedule_3_monday
+        - input_boolean.espyrain_schedule_3_tuesday
+        - input_boolean.espyrain_schedule_3_wednesday
+        - input_boolean.espyrain_schedule_3_thursday
+        - input_boolean.espyrain_schedule_3_friday
+        - input_boolean.espyrain_schedule_3_saturday
+        - input_boolean.espyrain_schedule_3_sunday
+    - platform: homeassistant
+      event: start
+  condition:
+    - condition: state
+      entity_id: input_boolean.espyrain_sync_lock
+      state: "off"
+  action:
+    - service: number.set_value
+      target:
+        entity_id: number.espyrain_controller_schedule_3_days_bitmask
+      data:
+        value: >
+          {% set days_mode = states('input_select.espyrain_schedule_3_days') %}
+          {% if days_mode == 'Daily' %}
+            127
+          {% elif days_mode == 'Weekdays (Mon-Fri)' %}
+            31
+          {% elif days_mode == 'Weekends (Sat-Sun)' %}
+            96
+          {% elif days_mode == 'Odd Days (1,3,5...)' %}
+            127
+          {% elif days_mode == 'Even Days (2,4,6...)' %}
+            127
+          {% elif days_mode == 'Selected Days' %}
+            {{
+              (1 if is_state('input_boolean.espyrain_schedule_3_monday', 'on') else 0) +
+              (2 if is_state('input_boolean.espyrain_schedule_3_tuesday', 'on') else 0) +
+              (4 if is_state('input_boolean.espyrain_schedule_3_wednesday', 'on') else 0) +
+              (8 if is_state('input_boolean.espyrain_schedule_3_thursday', 'on') else 0) +
+              (16 if is_state('input_boolean.espyrain_schedule_3_friday', 'on') else 0) +
+              (32 if is_state('input_boolean.espyrain_schedule_3_saturday', 'on') else 0) +
+              (64 if is_state('input_boolean.espyrain_schedule_3_sunday', 'on') else 0)
+            }}
+          {% elif 'Every' in days_mode and 'Days' in days_mode %}
+            0
+          {% else %}
+            0
+          {% endif %}
+
+# SCHEDULE 4: Calculate and sync bitmask
+- id: espyrain_sync_schedule_4_days_bitmask
+  alias: "ESPyRain: Sync Schedule 4 Days Bitmask to ESP"
+  trigger:
+    - platform: state
+      entity_id:
+        - input_select.espyrain_schedule_4_days
+        - input_boolean.espyrain_schedule_4_monday
+        - input_boolean.espyrain_schedule_4_tuesday
+        - input_boolean.espyrain_schedule_4_wednesday
+        - input_boolean.espyrain_schedule_4_thursday
+        - input_boolean.espyrain_schedule_4_friday
+        - input_boolean.espyrain_schedule_4_saturday
+        - input_boolean.espyrain_schedule_4_sunday
+    - platform: homeassistant
+      event: start
+  condition:
+    - condition: state
+      entity_id: input_boolean.espyrain_sync_lock
+      state: "off"
+  action:
+    - service: number.set_value
+      target:
+        entity_id: number.espyrain_controller_schedule_4_days_bitmask
+      data:
+        value: >
+          {% set days_mode = states('input_select.espyrain_schedule_4_days') %}
+          {% if days_mode == 'Daily' %}
+            127
+          {% elif days_mode == 'Weekdays (Mon-Fri)' %}
+            31
+          {% elif days_mode == 'Weekends (Sat-Sun)' %}
+            96
+          {% elif days_mode == 'Odd Days (1,3,5...)' %}
+            127
+          {% elif days_mode == 'Even Days (2,4,6...)' %}
+            127
+          {% elif days_mode == 'Selected Days' %}
+            {{
+              (1 if is_state('input_boolean.espyrain_schedule_4_monday', 'on') else 0) +
+              (2 if is_state('input_boolean.espyrain_schedule_4_tuesday', 'on') else 0) +
+              (4 if is_state('input_boolean.espyrain_schedule_4_wednesday', 'on') else 0) +
+              (8 if is_state('input_boolean.espyrain_schedule_4_thursday', 'on') else 0) +
+              (16 if is_state('input_boolean.espyrain_schedule_4_friday', 'on') else 0) +
+              (32 if is_state('input_boolean.espyrain_schedule_4_saturday', 'on') else 0) +
+              (64 if is_state('input_boolean.espyrain_schedule_4_sunday', 'on') else 0)
+            }}
+          {% elif 'Every' in days_mode and 'Days' in days_mode %}
+            0
+          {% else %}
+            0
+          {% endif %}
+
+- id: refresh_forecast_on_schedule_change
+  alias: "ESPyRain: Refresh Forecast on Schedule Change"
+  trigger:
+    - platform: state
+      entity_id:
+        - input_boolean.espyrain_schedule_1_enabled
+        - input_boolean.espyrain_schedule_2_enabled
+        - input_boolean.espyrain_schedule_3_enabled
+        - input_boolean.espyrain_schedule_4_enabled
+        - input_select.espyrain_schedule_1_days
+        - input_select.espyrain_schedule_2_days
+        - input_select.espyrain_schedule_3_days
+        - input_select.espyrain_schedule_4_days
+        - input_number.espyrain_schedule_1_interval
+        - input_number.espyrain_schedule_2_interval
+        - input_number.espyrain_schedule_3_interval
+        - input_number.espyrain_schedule_4_interval
+  action:
+    - delay: 2  # Wait for ESP to sync
+    - service: homeassistant.update_entity
+      target:
+        entity_id: sensor.sprinkler_7_day_forecast
+        
+# Sync day mode type for all schedules
+- id: espyrain_sync_schedule_day_mode_type_to_esp
+  alias: "ESPyRain: Sync Day Mode Type to ESP"
+  description: "Legacy v1 automation retained as no-op (v2 uses day_mode entities directly)"
+  trigger:
+    # Trigger when any schedule's day mode changes
+    - platform: state
+      entity_id:
+        - input_select.espyrain_schedule_1_days
+        - input_select.espyrain_schedule_2_days
+        - input_select.espyrain_schedule_3_days
+        - input_select.espyrain_schedule_4_days
+  condition:
+    - condition: state
+      entity_id: input_boolean.espyrain_sync_lock
+      state: "off"
+  action:
+    - service: logbook.log
+      data:
+        name: Sprinkler
+        message: "Legacy day_mode_type sync ignored; v2 uses schedule day_mode sync automations."
+
+# ════════════════════════════════════════════════════════════
+# SYNC ALL SETTINGS WHEN ENABLING SCHEDULES
+# ════════════════════════════════════════════════════════════
+# This ensures ALL settings sync to ESP when you enable a schedule
+- id: espyrain_sync_all_on_any_enable
+  alias: "ESPyRain: Sync All Settings On Any Enable"
+  description: "Sync all schedule settings when any schedule is enabled"
+  trigger:
+    - platform: state
+      entity_id:
+        - input_boolean.espyrain_schedule_1_enabled
+        - input_boolean.espyrain_schedule_2_enabled
+        - input_boolean.espyrain_schedule_3_enabled
+        - input_boolean.espyrain_schedule_4_enabled
+      to: 'on'
+  condition:
+    - condition: state
+      entity_id: input_boolean.espyrain_sync_lock
+      state: "off"
+  action:
+    - delay:
+        milliseconds: 500
+    
+    # Force sync ALL intervals
+    - service: number.set_value
+      target:
+        entity_id: number.espyrain_controller_schedule_1_interval
+      data:
+        value: "{{ states('input_number.espyrain_schedule_1_interval') | int }}"
+    
+    - service: number.set_value
+      target:
+        entity_id: number.espyrain_controller_schedule_2_interval
+      data:
+        value: "{{ states('input_number.espyrain_schedule_2_interval') | int }}"
+    
+    - service: number.set_value
+      target:
+        entity_id: number.espyrain_controller_schedule_3_interval
+      data:
+        value: "{{ states('input_number.espyrain_schedule_3_interval') | int }}"
+    
+    - service: number.set_value
+      target:
+        entity_id: number.espyrain_controller_schedule_4_interval
+      data:
+        value: "{{ states('input_number.espyrain_schedule_4_interval') | int }}"
+    
+    # Trigger all bitmask sync automations
+    - service: automation.trigger
+      target:
+        entity_id:
+          - automation.espyrain_sync_schedule_1_days_bitmask
+          - automation.espyrain_sync_schedule_2_days_bitmask
+          - automation.espyrain_sync_schedule_3_days_bitmask
+          - automation.espyrain_sync_schedule_4_days_bitmask
+  mode: single
+
+        
+

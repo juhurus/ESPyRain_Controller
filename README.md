@@ -1,4 +1,4 @@
-# ESPy Sprinkler Controller for Home Assistant
+# ESPyRain Sprinkler Controller for Home Assistant
 
 An ESP32-based sprinkler controller with Home Assistant integration, designed to keep running scheduled irrigation autonomously once configured.
 
@@ -262,8 +262,11 @@ After the package is installed, the first things most users will want to configu
 
 ## Repository Layout
 
-- `ESP_espyrain/`
+- `ESPyRain-controller/`
   - ESPHome package, wrapper examples, and controller firmware configuration
+  
+- `HA_dashboard/`
+  - dashboard YAML and dashboard dependency notes
 
 - `packages/`
   - Home Assistant package entrypoint
@@ -275,9 +278,6 @@ After the package is installed, the first things most users will want to configu
   - scripts
   - sensors
   - templates
-
-- `HA_dashboard/`
-  - dashboard YAML and dashboard dependency notes
 
 - `INSTALL_CHECKLIST.md`
   - detailed installation and setup checklist

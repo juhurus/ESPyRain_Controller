@@ -3,7 +3,7 @@
 #
 # Example usage from a local wrapper YAML:
 # packages:
-#   sprinkler_controller: !include ESP_sprinkler-controller/base.yaml
+#   espyrain_controller: !include ESP_sprinkler-controller/base.yaml
 #
 # wifi:
 #   manual_ip: !include ESP_sprinkler-controller/network_static_ip.example.yaml

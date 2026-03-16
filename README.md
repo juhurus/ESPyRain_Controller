@@ -1,10 +1,16 @@
-# ESPHome Sprinkler Controller for Home Assistant
+# ESPy Sprinkler Controller for Home Assistant
 
-An ESP32-based sprinkler controller with deep Home Assistant integration, designed to keep running scheduled irrigation autonomously once configured.
+An ESP32-based sprinkler controller with Home Assistant integration, designed to keep running scheduled irrigation autonomously once configured.
 
 This project combines the flexibility and visibility of Home Assistant with local execution on the ESP32, so scheduled watering can continue even if Home Assistant or Wi-Fi is temporarily unavailable.
 
 It is built for users who want a powerful, transparent, highly configurable irrigation system without depending on a cloud service or a closed commercial controller.
+
+There is a selection of ESP based sprinkler systems out there, particularly ESPHome Sprinkler Controller and Irrigation Unlimited are both great sprinkler systems but they all require to recompile and reflash the ESP32 for every change. My aim was to built a system which doesn't require reflashing or reloading yaml files to do any changes. I wanted the flexibility to set and control everything through HA so that family member can change a schedule start time or a station runtime without having to edit and reload HA yaml files or recompile and reflash the ESP.
+
+ESPHome Sprinkler Controller for HA allows users to be in full control of their watering requirements through HA without reloading HA or reflashing the ESP.
+
+Another important factor was that the ESP32 controlles all the scheduled watering even if HA or Wifi is down temporarily. All schedules are stored on the ESP32 to allow fully autonomus watering.
 
 ![Sprinkler Controller](./screenshots/watering_in_progress_schedule.png)
 
@@ -20,6 +26,7 @@ The key design goal is reliability:
 - schedules run locally on the controller
 - overlapping runs are queued instead of being skipped
 - manual runs and scheduled runs can coexist
+- the queue runs on fifo bases
 - Home Assistant enhances the system, but is not required for scheduled watering once setup is complete
 
 ## Key Features
@@ -45,7 +52,7 @@ The key design goal is reliability:
 - Winter mode
 - Optional automatic winter mode using start/end dates
 
-![Sprinkler Controller](./screenshots/controller_config_rain_delay_and_winter_mode.png)![Sprinkler Controller](./screenshots/system_config.png)
+![Controller Config card](./screenshots/controller_config_rain_delay_and_winter_mode.png)![Controller Config](./screenshots/system_config.png)
 
 
 
@@ -103,6 +110,8 @@ The ESP32 is the actual sprinkler controller. It is responsible for:
 - preserving autonomous scheduled operation
 
 This is what allows the system to keep watering on schedule even if Home Assistant or Wi-Fi is offline.
+
+![Sprinkler Controller](./screenshots/mobile_manual_station_s8_active_image.jpg)
 
 ### Home Assistant Layer
 
@@ -171,10 +180,13 @@ You can control the system through:
 
 - the Home Assistant dashboard
 - the Home Assistant companion app
+- Built-in webserver (for when HA is down)
 - Home Assistant automations
 - ESPHome button/services exposed to Home Assistant
 
 Manual watering can be started either from standard controls or from a mapped image-based station selection card.
+
+![Sprinkler Controller](./screenshots/mobile_manual_station_s8_active_image.jpg)
 
 ## Who This Project Is For
 
@@ -186,7 +198,6 @@ This project is a good fit if you:
 - want more flexibility than a fixed commercial controller usually provides
 - care about autonomy, visibility, and reliability
 
-It is probably not the best fit if you want a completely one-click beginner install with no YAML editing.
 
 ## Requirements
 
@@ -198,7 +209,7 @@ It is probably not the best fit if you want a completely one-click beginner inst
 
 ### Hardware
 
-- ESP32
+- ESP32 board
 - Relay board or suitable sprinkler output hardware
 - Optional pump or master valve output
 - Optional Telegram notifier for notifications
@@ -251,7 +262,7 @@ After the package is installed, the first things most users will want to configu
 
 ## Repository Layout
 
-- `ESP_sprinkler-controller/`
+- `ESP_espyrain/`
   - ESPHome package, wrapper examples, and controller firmware configuration
 
 - `packages/`

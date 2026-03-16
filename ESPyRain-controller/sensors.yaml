@@ -1,7 +1,7 @@
 text_sensor:
   - platform: template
-    name: "Sprinkler System Version"
-    id: sprinkler_version
+    name: "ESPyRain Controller Version"
+    id: espyrain_controller_version
     lambda: |-
       return std::string("v${version}");
       
@@ -78,8 +78,8 @@ text_sensor:
       id: wifi_bssid
       
   - platform: template
-    name: "Sprinkler Status"
-    id: sprinkler_status
+    name: "ESPyRain Status"
+    id: espyrain_status
     icon: mdi:information-outline
     update_interval: 1s
     lambda: |-
@@ -1204,7 +1204,7 @@ text_sensor:
 
 binary_sensor:
   - platform: status
-    name: "Sprinkler Controller Status"
+    name: "ESPyRain Connection Status"
 
   # Per-station runtime state (true when valve is currently open).
   # Includes coupled followers of the current head station.

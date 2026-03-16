@@ -1,11 +1,11 @@
-# ESPHome Sprinkler Controller for Home Assistant
+# ESPyRain - ESPHome Sprinkler Controller for Home Assistant
 
 ## Install Checklist
 
 ### 1. Preferred HA layout
 Use the package layout as the primary source:
-- packages/esphome_sprinkler_controller_for_home_assistant.yaml
-- package_sources/esphome_sprinkler_controller_for_home_assistant/
+- packages/espyrain_for_home_assistant.yaml
+- package_sources/espyrain_for_home_assistant/
 
 HA must include packages in configuration.yaml:
 
@@ -31,7 +31,7 @@ Included HA domains in the package:
 Add these to your HA `secrets.yaml`:
 
 ```yaml
-sprinkler_telegram_notifier: notify.your_telegram_notifier_entity
+espyrain_telegram_notifier: notify.your_telegram_notifier_entity
 ```
 
 Add these to your ESPHome secrets file:
@@ -39,29 +39,29 @@ Add these to your ESPHome secrets file:
 ```yaml
 wifi_ssid: your_wifi_name
 wifi_password: your_wifi_password
-sprinkler_api_key: your_api_encryption_key
-sprinkler_ota_password: your_ota_password
-sprinkler_ap_password: your_fallback_ap_password
+espyrain_api_key: your_api_encryption_key
+espyrain_ota_password: your_ota_password
+espyrain_ap_password: your_fallback_ap_password
 ```
 
 Notes:
-- `sprinkler_telegram_notifier` is a Home Assistant notifier entity ID, not a raw Telegram chat ID.
-- Notifications can still be disabled in HA with `input_boolean.sprinkler_notifications`.
+- `espyrain_telegram_notifier` is a Home Assistant notifier entity ID, not a raw Telegram chat ID.
+- Notifications can still be disabled in HA with `input_boolean.espyrain_notifications`.
 
 ### 3. ESPHome package defaults
 Package-safe defaults now use DHCP.
 
 Shared file:
-- `ESP_sprinkler-controller/base.yaml`
+- `ESP_espyrain/base.yaml`
 
 If you want static IP networking, create a local override using:
-- `ESP_sprinkler-controller/network_static_ip.example.yaml`
+- `ESP_espyrain/network_static_ip.example.yaml`
 
 Example:
 
 ```yaml
 wifi:
-  manual_ip: !include ESP_sprinkler-controller/network_static_ip.local.yaml
+  manual_ip: !include ESP_espyrain/network_static_ip.local.yaml
 ```
 
 Do not ship static IP values inside the shared package.

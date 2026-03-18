@@ -4,17 +4,17 @@
 #                   8 Schedules Total                      #
 #                                                          #
 ############################################################
-espyrain_backup_queue:
-  name: "Sprinkler Backup Queue"
-  max: 255
+# # espyrain_backup_queue:
+  # # name: "Sprinkler Backup Queue"
+  # # max: 255
 
-espyrain_backup_current_program:
-  name: "Sprinkler Backup Current Program"  
-  max: 255
+# # espyrain_backup_current_program:
+  # # name: "Sprinkler Backup Current Program"  
+  # # max: 255
 
-espyrain_backup_current_station:
-  name: "Sprinkler Backup Current Station"
-  max: 255
+# # espyrain_backup_current_station:
+  # # name: "Sprinkler Backup Current Station"
+  # # max: 255
 
 # Schedule 1 Name
 espyrain_schedule_1_name:
@@ -167,7 +167,7 @@ espyrain_station_16_name:
   max: 50
   icon: mdi:label-outline
 
-espyrain_active_program:
-  name: "Sprinkler Active Program"
-  max: 50
-  initial: "Idle"
+# # espyrain_active_program:
+  # # name: "Active Program"
+  # # max: 50
+  # # initial: "Idle"

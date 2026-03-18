@@ -39,7 +39,7 @@
     # Keep automation harmless until a dedicated v2 reset service/button exists.
     - service: logbook.log
       data:
-        name: Sprinkler
+        name: ESPyRain
         message: "Schedule 1 last_run reset requested, but no v2 reset button is exposed."
 
 # Reset Schedule 2 Last Run
@@ -65,7 +65,7 @@
   action:
     - service: logbook.log
       data:
-        name: Sprinkler
+        name: ESPyRain
         message: "Schedule 2 last_run reset requested, but no v2 reset button is exposed."
 
 # Reset Schedule 3 Last Run
@@ -91,7 +91,7 @@
   action:
     - service: logbook.log
       data:
-        name: Sprinkler
+        name: ESPyRain
         message: "Schedule 3 last_run reset requested, but no v2 reset button is exposed."
 
 # Reset Schedule 4 Last Run
@@ -117,8 +117,33 @@
   action:
     - service: logbook.log
       data:
-        name: Sprinkler
+        name: ESPyRain
         message: "Schedule 4 last_run reset requested, but no v2 reset button is exposed."
+
+- id: reset_schedule_5_last_run_on_enable
+  alias: "Reset Schedule 5 Last Run on Enable"
+  trigger:
+    - platform: state
+      entity_id: input_boolean.espyrain_schedule_5_enabled
+      to: 'on'
+    - platform: state
+      entity_id: input_select.espyrain_schedule_5_days
+      to: 
+        - 'Every 2 Days'
+        - 'Every 3 Days'
+        - 'Every 4 Days'
+        - 'Every 5 Days'
+        - 'Every 6 Days'
+        - 'Every 7 Days'
+  condition:
+    - condition: state
+      entity_id: input_boolean.espyrain_schedule_5_enabled
+      state: 'on'
+  action:
+    - service: logbook.log
+      data:
+        name: ESPyRain
+        message: "Schedule 5 last_run reset requested, but no v2 reset button is exposed."
 
 
 # ════════════════════════════════════════════════════════════════

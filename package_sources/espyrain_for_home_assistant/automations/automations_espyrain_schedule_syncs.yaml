@@ -678,7 +678,7 @@
     - delay: 2  # Wait for ESP to sync
     - service: homeassistant.update_entity
       target:
-        entity_id: sensor.sprinkler_7_day_forecast
+        entity_id: sensor.espyrain_7_day_forecast
         
 # Sync day mode type for all schedules
 - id: espyrain_sync_schedule_day_mode_type_to_esp

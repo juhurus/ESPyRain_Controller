@@ -99,3 +99,99 @@
             entity_id: input_number.espyrain_schedule_4_interval
           data:
             value: 1
+            
+# Schedule 5: Parse interval from days setting
+- id: espyrain_schedule_5_parse_interval
+  alias: "ESPyRain: Parse Schedule 5 Interval"
+  trigger:
+    - platform: state
+      entity_id: input_select.espyrain_schedule_5_days
+  action:
+    - choose:
+        - conditions:
+            - condition: template
+              value_template: "{{ 'Every' in states('input_select.espyrain_schedule_5_days') and 'Days' in states('input_select.espyrain_schedule_5_days') }}"
+          sequence:
+            - service: input_number.set_value
+              target:
+                entity_id: input_number.espyrain_schedule_5_interval
+              data:
+                value: "{{ states('input_select.espyrain_schedule_5_days').replace('Every ', '').replace(' Days', '').strip() | int }}"
+      default:
+        - service: input_number.set_value
+          target:
+            entity_id: input_number.espyrain_schedule_5_interval
+          data:
+            value: 1
+            
+# Schedule 6: Parse interval from days setting
+- id: espyrain_schedule_6_parse_interval
+  alias: "ESPyRain: Parse Schedule 6 Interval"
+  trigger:
+    - platform: state
+      entity_id: input_select.espyrain_schedule_6_days
+  action:
+    - choose:
+        - conditions:
+            - condition: template
+              value_template: "{{ 'Every' in states('input_select.espyrain_schedule_6_days') and 'Days' in states('input_select.espyrain_schedule_6_days') }}"
+          sequence:
+            - service: input_number.set_value
+              target:
+                entity_id: input_number.espyrain_schedule_6_interval
+              data:
+                value: "{{ states('input_select.espyrain_schedule_6_days').replace('Every ', '').replace(' Days', '').strip() | int }}"
+      default:
+        - service: input_number.set_value
+          target:
+            entity_id: input_number.espyrain_schedule_6_interval
+          data:
+            value: 1
+            
+# Schedule 7: Parse interval from days setting
+- id: espyrain_schedule_7_parse_interval
+  alias: "ESPyRain: Parse Schedule 7 Interval"
+  trigger:
+    - platform: state
+      entity_id: input_select.espyrain_schedule_7_days
+  action:
+    - choose:
+        - conditions:
+            - condition: template
+              value_template: "{{ 'Every' in states('input_select.espyrain_schedule_7_days') and 'Days' in states('input_select.espyrain_schedule_7_days') }}"
+          sequence:
+            - service: input_number.set_value
+              target:
+                entity_id: input_number.espyrain_schedule_7_interval
+              data:
+                value: "{{ states('input_select.espyrain_schedule_7_days').replace('Every ', '').replace(' Days', '').strip() | int }}"
+      default:
+        - service: input_number.set_value
+          target:
+            entity_id: input_number.espyrain_schedule_7_interval
+          data:
+            value: 1
+            
+# Schedule 8: Parse interval from days setting
+- id: espyrain_schedule_8_parse_interval
+  alias: "ESPyRain: Parse Schedule 8 Interval"
+  trigger:
+    - platform: state
+      entity_id: input_select.espyrain_schedule_8_days
+  action:
+    - choose:
+        - conditions:
+            - condition: template
+              value_template: "{{ 'Every' in states('input_select.espyrain_schedule_8_days') and 'Days' in states('input_select.espyrain_schedule_8_days') }}"
+          sequence:
+            - service: input_number.set_value
+              target:
+                entity_id: input_number.espyrain_schedule_8_interval
+              data:
+                value: "{{ states('input_select.espyrain_schedule_8_days').replace('Every ', '').replace(' Days', '').strip() | int }}"
+      default:
+        - service: input_number.set_value
+          target:
+            entity_id: input_number.espyrain_schedule_8_interval
+          data:
+            value: 1

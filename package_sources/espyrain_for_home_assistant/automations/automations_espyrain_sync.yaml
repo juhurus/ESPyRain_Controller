@@ -2,7 +2,7 @@
 # --------------------------------------------------------
 # COMPATIBILITY - Migrate legacy Disabled day mode
 # --------------------------------------------------------
-- id: sprinkler_migrate_disabled_days_mode
+- id: espyrain_migrate_disabled_days_mode
   alias: "ESPyRain: Migrate Disabled Days Mode"
   description: "Convert legacy Disabled day selectors to Selected Days and use the enabled boolean as the only on/off control"
   trigger:

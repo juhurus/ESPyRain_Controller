@@ -18,7 +18,7 @@
 # STATION 1 - Coupling Sync
 # ════════════════════════════════════════════════════════════════
 - id: espyrain_station_1_coupling_sync
-  alias: "Sprinkler - Station 1 Coupling Sync"
+  alias: "ESPyRain - Station 1 Coupling Sync"
   description: "Sync station 1 coupling checkboxes to ESP bitmask"
   mode: single
   trigger:
@@ -58,7 +58,7 @@
 # STATION 2 - Coupling Sync
 # ════════════════════════════════════════════════════════════════
 - id: espyrain_station_2_coupling_sync
-  alias: "Sprinkler - Station 2 Coupling Sync"
+  alias: "ESPyRain - Station 2 Coupling Sync"
   description: "Sync station 2 coupling checkboxes to ESP bitmask"
   mode: single
   trigger:
@@ -98,7 +98,7 @@
 # STATION 3 - Coupling Sync
 # ════════════════════════════════════════════════════════════════
 - id: espyrain_station_3_coupling_sync
-  alias: "Sprinkler - Station 3 Coupling Sync"
+  alias: "ESPyRain - Station 3 Coupling Sync"
   description: "Sync station 3 coupling checkboxes to ESP bitmask"
   mode: single
   trigger:
@@ -138,7 +138,7 @@
 # STATION 4 - Coupling Sync
 # ════════════════════════════════════════════════════════════════
 - id: espyrain_station_4_coupling_sync
-  alias: "Sprinkler - Station 4 Coupling Sync"
+  alias: "ESPyRain - Station 4 Coupling Sync"
   description: "Sync station 4 coupling checkboxes to ESP bitmask"
   mode: single
   trigger:
@@ -178,7 +178,7 @@
 # STATION 5 - Coupling Sync
 # ════════════════════════════════════════════════════════════════
 - id: espyrain_station_5_coupling_sync
-  alias: "Sprinkler - Station 5 Coupling Sync"
+  alias: "ESPyRain - Station 5 Coupling Sync"
   description: "Sync station 5 coupling checkboxes to ESP bitmask"
   mode: single
   trigger:
@@ -218,7 +218,7 @@
 # STATION 6 - Coupling Sync
 # ════════════════════════════════════════════════════════════════
 - id: espyrain_station_6_coupling_sync
-  alias: "Sprinkler - Station 6 Coupling Sync"
+  alias: "ESPyRain - Station 6 Coupling Sync"
   description: "Sync station 6 coupling checkboxes to ESP bitmask"
   mode: single
   trigger:
@@ -258,7 +258,7 @@
 # STATION 7 - Coupling Sync
 # ════════════════════════════════════════════════════════════════
 - id: espyrain_station_7_coupling_sync
-  alias: "Sprinkler - Station 7 Coupling Sync"
+  alias: "ESPyRain - Station 7 Coupling Sync"
   description: "Sync station 7 coupling checkboxes to ESP bitmask"
   mode: single
   trigger:
@@ -298,7 +298,7 @@
 # STATION 8 - Coupling Sync
 # ════════════════════════════════════════════════════════════════
 - id: espyrain_station_8_coupling_sync
-  alias: "Sprinkler - Station 8 Coupling Sync"
+  alias: "ESPyRain - Station 8 Coupling Sync"
   description: "Sync station 8 coupling checkboxes to ESP bitmask"
   mode: single
   trigger:
@@ -338,7 +338,7 @@
 # STATION 9 - Coupling Sync
 # ════════════════════════════════════════════════════════════════
 - id: espyrain_station_9_coupling_sync
-  alias: "Sprinkler - Station 9 Coupling Sync"
+  alias: "ESPyRain - Station 9 Coupling Sync"
   description: "Sync station 9 coupling checkboxes to ESP bitmask"
   mode: single
   trigger:
@@ -378,7 +378,7 @@
 # STATION 10 - Coupling Sync
 # ════════════════════════════════════════════════════════════════
 - id: espyrain_station_10_coupling_sync
-  alias: "Sprinkler - Station 10 Coupling Sync"
+  alias: "ESPyRain - Station 10 Coupling Sync"
   description: "Sync station 10 coupling checkboxes to ESP bitmask"
   mode: single
   trigger:
@@ -418,7 +418,7 @@
 # STATION 11 - Coupling Sync
 # ════════════════════════════════════════════════════════════════
 - id: espyrain_station_11_coupling_sync
-  alias: "Sprinkler - Station 11 Coupling Sync"
+  alias: "ESPyRain - Station 11 Coupling Sync"
   description: "Sync station 11 coupling checkboxes to ESP bitmask"
   mode: single
   trigger:
@@ -458,7 +458,7 @@
 # STATION 12 - Coupling Sync
 # ════════════════════════════════════════════════════════════════
 - id: espyrain_station_12_coupling_sync
-  alias: "Sprinkler - Station 12 Coupling Sync"
+  alias: "ESPyRain - Station 12 Coupling Sync"
   description: "Sync station 12 coupling checkboxes to ESP bitmask"
   mode: single
   trigger:
@@ -498,7 +498,7 @@
 # STATION 13 - Coupling Sync
 # ════════════════════════════════════════════════════════════════
 - id: espyrain_station_13_coupling_sync
-  alias: "Sprinkler - Station 13 Coupling Sync"
+  alias: "ESPyRain - Station 13 Coupling Sync"
   description: "Sync station 13 coupling checkboxes to ESP bitmask"
   mode: single
   trigger:
@@ -538,7 +538,7 @@
 # STATION 14 - Coupling Sync
 # ════════════════════════════════════════════════════════════════
 - id: espyrain_station_14_coupling_sync
-  alias: "Sprinkler - Station 14 Coupling Sync"
+  alias: "ESPyRain - Station 14 Coupling Sync"
   description: "Sync station 14 coupling checkboxes to ESP bitmask"
   mode: single
   trigger:
@@ -578,7 +578,7 @@
 # STATION 15 - Coupling Sync
 # ════════════════════════════════════════════════════════════════
 - id: espyrain_station_15_coupling_sync
-  alias: "Sprinkler - Station 15 Coupling Sync"
+  alias: "ESPyRain - Station 15 Coupling Sync"
   description: "Sync station 15 coupling checkboxes to ESP bitmask"
   mode: single
   trigger:
@@ -618,7 +618,7 @@
 # STATION 16 - Coupling Sync
 # ════════════════════════════════════════════════════════════════
 - id: espyrain_station_16_coupling_sync
-  alias: "Sprinkler - Station 16 Coupling Sync"
+  alias: "ESPyRain - Station 16 Coupling Sync"
   description: "Sync station 16 coupling checkboxes to ESP bitmask"
   mode: single
   trigger:
@@ -662,7 +662,7 @@
 # blocking the rest of the sync.
 # ════════════════════════════════════════════════════════════════
 - id: espyrain_station_coupling_full_sync
-  alias: "Sprinkler - Station Coupling Full Sync on Start"
+  alias: "ESPyRain - Station Coupling Full Sync on Start"
   description: "Sync all station coupling checkboxes to ESP on HA start"
   mode: single
   trigger:

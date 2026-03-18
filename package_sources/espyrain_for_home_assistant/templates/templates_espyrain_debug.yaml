@@ -17,7 +17,7 @@
         rain_delay_days: "{{ states('input_number.espyrain_rain_delay_days') | int(0) }}"
         winter_mode_helper: "{{ states('input_boolean.espyrain_winter_mode') }}"
         winter_mode_esp: "{{ states('switch.espyrain_controller_winter_mode') }}"
-        bypass_helper: "{{ states('input_boolean.sprinkler_bypass_interval_check') }}"
+        bypass_helper: "{{ states('input_boolean.espyrain_bypass_interval_check') }}"
         bypass_esp: "{{ states('switch.espyrain_controller_bypass_interval_check') }}"
 
         schedule_config: >
@@ -87,10 +87,10 @@
         sensors_summary: >
           {{
             {
-              'next_scheduled_run': states('sensor.sprinkler_next_scheduled_run'),
-              'today_remaining': states('sensor.sprinkler_today_remaining_schedules'),
-              'tomorrow_schedules': states('sensor.sprinkler_tomorrow_schedules'),
-              'seven_day_forecast': states('sensor.sprinkler_7_day_forecast')
+              'next_scheduled_run': states('sensor.espyrain_next_scheduled_run'),
+              'today_remaining': states('sensor.espyrain_today_remaining_schedules'),
+              'tomorrow_schedules': states('sensor.espyrain_tomorrow_schedules'),
+              'seven_day_forecast': states('sensor.espyrain_7_day_forecast')
             }
           }}
 

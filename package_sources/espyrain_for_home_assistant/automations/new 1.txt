@@ -1,0 +1,37 @@
+sprinkler_schedule > espyrain_schedule
+sprinkler_station > espyrain_station
+sprinkler_manual > espyrain_manual
+sprinkler_winter > espyrain_winter
+sprinkler_zone > espyrain_zone
+sprinkler_backup > espyrain_backup
+sprinkler_active > espyrain_active
+sprinkler_master > espyrain_master
+sprinkler_rain > espyrain_rain
+sprinkler_sync > espyrain_sync
+Sprinkler: > ESPyRain:
+"Sprinkler Station > "ESPyRain Station
+sync_schedule > espyrain_sync_schedule_
+espyrain_espyrain_sync_schedule_ > espyrain_sync_schedule_
+input_boolean.sprinkler_notifications > input_boolean.espyrain_notifications
+"Sprinkler Schedule > "ESPyRain Schedule
+sprinkler_bypass_interval_check > espyrain_bypass_interval_check
+sprinkler_notify_ > espyrain_notify_
+sprinkler_auto_recover > espyrain_auto_recover
+sprinkler_s3_coupling > espyrain_s3_coupling
+sprinkler_seasonal_changed > espyrain_seasonal_changed
+sprinkler_restore_on_esp_boot > espyrain_restore_on_esp_boot
+sprinkler_migrate_disabled_days_mode > espyrain_migrate_disabled_days_mode
+sprinkler_esp_heartbeat > espyrain_esp_heartbeat
+alias: "Sprinkler > alias: "ESPyRain
+- name: "ESPyRain > - name: "ESPyRain
+automation.sprinkler_station_*_coupling_sync > automation.espyrain_station_*_coupling_sync
+sensor.sprinkler_esp_time_drift_seconds > sensor.espyrain_esp_time_drift_seconds
+sensor.sprinkler_7_day_forecast > sensor.espyrain_7_day_forecast
+
+ 
+
+# FILES
+esphome_sprinkler_controller_for_home_assistant > espyrain_for_home_assistant
+automations_sprinkler_controller > automations_espyrain
+
+

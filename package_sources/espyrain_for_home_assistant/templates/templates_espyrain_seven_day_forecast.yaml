@@ -10,12 +10,12 @@
 # # REPLACES THE ENTIRE FILE
 
 # - sensor:
-#     - name: "Sprinkler 7 Day Forecast"
+#     - name: "ESPyRain 7 Day Forecast"
 #       unique_id: sprinkler_7_day_forecast
 #       icon: mdi:calendar-week
 #       state: >
 #         {% set rain_delay = states('input_number.espyrain_rain_delay_days') | float(0) %}
-#         {% set master_off = is_state('input_boolean.sprinkler_system_master_enable', 'off') %}
+#         {% set master_off = is_state('input_boolean.espyrain_system_master_enable', 'off') %}
 #         {% set ns = namespace(total=0) %}
 #         {% for sched in range(1, 5) %}
 #           {% for run in range(1, 8) %}
@@ -37,7 +37,7 @@
 #       attributes:
 #         days: >
 #           {% set rain_delay = states('input_number.espyrain_rain_delay_days') | float(0) %}
-#           {% set master_off = is_state('input_boolean.sprinkler_system_master_enable', 'off') %}
+#           {% set master_off = is_state('input_boolean.espyrain_system_master_enable', 'off') %}
 #           {% set ns = namespace(days=[]) %}
 #           {% for day_offset in range(7) %}
 #             {% set check_date = (now() + timedelta(days=day_offset)).date() %}

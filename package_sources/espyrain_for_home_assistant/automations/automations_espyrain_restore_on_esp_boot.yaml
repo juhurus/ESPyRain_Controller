@@ -14,7 +14,7 @@
 #   2. One sequence per station (1-16) to restore enabled state
 #   3. One sequence to restore bypass_interval_check
 
-- id: sprinkler_restore_on_esp_boot
+- id: espyrain_restore_on_esp_boot
   alias: "ESPyRain: Restore Boolean State on ESP Boot"
   description: "When ESP comes online, restore station_enabled and bypass_interval_check from HA helpers"
   trigger:
@@ -135,7 +135,7 @@
     # ──────────────────────────────────────────────────────────
     # Restore bypass_interval_check
     # ──────────────────────────────────────────────────────────
-    - service: "switch.turn_{{ states('input_boolean.sprinkler_bypass_interval_check') }}"
+    - service: "switch.turn_{{ states('input_boolean.espyrain_bypass_interval_check') }}"
       target:
         entity_id: switch.espyrain_controller_bypass_interval_check
       continue_on_error: true
@@ -190,44 +190,44 @@
         entity_id: "switch.espyrain_controller_station_{{ station_num }}_enabled"
       continue_on_error: true
 
-- id: espyrain_sync_bypass_interval_to_esp
-  alias: "ESPyRain: Sync Bypass Interval Check to ESP"
-  description: "When HA input_boolean bypass_interval_check changes, update ESP switch"
-  trigger:
-    - platform: state
-      entity_id: input_boolean.sprinkler_bypass_interval_check
-  condition:
-    - condition: state
-      entity_id: input_boolean.espyrain_sync_lock
-      state: 'off'
-  action:
-    - service: "switch.turn_{{ trigger.to_state.state }}"
-      target:
-        entity_id: switch.espyrain_controller_bypass_interval_check
-      continue_on_error: true
+# # - id: espyrain_sync_bypass_interval_to_esp
+  # # alias: "ESPyRain: Sync Bypass Interval Check to ESP"
+  # # description: "When HA input_boolean bypass_interval_check changes, update ESP switch"
+  # # trigger:
+    # # - platform: state
+      # # entity_id: input_boolean.espyrain_bypass_interval_check
+  # # condition:
+    # # - condition: state
+      # # entity_id: input_boolean.espyrain_sync_lock
+      # # state: 'off'
+  # # action:
+    # # - service: "switch.turn_{{ trigger.to_state.state }}"
+      # # target:
+        # # entity_id: switch.espyrain_controller_bypass_interval_check
+      # # continue_on_error: true
 
-- id: espyrain_sync_bypass_interval_from_esp
-  alias: "ESPyRain: Sync Bypass Interval Check from ESP"
-  description: "Keep HA helper in sync when ESP bypass switch is changed from ESP/dashboard"
-  trigger:
-    - platform: state
-      entity_id: switch.espyrain_controller_bypass_interval_check
-  condition:
-    - condition: state
-      entity_id: input_boolean.espyrain_sync_lock
-      state: 'off'
-    - condition: template
-      value_template: >
-        {{
-          trigger.to_state is not none and
-          trigger.to_state.state in ['on', 'off'] and
-          states('input_boolean.sprinkler_bypass_interval_check') in ['on', 'off'] and
-          trigger.to_state.state != states('input_boolean.sprinkler_bypass_interval_check')
-        }}
-  action:
-    - service: "input_boolean.turn_{{ trigger.to_state.state }}"
-      target:
-        entity_id: input_boolean.sprinkler_bypass_interval_check
+# # - id: espyrain_sync_bypass_interval_from_esp
+  # # alias: "ESPyRain: Sync Bypass Interval Check from ESP"
+  # # description: "Keep HA helper in sync when ESP bypass switch is changed from ESP/dashboard"
+  # # trigger:
+    # # - platform: state
+      # # entity_id: switch.espyrain_controller_bypass_interval_check
+  # # condition:
+    # # - condition: state
+      # # entity_id: input_boolean.espyrain_sync_lock
+      # # state: 'off'
+    # # - condition: template
+      # # value_template: >
+        # # {{
+          # # trigger.to_state is not none and
+          # # trigger.to_state.state in ['on', 'off'] and
+          # # states('input_boolean.espyrain_bypass_interval_check') in ['on', 'off'] and
+          # # trigger.to_state.state != states('input_boolean.espyrain_bypass_interval_check')
+        # # }}
+  # # action:
+    # # - service: "input_boolean.turn_{{ trigger.to_state.state }}"
+      # # target:
+        # # entity_id: input_boolean.espyrain_bypass_interval_check
 
 # ════════════════════════════════════════════════════════════════
 # REVERSE SYNC: ESP -> HA (optional, for full state visibility)

@@ -976,11 +976,11 @@ espyrain_sync_lock:
 ############################################################
 
 espyrain_winter_mode:
-  name: "Sprinkler Winter Mode"
+  name: "Winter Mode"
   icon: mdi:snowflake
 
 espyrain_winter_auto_enable:
-  name: "Sprinkler Winter Auto Enable"
+  name: "Winter Auto Enable"
   icon: mdi:calendar-sync
 
 # Backup of which schedules were enabled before shutdown
@@ -1020,7 +1020,7 @@ espyrain_schedule_8_backup:
 # ════════════════════════════════════════════════════════════════
 # INTERVAL CHECK BYPASS SWITCH
 # ════════════════════════════════════════════════════════════════ 
-sprinkler_bypass_interval_check:
+espyrain_bypass_interval_check:
   name: "Bypass Interval Check"
   icon: mdi:repeat-off
   # initial removed to preserve last HA state across restarts

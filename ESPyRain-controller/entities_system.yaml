@@ -99,7 +99,7 @@ switch:
           value: '0'
 
   - platform: template
-    name: "Sprinkler Controller Bypass Interval Check"
+    name: "Controller Bypass Interval Check"
     id: bypass_interval_check_switch
     restore_mode: DISABLED
     lambda: |-

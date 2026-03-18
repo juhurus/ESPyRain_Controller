@@ -72,7 +72,7 @@
         value: "{{ states('input_number.espyrain_schedule_4_interval') | int }}"
 
 # ESP heartbeat service
-- id: sprinkler_esp_heartbeat
+- id: espyrain_esp_heartbeat
   alias: "ESPyRain: ESP Heartbeat"
   description: "Send heartbeat to ESP every 60 seconds to detect HA disconnection"
   trigger:

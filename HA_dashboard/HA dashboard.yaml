@@ -516,7 +516,7 @@ views:
 
                   ### 🟢 ***Next Run:*** 
 
-                   {% set raw = states('sensor.sprinkler_next_scheduled_run') %}
+                   {% set raw = states('sensor.espyrain_next_scheduled_run') %}
                    {% if raw in ['unknown', 'unavailable', 'None', ''] %}
                      No upcoming runs
                    {% elif raw.startswith('Blocked') or raw.startswith('No runs') %}
@@ -540,13 +540,13 @@ views:
 
                   ### 🕐 ***Today's Schedule:*** 
 
-                   {{ states('sensor.sprinkler_today_remaining_schedules') }}
+                   {{ states('sensor.espyrain_today_remaining_schedules') }}
 
                    ---
 
                   ### 📅 ***Tomorrow:*** 
 
-                   {{ states('sensor.sprinkler_tomorrow_schedules') }}
+                   {{ states('sensor.espyrain_tomorrow_schedules') }}
                 card_mod:
                   style: >
                     {% set rain_delay =
@@ -593,7 +593,7 @@ views:
                     }
           - type: markdown
             content: >
-              {% set forecast = state_attr('sensor.sprinkler_7_day_forecast',
+              {% set forecast = state_attr('sensor.espyrain_7_day_forecast',
               'days') %} {%
 
               if forecast %}
@@ -919,7 +919,7 @@ views:
 
                   ### 🟢 ***Next Run:*** 
 
-                   {% set raw = states('sensor.sprinkler_next_scheduled_run') %}
+                   {% set raw = states('sensor.espyrain_next_scheduled_run') %}
                    {% if raw in ['unknown', 'unavailable', 'None', ''] %}
                      No upcoming runs
                    {% elif raw.startswith('Blocked') or raw.startswith('No runs') %}
@@ -943,13 +943,13 @@ views:
 
                   ### 🕐 ***Today's Schedule:*** 
 
-                   {{ states('sensor.sprinkler_today_remaining_schedules') }}
+                   {{ states('sensor.espyrain_today_remaining_schedules') }}
 
                    ---
 
                   ### 📅 ***Tomorrow:*** 
 
-                   {{ states('sensor.sprinkler_tomorrow_schedules') }}
+                   {{ states('sensor.espyrain_tomorrow_schedules') }}
                 card_mod:
                   style: >
                     {% set rain_delay =
@@ -999,7 +999,7 @@ views:
                       entity: >-
                         binary_sensor.espyrain_schedule_1_blocked_by_interval_today
                       state: 'on'
-                    - entity: input_boolean.sprinkler_bypass_interval_check
+                    - entity: input_boolean.espyrain_bypass_interval_check
                       state: 'off'
                   card:
                     type: entities
@@ -1244,7 +1244,7 @@ views:
                       entity: >-
                         binary_sensor.espyrain_schedule_2_blocked_by_interval_today
                       state: 'on'
-                    - entity: input_boolean.sprinkler_bypass_interval_check
+                    - entity: input_boolean.espyrain_bypass_interval_check
                       state: 'off'
                   card:
                     type: entities
@@ -1489,7 +1489,7 @@ views:
                       entity: >-
                         binary_sensor.espyrain_schedule_3_blocked_by_interval_today
                       state: 'on'
-                    - entity: input_boolean.sprinkler_bypass_interval_check
+                    - entity: input_boolean.espyrain_bypass_interval_check
                       state: 'off'
                   card:
                     type: entities
@@ -1734,7 +1734,7 @@ views:
                       entity: >-
                         binary_sensor.espyrain_schedule_4_blocked_by_interval_today
                       state: 'on'
-                    - entity: input_boolean.sprinkler_bypass_interval_check
+                    - entity: input_boolean.espyrain_bypass_interval_check
                       state: 'off'
                   card:
                     type: entities
@@ -1979,7 +1979,7 @@ views:
                       entity: >-
                         binary_sensor.espyrain_schedule_5_blocked_by_interval_today
                       state: 'on'
-                    - entity: input_boolean.sprinkler_bypass_interval_check
+                    - entity: input_boolean.espyrain_bypass_interval_check
                       state: 'off'
                   card:
                     type: entities
@@ -2224,7 +2224,7 @@ views:
                       entity: >-
                         binary_sensor.espyrain_schedule_6_blocked_by_interval_today
                       state: 'on'
-                    - entity: input_boolean.sprinkler_bypass_interval_check
+                    - entity: input_boolean.espyrain_bypass_interval_check
                       state: 'off'
                   card:
                     type: entities
@@ -2469,7 +2469,7 @@ views:
                       entity: >-
                         binary_sensor.espyrain_schedule_7_blocked_by_interval_today
                       state: 'on'
-                    - entity: input_boolean.sprinkler_bypass_interval_check
+                    - entity: input_boolean.espyrain_bypass_interval_check
                       state: 'off'
                   card:
                     type: entities
@@ -2714,7 +2714,7 @@ views:
                       entity: >-
                         binary_sensor.espyrain_schedule_8_blocked_by_interval_today
                       state: 'on'
-                    - entity: input_boolean.sprinkler_bypass_interval_check
+                    - entity: input_boolean.espyrain_bypass_interval_check
                       state: 'off'
                   card:
                     type: entities
@@ -3063,6 +3063,14 @@ views:
                       0%, 100% { border-left-color: #00FF00; border-right-color: #00FF00; }
                       50% { border-left-color: transparent; border-right-color: transparent; }
                     }
+
+                    :host {
+                      --time-picker-elements-background-color: #254650;
+                      --time-picker-icon-color: #9FE7E3;
+                      --time-picker-text-color: #ffffff;
+                      --time-picker-accent-color: #00CED1;
+                      --time-picker-off-color: #555555;
+                    }        
               - type: horizontal-stack
                 cards:
                   - type: custom:button-card
@@ -3780,7 +3788,7 @@ views:
             cards:
               - type: markdown
                 content: |
-                  # 🌱 ESPyRain Stats
+                  # 🌱 Sprinkler Stats
                 card_mod:
                   style: >
                     {% set status = states('sensor.espyrain_controller_status')
@@ -4298,7 +4306,7 @@ views:
             cards:
               - type: markdown
                 content: |
-                  # 🌱 ESPyRain Stations
+                  # 🌱 Sprinkler Stations
                 card_mod:
                   style: >
                     {% set status = states('sensor.espyrain_controller_status')
@@ -6816,7 +6824,7 @@ views:
             cards:
               - type: markdown
                 content: |
-                  # 🌱 ESPyRain Controller Config
+                  # 🌱 Controller Config
                 card_mod:
                   style: >
                     {% set status = states('sensor.espyrain_controller_status')
@@ -7038,21 +7046,21 @@ views:
                     border-left: 5px solid #FF9800;
                   }
           - type: entities
-            title: Winter Mode
+            title: Disable Schedules
             entities:
               - type: custom:fold-entity-row
                 head:
                   type: section
-                  label: ❄ Winter Mode
+                  label: ❄ Disable Schedules
                 open: false
                 entities:
                   - type: custom:hui-markdown-card
-                    content: |
-                      When enabled schedules will not run automatically
+                    content: >
+                      ### When enabled schedules will not run automatically.
 
-                      Manual runs and schedules can be started when
 
-                      required.
+                      **NOTE:**  Schedules and Stations can still be started
+                      manually when required.
                     card_mod:
                       style: |
                         ha-card {
@@ -7308,12 +7316,12 @@ views:
               - entity: sensor.espyrain_controller_esp_date_time
                 name: ESP Date/Time
               - type: custom:template-entity-row
-                entity: sensor.sprinkler_esp_time_drift_seconds
+                entity: sensor.espyrain_esp_time_drift_seconds
                 name: ESP Time Drift
                 icon: mdi:clock-alert-outline
                 state: >
                   {% set drift =
-                  states('sensor.sprinkler_esp_time_drift_seconds') %} {% if
+                  states('sensor.espyrain_esp_time_drift_seconds') %} {% if
                   drift in ['unknown', 'unavailable', ''] %}
                     Unknown
                   {% else %}

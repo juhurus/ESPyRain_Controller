@@ -85,7 +85,7 @@
             target:
               entity_id: "{{ schedule_enabled }}"
     
-    # Send notification
+  # Send notification
 - id: espyrain_rain_delay_set_date
   alias: "ESPyRain: Set Rain Delay End Date"
   trigger:
@@ -127,17 +127,17 @@
 # SYNC BYPASS SWITCH TO ESP
 # Add to your automations
 # ════════════════════════════════════════════════════════════════
-- id: sync_bypass_interval_check
+- id: espyrain_sync_bypass_interval_check
   alias: "ESPyRain: Sync Bypass Interval Check to ESP"
   trigger:
     - platform: state
-      entity_id: input_boolean.sprinkler_bypass_interval_check
+      entity_id: input_boolean.espyrain_bypass_interval_check
   condition:
     - condition: state
       entity_id: input_boolean.espyrain_sync_lock
       state: "off"
   action:
-    - service: "switch.turn_{{ 'on' if is_state('input_boolean.sprinkler_bypass_interval_check', 'on') else 'off' }}"
+    - service: "switch.turn_{{ 'on' if is_state('input_boolean.espyrain_bypass_interval_check', 'on') else 'off' }}"
       target:
         entity_id: switch.espyrain_controller_bypass_interval_check          
           
@@ -145,7 +145,7 @@
 # REVERSE SYNC: ESP → HA ON STARTUP
 # Syncs all schedule settings FROM ESP TO HA when HA restarts
 # ════════════════════════════════════════════════════════════
-- id: sync_all_settings_from_esp_on_startup
+- id: espyrain_sync_all_settings_from_esp_on_startup
   alias: "ESPyRain: Sync All Settings FROM ESP on Startup"
   description: "Restore HA input_numbers from ESP after HA restart"
   trigger:
@@ -297,9 +297,9 @@
   mode: single
 
 # ════════════════════════════════════════════════════════════
-# STEP 3: Automation to capture elapsed time when paused
+# Automation to capture elapsed time when paused
 # ════════════════════════════════════════════════════════════
-- id: store_zone_elapsed_on_pause
+- id: espyrain_store_zone_elapsed_on_pause
   alias: "ESPyRain: Store Zone Elapsed on Pause"
   trigger:
     - platform: state
@@ -423,7 +423,7 @@
         value: "{{ states('input_text.espyrain_station_16_name') }}"
   mode: single
 
-# This makes the dropdown show S1 Front Paddock Street, etc., and respects the active station count.
+# This makes the dropdown show the Station names, and respects the active station count.
 - id: espyrain_manual_station_options
   alias: "ESPyRain: Manual Station Options"
   trigger:

@@ -68,7 +68,7 @@ espyrain_sync_esp_time_now:
                   sequence:
                     - service: notify.send_message
                       data:
-                        entity_id: !secret sprinkler_telegram_notifier
+                        entity_id: !secret espyrain_telegram_notifier
                         title: "*Sprinkler ESP Time Sync Triggered*"
                         message: >
                           Restart requested to force SNTP re-sync.
@@ -85,7 +85,7 @@ espyrain_sync_esp_time_now:
                   sequence:
                     - service: notify.send_message
                       data:
-                        entity_id: !secret sprinkler_telegram_notifier
+                        entity_id: !secret espyrain_telegram_notifier
                         title: "*Sprinkler ESP Time Sync Skipped*"
                         message: >
                           Controller is not idle ({{ states('sensor.espyrain_controller_status') }}).

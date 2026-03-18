@@ -1,0 +1,112 @@
+interval:
+  - interval: 60s
+    then:
+      - lambda: |-
+          auto now = id(esp_time).now();
+          if (!now.is_valid()) {
+            ESP_LOGW("schedule_check", "Time not valid, skipping check");
+            return;
+          }
+
+          if (id(system_master_enable) == 0) return;
+          if ((int)id(rain_delay_days) > 0) return;
+
+          uint8_t current_hour = now.hour;
+          uint8_t current_minute = now.minute;
+          uint8_t current_weekday = now.day_of_week;
+          int current_day_of_month = now.day_of_month;
+          time_t now_ts = now.timestamp;
+          time_t now_midnight = now_ts - (now.hour * 3600 + now.minute * 60 + now.second);
+
+          int num_sched = (int)id(num_schedules);
+
+          for (int sched = 1; sched <= num_sched; sched++) {
+            if (!id(get_schedule_enabled)(sched)) continue;
+
+            uint8_t sched_hour = id(get_schedule_hour)(sched);
+            uint8_t sched_minute = id(get_schedule_minute)(sched);
+            if (current_hour != sched_hour || current_minute != sched_minute) continue;
+
+            uint8_t day_mode = id(get_schedule_day_mode_type)(sched);
+            uint8_t days_bitmask = id(get_schedule_days_bitmask)(sched);
+            uint8_t interval_val = id(get_schedule_interval)(sched);
+            time_t last_run = id(get_schedule_last_run)(sched);
+            bool day_matches = false;
+
+            switch (day_mode) {
+              case 0:
+                day_matches = true;
+                break;
+
+              case 1:
+              {
+                uint8_t bitmask_bit = (current_weekday == 1) ? 6 : (current_weekday - 2);
+                day_matches = (days_bitmask & (1 << bitmask_bit)) != 0;
+                break;
+              }
+
+              case 2:
+              {
+                if (last_run == 0) {
+                  day_matches = true;
+                } else {
+                  auto last_time = ESPTime::from_epoch_local(last_run);
+                  time_t last_midnight = last_run - (last_time.hour * 3600 + last_time.minute * 60 + last_time.second);
+                  int64_t days_since = (int64_t)(now_midnight - last_midnight) / 86400;
+                  day_matches = (days_since >= interval_val);
+                }
+                break;
+              }
+
+              case 3:
+                day_matches = (current_day_of_month % 2 == 1);
+                break;
+
+              case 4:
+                day_matches = (current_day_of_month % 2 == 0);
+                break;
+
+              case 5:
+              {
+                uint8_t bitmask_bit = (current_weekday == 1) ? 6 : (current_weekday - 2);
+                day_matches = (days_bitmask & (1 << bitmask_bit)) != 0;
+                break;
+              }
+
+              default:
+                ESP_LOGW("schedule_check", "Unknown day_mode %d for schedule %d", day_mode, sched);
+                break;
+            }
+
+            if (!day_matches) {
+              if (day_mode == 2 && (id(bypass_interval_check) != 0) && last_run > 0) {
+                auto last_time = ESPTime::from_epoch_local(last_run);
+                time_t last_midnight = last_run - (last_time.hour * 3600 + last_time.minute * 60 + last_time.second);
+                if (last_midnight == now_midnight) {
+                  day_matches = true;
+                  ESP_LOGI("schedule_check", "Bypass: allowing same-day rerun for schedule %d", sched);
+                }
+              }
+              if (!day_matches) continue;
+            }
+
+            if (last_run > 0) {
+              auto last_time = ESPTime::from_epoch_local(last_run);
+              time_t last_midnight = last_run - (last_time.hour * 3600 + last_time.minute * 60 + last_time.second);
+              if (last_midnight == now_midnight && (id(bypass_interval_check) == 0)) {
+                if (day_mode != 2) continue;
+              }
+            }
+
+            ESP_LOGI("schedule_check", "AUTO-TRIGGERING Schedule %d at %02d:%02d",
+                     sched, current_hour, current_minute);
+
+            if (id(queue_schedule_run)(sched)) {
+              id(set_schedule_last_run)(sched, now_ts);
+              id(calculate_next_7_runs)(sched);
+            } else {
+              ESP_LOGW("schedule_check", "Schedule %d matched but was not queued", sched);
+            }
+
+            break;
+          }

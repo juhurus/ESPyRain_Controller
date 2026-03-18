@@ -1,0 +1,398 @@
+number:
+  - platform: template
+    name: "Number of Stations"
+    id: num_stations_number
+    min_value: 1
+    max_value: 16
+    step: 1
+    lambda: |-
+      return (int)id(num_stations);
+    set_action:
+      - globals.set:
+          id: num_stations
+          value: !lambda 'return (uint8_t)x;'
+
+  - platform: template
+    name: "Number of Schedules"
+    id: num_schedules_number
+    min_value: 1
+    max_value: 8
+    step: 1
+    lambda: |-
+      return (int)id(num_schedules);
+    set_action:
+      - globals.set:
+          id: num_schedules
+          value: !lambda 'return (uint8_t)x;'
+
+  - platform: template
+    name: "Master Valve Pin"
+    id: master_valve_pin_number
+    mode: box
+    min_value: 0
+    max_value: 48
+    step: 1
+    lambda: |-
+      return (int)id(master_valve_pin);
+    set_action:
+      - globals.set:
+          id: master_valve_pin
+          value: !lambda 'return (uint8_t)x;'
+
+  - platform: template
+    name: "Master Valve Delay ms"
+    id: master_valve_delay_number
+    min_value: -5000
+    max_value: 5000
+    step: 500
+    lambda: |-
+      return (int)id(master_valve_delay_ms);
+    set_action:
+      - globals.set:
+          id: master_valve_delay_ms
+          value: !lambda 'return (int16_t)x;'
+
+  - platform: template
+    name: "Rain Delay Days"
+    id: rain_delay_days_number
+    mode: box
+    min_value: 0
+    max_value: 30
+    step: 1
+    icon: mdi:weather-rainy
+    lambda: |-
+      return (int)id(rain_delay_days);
+    set_action:
+      - globals.set:
+          id: rain_delay_days
+          value: !lambda 'return (uint8_t)x;'
+
+  - platform: template
+    name: "Soak Rest Minutes"
+    id: soak_rest_minutes_number
+    mode: box
+    min_value: 0
+    max_value: 120
+    step: 1
+    icon: mdi:timer-sand
+    lambda: |-
+      return (int)id(soak_rest_minutes);
+    set_action:
+      - globals.set:
+          id: soak_rest_minutes
+          value: !lambda 'return (uint8_t)x;'
+
+switch:
+  - platform: template
+    name: "Master Valve Enabled"
+    id: master_valve_enabled_switch
+    restore_mode: DISABLED
+    lambda: |-
+      return id(master_valve_enabled) != 0;
+    turn_on_action:
+      - globals.set:
+          id: master_valve_enabled
+          value: '1'
+    turn_off_action:
+      - globals.set:
+          id: master_valve_enabled
+          value: '0'
+
+  - platform: template
+    name: "Controller Bypass Interval Check"
+    id: bypass_interval_check_switch
+    restore_mode: DISABLED
+    lambda: |-
+      return id(bypass_interval_check) != 0;
+    turn_on_action:
+      - globals.set:
+          id: bypass_interval_check
+          value: '1'
+    turn_off_action:
+      - globals.set:
+          id: bypass_interval_check
+          value: '0'
+    icon: mdi:repeat-off
+
+  - platform: template
+    name: "Winter Mode"
+    id: system_master_enable_switch
+    restore_mode: DISABLED
+    lambda: |-
+      return id(system_master_enable) == 0;
+    turn_on_action:
+      - globals.set:
+          id: system_master_enable
+          value: '0'
+    turn_off_action:
+      - globals.set:
+          id: system_master_enable
+          value: '1'
+    icon: mdi:snowflake
+
+script:
+  - id: run_next_station
+    mode: restart
+    then:
+      - lambda: |-
+          id(queue_index) = id(queue_index) + 1;
+          int idx = id(queue_index);
+          int queue_size = (int)id(queue_tracker).size();
+
+          if (idx >= queue_size) {
+            if (id(current_station) > 0) {
+              id(turn_off_station)(id(current_station));
+              id(current_station) = 0;
+            }
+
+            if (id(master_valve_enabled) != 0) {
+              int mv_pin = (int)id(master_valve_pin);
+              if (mv_pin > 0) {
+                gpio_set_level((gpio_num_t)(int)mv_pin, 1);
+                ESP_LOGI("valve", "Master valve OFF");
+              }
+            }
+
+            id(is_running) = false;
+            id(is_paused) = false;
+            id(current_station) = 0;
+            id(current_valve_runtime) = 0;
+            id(time_remaining) = 0;
+            id(total_queue_time_remaining) = 0;
+            id(queue_total_time_initial) = 0;
+            id(queue_index) = -1;
+            id(queue_tracker).clear();
+            id(queue_durations).clear();
+            id(queue_schedule_sources).clear();
+            id(queue_cycle_breaks).clear();
+            id(active_program_name) = "Idle";
+            id(current_schedule_number) = 0;
+            id(master_reprime_pending) = false;
+            id(pending_station_start) = false;
+            id(pending_master_after_station) = false;
+            id(pending_station_number) = 0;
+            id(pending_station_duration_sec) = 0;
+            id(pending_station_start_ms) = 0;
+            ESP_LOGI("queue", "All stations complete");
+            return;
+          }
+
+          if (id(current_station) > 0) {
+            id(turn_off_station)(id(current_station));
+          }
+
+          int station_num = id(queue_tracker)[idx];
+          uint32_t duration_sec = id(queue_durations)[idx];
+          int schedule_num = 0;
+          if (idx < (int)id(queue_schedule_sources).size()) {
+            schedule_num = id(queue_schedule_sources)[idx];
+          }
+
+          bool first_station = (idx == 0) || id(master_reprime_pending);
+          int mv_pin = 0;
+          int16_t delay_ms = 0;
+          if (first_station && (id(master_valve_enabled) != 0)) {
+            mv_pin = (int)id(master_valve_pin);
+            delay_ms = (int16_t)id(master_valve_delay_ms);
+            if (delay_ms > 4500) delay_ms = 4500;
+            if (delay_ms < -4500) delay_ms = -4500;
+          }
+          id(master_reprime_pending) = false;
+
+          if (first_station && (id(master_valve_enabled) != 0) && delay_ms > 0 && mv_pin > 0) {
+            gpio_set_direction((gpio_num_t)(int)mv_pin, GPIO_MODE_OUTPUT);
+            gpio_set_level((gpio_num_t)(int)mv_pin, 0);
+
+            id(current_schedule_number) = schedule_num;
+            id(pending_station_start) = true;
+            id(pending_master_after_station) = false;
+            id(pending_station_number) = station_num;
+            id(pending_station_duration_sec) = duration_sec;
+            id(pending_station_start_ms) = millis() + (uint32_t)delay_ms;
+
+            ESP_LOGI("valve", "Master valve ON [GPIO%d], station S%d scheduled in %dms",
+                     mv_pin, station_num, delay_ms);
+            return;
+          }
+
+          if (first_station && (id(master_valve_enabled) != 0) && delay_ms == 0 && mv_pin > 0) {
+            gpio_set_direction((gpio_num_t)(int)mv_pin, GPIO_MODE_OUTPUT);
+            gpio_set_level((gpio_num_t)(int)mv_pin, 0);
+            ESP_LOGI("valve", "Master valve ON [GPIO%d] (simultaneous)", mv_pin);
+          }
+
+          id(current_station) = station_num;
+          id(current_schedule_number) = schedule_num;
+          id(current_valve_runtime) = (int)duration_sec;
+          id(time_remaining) = (int)duration_sec;
+          id(turn_on_station)(station_num);
+
+          std::string name = id(get_station_name)(station_num);
+          id(active_program_name) = name;
+          ESP_LOGI("queue", "Running S%d (%s) - %d of %d - %d seconds",
+                   station_num, name.c_str(), idx + 1, queue_size, duration_sec);
+
+          if (first_station && (id(master_valve_enabled) != 0) && delay_ms < 0 && mv_pin > 0) {
+            int abs_delay = -delay_ms;
+            id(pending_station_start) = true;
+            id(pending_master_after_station) = true;
+            id(pending_station_number) = station_num;
+            id(pending_station_duration_sec) = duration_sec;
+            id(pending_station_start_ms) = millis() + (uint32_t)abs_delay;
+            ESP_LOGI("valve", "Master valve ON [GPIO%d] scheduled in %dms after station start",
+                     mv_pin, abs_delay);
+          }
+
+button:
+  - platform: template
+    name: "Pause"
+    id: pause_button
+    icon: mdi:pause
+    on_press:
+      - lambda: |-
+          if (!id(is_running)) {
+            ESP_LOGW("control", "Pause: nothing is running");
+            return;
+          }
+          if (id(is_paused)) {
+            ESP_LOGW("control", "Pause: already paused");
+            return;
+          }
+
+          id(is_paused) = true;
+          id(paused_timestamp) = millis();
+
+          if (id(current_station) > 0) {
+            id(turn_off_station)(id(current_station));
+          }
+
+          if (id(master_valve_enabled) != 0) {
+            int mv_pin = (int)id(master_valve_pin);
+            if (mv_pin > 0) {
+              gpio_set_level((gpio_num_t)(int)mv_pin, 1);
+            }
+          }
+
+          ESP_LOGI("control", "PAUSED - S%d with %d sec remaining",
+                   id(current_station), id(time_remaining));
+
+  - platform: template
+    name: "Resume"
+    id: resume_button
+    icon: mdi:play
+    on_press:
+      - lambda: |-
+          if (!id(is_running)) {
+            ESP_LOGW("control", "Resume: nothing is running");
+            return;
+          }
+          if (!id(is_paused)) {
+            ESP_LOGW("control", "Resume: not paused");
+            return;
+          }
+
+          uint32_t paused_duration = millis() - id(paused_timestamp);
+          ESP_LOGI("control", "Resuming after %d ms pause", paused_duration);
+
+          id(is_paused) = false;
+
+          if (id(master_valve_enabled) != 0) {
+            int mv_pin = (int)id(master_valve_pin);
+            if (mv_pin > 0) {
+              gpio_set_direction((gpio_num_t)(int)mv_pin, GPIO_MODE_OUTPUT);
+              gpio_set_level((gpio_num_t)(int)mv_pin, 0);
+            }
+          }
+
+          if (id(current_station) > 0) {
+            id(turn_on_station)(id(current_station));
+          }
+
+          ESP_LOGI("control", "RESUMED - S%d with %d sec remaining",
+                   id(current_station), id(time_remaining));
+
+  - platform: template
+    name: "Stop"
+    id: stop_button
+    icon: mdi:stop
+    on_press:
+      - lambda: |-
+          if (!id(is_running)) {
+            ESP_LOGW("control", "Stop: nothing is running");
+            return;
+          }
+
+          ESP_LOGI("control", "STOP requested");
+
+          id(turn_off_all_stations)();
+
+          id(queue_tracker).clear();
+          id(queue_durations).clear();
+          id(queue_schedule_sources).clear();
+          id(queue_cycle_breaks).clear();
+          id(queue_index) = -1;
+          id(current_station) = 0;
+          id(current_valve_runtime) = 0;
+          id(is_running) = false;
+          id(is_paused) = false;
+          id(soak_resting) = false;
+          id(soak_rest_remaining) = 0;
+          id(soak_cycles_remaining) = 0;
+          id(master_reprime_pending) = false;
+          id(time_remaining) = 0;
+          id(total_queue_time_remaining) = 0;
+          id(queue_total_time_initial) = 0;
+          id(active_program_name) = "Idle";
+          id(current_schedule_number) = 0;
+          id(pending_station_start) = false;
+          id(pending_master_after_station) = false;
+          id(pending_station_number) = 0;
+          id(pending_station_duration_sec) = 0;
+          id(pending_station_start_ms) = 0;
+
+          ESP_LOGI("control", "System STOPPED -- all valves OFF");
+
+  - platform: template
+    name: "Recall Settings"
+    id: recall_settings_button
+    icon: mdi:restore
+    on_press:
+      - lambda: |-
+          ESP_LOGI("boot", "RECALLING SETTINGS FROM STORAGE");
+          for (int i = 1; i <= 16; i++) {
+            bool enabled = false;
+            std::string name = "";
+            uint8_t runtime = 0;
+            switch (i) {
+              case 1: enabled = id(station_1_enabled); name = id(station_1_name); runtime = id(station_1_runtime); break;
+              case 2: enabled = id(station_2_enabled); name = id(station_2_name); runtime = id(station_2_runtime); break;
+              case 3: enabled = id(station_3_enabled); name = id(station_3_name); runtime = id(station_3_runtime); break;
+              case 4: enabled = id(station_4_enabled); name = id(station_4_name); runtime = id(station_4_runtime); break;
+              case 5: enabled = id(station_5_enabled); name = id(station_5_name); runtime = id(station_5_runtime); break;
+              case 6: enabled = id(station_6_enabled); name = id(station_6_name); runtime = id(station_6_runtime); break;
+              case 7: enabled = id(station_7_enabled); name = id(station_7_name); runtime = id(station_7_runtime); break;
+              case 8: enabled = id(station_8_enabled); name = id(station_8_name); runtime = id(station_8_runtime); break;
+              case 9: enabled = id(station_9_enabled); name = id(station_9_name); runtime = id(station_9_runtime); break;
+              case 10: enabled = id(station_10_enabled); name = id(station_10_name); runtime = id(station_10_runtime); break;
+              case 11: enabled = id(station_11_enabled); name = id(station_11_name); runtime = id(station_11_runtime); break;
+              case 12: enabled = id(station_12_enabled); name = id(station_12_name); runtime = id(station_12_runtime); break;
+              case 13: enabled = id(station_13_enabled); name = id(station_13_name); runtime = id(station_13_runtime); break;
+              case 14: enabled = id(station_14_enabled); name = id(station_14_name); runtime = id(station_14_runtime); break;
+              case 15: enabled = id(station_15_enabled); name = id(station_15_name); runtime = id(station_15_runtime); break;
+              case 16: enabled = id(station_16_enabled); name = id(station_16_name); runtime = id(station_16_runtime); break;
+            }
+            ESP_LOGI("boot", "  S%d: %s [%s] %d min", i, name.c_str(),
+                     enabled ? "ENABLED" : "disabled", runtime);
+          }
+          ESP_LOGI("boot", "Bypass Interval Check: %s",
+                   (id(bypass_interval_check) != 0) ? "ON" : "OFF");
+
+  - platform: restart
+    name: "Restart ESP"
+    id: restart_esp
+    icon: mdi:restart
+
+
+
+
+

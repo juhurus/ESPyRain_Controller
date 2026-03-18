@@ -1,0 +1,126 @@
+############################################################
+#                                                          #
+#          SPRINKLER SCHEDULE HELPER SCRIPTS               #
+#                                                          #
+############################################################
+# Saved as: config/scripts/scripts_espyrain_controller.yaml
+
+# ============================================================
+# 
+# ============================================================
+espyrain_manual_run:
+  alias: "ESPyRain: Manual Run"
+  sequence:
+    - variables:
+        selected: "{{ states('input_select.espyrain_manual_station') }}"
+        station_num: >
+          {% set token = (selected | string).split(' ')[0] %}
+          {{ token | regex_replace('[^0-9]', '') | int(0) }}
+        time_str: "{{ states('input_datetime.espyrain_manual_runtime') }}"
+        duration_sec: >
+          {% if time_str not in ['unknown', 'unavailable', 'None', ''] and ':' in time_str %}
+            {% set p = time_str.split(':') %}
+            {% set h = p[0] | int(0) %}
+            {% set m = p[1] | int(0) if p | length > 1 else 0 %}
+            {{ [((h * 3600) + (m * 60)), 60] | max }}
+          {% else %}
+            600
+          {% endif %}
+    - choose:
+        - conditions:
+            - condition: template
+              value_template: "{{ station_num >= 1 }}"
+          sequence:
+            - service: esphome.espyrain_controller_manual_queue_station
+              data:
+                station_num: "{{ station_num }}"
+                duration_sec: "{{ duration_sec }}"
+      default:
+        - service: system_log.write
+          data:
+            level: warning
+            message: >
+              Manual run aborted. selected={{ selected }}, station_num={{ station_num }},
+              runtime={{ time_str }}, controller={{ states('binary_sensor.espyrain_controller_ha_link') }}
+
+# ============================================================
+# 
+# ============================================================
+espyrain_sync_esp_time_now:
+  alias: "ESPyRain: Sync ESP Time Now"
+  icon: mdi:clock-sync
+  mode: single
+  sequence:
+    - choose:
+        - conditions:
+            - condition: state
+              entity_id: sensor.espyrain_controller_status
+              state: "Idle"
+          sequence:
+            - service: button.press
+              target:
+                entity_id: button.espyrain_controller_restart_esp
+            - choose:
+                - conditions:
+                    - condition: state
+                      entity_id: input_boolean.espyrain_notifications
+                      state: "on"
+                  sequence:
+                    - service: notify.send_message
+                      data:
+                        entity_id: !secret espyrain_telegram_notifier
+                        title: "*Sprinkler ESP Time Sync Triggered*"
+                        message: >
+                          Restart requested to force SNTP re-sync.
+                          Time: {{ now().strftime('%Y-%m-%d %H:%M:%S') }}
+        - conditions:
+            - condition: template
+              value_template: "{{ states('sensor.espyrain_controller_status') != 'Idle' }}"
+          sequence:
+            - choose:
+                - conditions:
+                    - condition: state
+                      entity_id: input_boolean.espyrain_notifications
+                      state: "on"
+                  sequence:
+                    - service: notify.send_message
+                      data:
+                        entity_id: !secret espyrain_telegram_notifier
+                        title: "*Sprinkler ESP Time Sync Skipped*"
+                        message: >
+                          Controller is not idle ({{ states('sensor.espyrain_controller_status') }}).
+                          Time sync restart was not performed.
+
+# ============================================================
+# used to start stations from a button on an image
+# ============================================================
+espyrain_manual_run_station:
+  alias: "ESPyRain: Manual Run Station"
+  mode: single
+  fields:
+    station_num:
+      required: true
+      selector:
+        number:
+          min: 1
+          max: 16
+          step: 1
+          mode: box
+  sequence:
+    - variables:
+        time_str: "{{ states('input_datetime.espyrain_manual_runtime') }}"
+        duration_sec: >
+          {% if time_str not in ['unknown', 'unavailable', 'None', ''] and ':' in time_str %}
+            {% set p = time_str.split(':') %}
+            {% set h = p[0] | int(0) %}
+            {% set m = p[1] | int(0) if p | length > 1 else 0 %}
+            {{ [((h * 3600) + (m * 60)), 60] | max }}
+          {% else %}
+            600
+          {% endif %}
+    - service: esphome.espyrain_controller_manual_queue_station
+      data:
+        station_num: "{{ station_num | int }}"
+        duration_sec: "{{ duration_sec | int }}"
+
+

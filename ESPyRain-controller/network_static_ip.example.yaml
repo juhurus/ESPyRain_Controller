@@ -1,0 +1,15 @@
+# Optional local override for static IP networking.
+# Do not include this in the shared package by default.
+#
+# Example usage from a local wrapper YAML:
+# packages:
+#   espyrain_controller: !include ESP_sprinkler-controller/base.yaml
+#
+# wifi:
+#   manual_ip: !include ESP_sprinkler-controller/network_static_ip.example.yaml
+
+static_ip: 192.168.1.87
+gateway: 192.168.1.1
+subnet: 255.255.255.0
+dns1: 192.168.1.50
+dns2: 8.8.8.8

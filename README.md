@@ -1,4 +1,4 @@
-![[espyrain_controller_head.png]]
+![Sprinkler Header](./screenshots/espyrain_controller_head.png)
 # ESPyRain Sprinkler Controller for Home Assistant
 
 An ESP32-based sprinkler controller with Home Assistant integration, designed to keep scheduled irrigation running autonomously even if HA or Wi-Fi is temporarily unavailable..
@@ -64,7 +64,7 @@ ESPyRain configuration options from HA without restarting HA or reflashing the E
 
 Note: Using day mode "Every 2x Days" has the advantage that your sprinklers will not water two days in a row or miss watering days at the end of a month like it always happens with "Odd/Even". 
 
-![[every2days.png]]
+![[./screenshots/every2days.png]]
 ### Core Irrigation Control
 
 - Bore Pump / Master Valve
@@ -101,7 +101,7 @@ Note: Using day mode "Every 2x Days" has the advantage that your sprinklers will
 - Controller-side queue execution
 - No cloud dependency
 
-![[controller_offline.png]]
+![[./screenshots/controller_offline.png]]
 ### Home Assistant Integration
 
 - Home Assistant package-based installation
@@ -217,7 +217,7 @@ This is useful for installations where:
 
 Note: pump / master valve behavior should always be validated for each hardware installation before relying on it in production.
 
-![[master_valve_bore_pump_card.png]]
+![[./screenshots/master_valve_bore_pump_card.png]]
 ## Control Options
 
 You can control the system through:

@@ -36,7 +36,7 @@
           {% endif %}
     - service: notify.send_message
       data:
-        entity_id: !secret espyrain_telegram_notifier
+        entity_id: !secret telegram_notifier
         title: >
           {% if schedule_num > 0 %}
             *🟢 Sprinkler Schedule {{ schedule_num }} Started*
@@ -73,7 +73,7 @@
         milliseconds: 300
     - service: notify.send_message
       data:
-        entity_id: !secret espyrain_telegram_notifier
+        entity_id: !secret telegram_notifier
         title: "🛑 *Sprinkler Run Stopped* 🛑"
         message: >
           Stopped manually at {{ now().strftime('%H:%M:%S') }}.
@@ -101,7 +101,7 @@
   action:
     - service: notify.send_message
       data:
-        entity_id: !secret espyrain_telegram_notifier
+        entity_id: !secret telegram_notifier
         title: "🛑 *Sprinkler Run Completed* 🛑"
         message: >
           Completed {{ trigger.from_state.state if trigger.from_state is not none else 'n/a' }} at {{ now().strftime('%H:%M:%S') }}.
@@ -143,7 +143,7 @@
           {{ states('input_text.espyrain_station_' ~ n ~ '_name') }}
     - service: notify.send_message
       data:
-        entity_id: !secret espyrain_telegram_notifier
+        entity_id: !secret telegram_notifier
         title: "✅ *Station Started*"
         message: >
           💧 S{{ station_num }} {{ station_name }}
@@ -192,7 +192,7 @@
         runtime_sec: "{{ (as_timestamp(now()) - as_timestamp(trigger.from_state.last_changed)) | int(0) }}"
     - service: notify.send_message
       data:
-        entity_id: !secret espyrain_telegram_notifier
+        entity_id: !secret telegram_notifier
         title: "❌ *Station Finished*"
         message: >
           💧 S{{ station_num }} {{ station_name }}
@@ -215,7 +215,7 @@
   action:
     - service: notify.send_message
       data:
-        entity_id: !secret espyrain_telegram_notifier
+        entity_id: !secret telegram_notifier
         title: "⏸ *Sprinkler Paused*"
         message: >
           🕒 Paused at {{ now().strftime('%H:%M:%S') }}
@@ -241,7 +241,7 @@
   action:
     - service: notify.send_message
       data:
-        entity_id: !secret espyrain_telegram_notifier
+        entity_id: !secret telegram_notifier
         title: "▶ *Sprinkler Resumed*"
         message: >
           🕒 Resumed at {{ now().strftime('%H:%M:%S') }}
@@ -288,7 +288,7 @@
   action:
     - service: notify.send_message
       data:
-        entity_id: !secret espyrain_telegram_notifier
+        entity_id: !secret telegram_notifier
         title: "🕒 *Station Runtime Updated*"
         message: >
           {{ trigger.to_state.attributes.friendly_name }}
@@ -309,7 +309,7 @@
   action:
     - service: notify.send_message
       data:
-        entity_id: !secret espyrain_telegram_notifier
+        entity_id: !secret telegram_notifier
         title: "✅ *Sprinkler Controller Online*"
         message: >
           🌍 Controller connected at {{ now().strftime('%H:%M:%S') }}
@@ -332,7 +332,7 @@
   action:
     - service: notify.send_message
       data:
-        entity_id: !secret espyrain_telegram_notifier
+        entity_id: !secret telegram_notifier
         title: "🚨 *Sprinkler Controller Offline* 🚨"
         message: >
           📵 Controller disconnected at {{ now().strftime('%H:%M:%S') }}.
@@ -351,7 +351,7 @@
   action:
     - service: notify.send_message
       data:
-        entity_id: !secret espyrain_telegram_notifier
+        entity_id: !secret telegram_notifier
         title: >
           {% if is_state('switch.espyrain_controller_winter_mode', 'on') %}
             Winter Mode Enabled
@@ -388,7 +388,7 @@
         new_days: "{{ trigger.to_state.state | int(0) }}"
     - service: notify.send_message
       data:
-        entity_id: !secret espyrain_telegram_notifier
+        entity_id: !secret telegram_notifier
         title: "⛈ *Rain Delay Updated*"
         message: >
           📅 Rain delay: {{ old_days }} -> {{ new_days }} day(s).
@@ -432,7 +432,7 @@
           {% endif %}
     - service: notify.send_message
       data:
-        entity_id: !secret espyrain_telegram_notifier
+        entity_id: !secret telegram_notifier
         title: "*Sprinkler ESP Time Drift Detected*"
         message: >
           Drift is {{ drift_abs }}s (ESP {{ direction }}) for at least 10 minutes.
@@ -482,7 +482,7 @@
           sequence:
             - service: notify.send_message
               data:
-                entity_id: !secret espyrain_telegram_notifier
+                entity_id: !secret telegram_notifier
                 title: "*Sprinkler ESP Time Resync Failed*"
                 message: >
                   Auto-resync attempted (ESP restart) but drift is still high.
@@ -500,7 +500,7 @@
           sequence:
             - service: notify.send_message
               data:
-                entity_id: !secret espyrain_telegram_notifier
+                entity_id: !secret telegram_notifier
                 title: "*Sprinkler ESP Time Resync Successful*"
                 message: >
                   Auto-resync completed successfully.
@@ -523,7 +523,7 @@
         
     - service: notify.send_message
       data:
-        entity_id: !secret espyrain_telegram_notifier
+        entity_id: !secret telegram_notifier
         title: "*🔗 S3 S4 S7 Active*"
         message: >
           S3 Small Island started → 
@@ -554,7 +554,7 @@
   action:
     - service: notify.send_message
       data:
-        entity_id: !secret espyrain_telegram_notifier
+        entity_id: !secret telegram_notifier
         title: "*🌡️ Seasonal Adjustment Changed*"
         message: >
           {{ trigger.to_state.attributes.friendly_name }}: {{ (trigger.to_state.state | float(100)) | round(0) }}%

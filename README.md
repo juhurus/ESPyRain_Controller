@@ -101,7 +101,7 @@ Note: Using day mode "Every 2x Days" has the advantage that your sprinklers will
 - Controller-side queue execution
 - No cloud dependency
 
-![[./screenshots/controller_offline.png]]
+![Controller Offline](./screenshots/controller_offline.png)
 ### Home Assistant Integration
 
 - Home Assistant package-based installation
@@ -152,7 +152,7 @@ The ESP32 is the actual sprinkler controller. It is responsible for:
 
 This is what allows the system to keep watering on schedule even if Home Assistant or Wi-Fi is offline.
 
-![Sprinkler Controller](./screenshots/upcoming_watering.png)
+![Scheduled watering](./screenshots/upcoming_watering.png)
 
 ### Home Assistant Layer
 

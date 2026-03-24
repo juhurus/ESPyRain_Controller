@@ -1,87 +1,177 @@
-# ESPyRain - ESPHome Sprinkler Controller for Home Assistant
+# ESPyRain Controller Install Checklist
+This guide assumes you already have Home Assistant and ESPHome installed, and that you can access your Home Assistant file system through SSH, Samba, Studio Code Server, or the File Editor add-on.
+## 1. Copy the project files into Home Assistant
+Download the ZIP from:
+- `https://github.com/juhurus/ESPyRain_Controller`
 
-## Install Checklist
+Unpack it, then treat your Home Assistant config folder as the root, usually:
+- `/config/`
 
-### 1. Preferred HA layout
-Use the package layout as the primary source:
-- packages/espyrain_for_home_assistant.yaml
-- package_sources/espyrain_for_home_assistant/
+Note that there are two secrets.yaml files one for HA and the other for ESPHome.
 
-HA must include packages in configuration.yaml:
+Your final layout should look like this:
 
-`yaml
-homeassistant:
-  packages: !include_dir_named packages
-`
-
-Legacy compatibility files still exist under HA_files/, but they are no longer the source of truth.
-
-Included HA domains in the package:
-- input_boolean
-- input_datetime
-- input_number
-- input_select
-- input_text
-- utomation
-- script
-- sensor
-- 	emplate
-
-### 2. Required secrets
-Add these to your HA `secrets.yaml`:
-
-```yaml
-espyrain_telegram_notifier: notify.your_telegram_notifier_entity
+```text
+/config/
+|-- configuration.yaml
+|-- package_sources/
+|   `-- espyrain_for_home_assistant/
+|       |-- automations/
+|       |-- scripts/
+|       |-- sensors/
+|       |-- templates/
+|       |-- input_boolean.yaml
+|       |-- input_datetime.yaml
+|       |-- input_number.yaml
+|       |-- input_select.yaml
+|       |-- input_text.yaml
+|       `-- README.md
+|-- packages/
+|   `-- espyrain_for_home_assistant.yaml
+|-- esphome/
+|   |-- espyrain_controller.yaml
+|   |-- secrets.yaml
+|   `-- ESPyRain-controller/
+|       |-- VERSION
+|       |-- base.yaml
+|       |-- package.yaml
+|       |-- entities_schedules.yaml
+|       |-- entities_stations.yaml
+|       |-- entities_system.yaml
+|       |-- globals_schedules.yaml
+|       |-- globals_stations.yaml
+|       |-- network_static_ip.example.yaml
+|       |-- schedule_interval.yaml
+|       `-- ...other ESPyRain controller YAML files
+|-- themes/
+|   `-- espyrain_theme.yaml
+`-- www/
+    `-- espyrain/
+        |-- espyrain_background.jpg
+        `-- test_property_overhead.jpg
 ```
 
-Add these to your ESPHome secrets file:
+Copy from the downloaded ZIP like this:
+- `ESPyRain_Controller-main/package_sources/` -> `/config/package_sources/`
+- `ESPyRain_Controller-main/packages/` -> `/config/packages/`
+- ESPyRain-controller/espyrain_controller.yaml` -> `/config/esphome/espyrain_controller.yaml`
+- `ESPyRain_Controller-main/ESPyRain-controller/` -> `/config/esphome/ESPyRain-controller/`
+- `ESPyRain_Controller-main/themes/espyrain_theme.yaml` -> `/config/themes/espyrain_theme.yaml`
+- `images/www/espyrain/` -> `/config/www/espyrain/`
+
+## 2. Create the ESPHome device entry
+In the ESPHome dashboard in Home Assistant:
+1. Click **New Device**.
+2. Create a new device named `espyrain_controller`.
+3. Choose your ESP board type.
+4. Complete the first-use wizard and note the generated API encryption key.
+
+For the very first flash, use USB or the ESPHome web flasher path. After that, ESPyRain can be updated normally through ESPHome.
+## 3. Home Assistant configuration
+In `configuration.yaml`, make sure Home Assistant includes packages:
+
+```yaml
+homeassistant:
+  packages: !include_dir_named packages
+```
+
+If you want to use the supplied theme, also add:
+
+```yaml
+frontend:
+  themes: !include_dir_merge_named themes
+```
+
+## 3. Edit site-specific ESPHome settings
+Review `/config/esphome/ESPyRain-controller/base.yaml` before compiling.
+
+At minimum, check:
+- board type
+- framework type
+- timezone
+
+Examples:
+
+```yaml
+esp32:
+  board: esp32-s3-devkitc-1
+  framework:
+    type: esp-idf
+```
+
+```yaml
+time:
+  - platform: sntp
+    id: esp_time
+    timezone: Australia/Perth
+```
+
+## 4. Required ESPHome secrets
+Add these to `/config/esphome/secrets.yaml`:
 
 ```yaml
 wifi_ssid: your_wifi_name
 wifi_password: your_wifi_password
 espyrain_api_key: your_api_encryption_key
 espyrain_ota_password: your_ota_password
-espyrain_ap_password: your_fallback_ap_password
 ```
 
-Notes:
-- `espyrain_telegram_notifier` is a Home Assistant notifier entity ID, not a raw Telegram chat ID.
-- Notifications can still be disabled in HA with `input_boolean.espyrain_notifications`.
+Notifications do not require any secret.
 
-### 3. ESPHome package defaults
-Package-safe defaults now use DHCP.
+Default notification behavior:
+- If `input_boolean.espyrain_notifications` is on and `input_text.espyrain_notify_service` is blank, ESPyRain creates a Home Assistant persistent notification.
 
-Shared file:
-- `ESP_espyrain/base.yaml`
+Optional notification targets:
+- Enter one `notify.*` target in `input_text.espyrain_notify_service`
+- Or enter multiple comma-separated targets
 
-If you want static IP networking, create a local override using:
-- `ESP_espyrain/network_static_ip.example.yaml`
+Examples:
+- `notify.mobile_app_my_phone`
+- `notify.telegram_bot_123456789_987654321, notify.mobile_app_my_phone`
 
-Example:
+## 5. Optional static IP configuration
+By default ESPyRain uses DHCP.
+
+If you want a static IP:
+1. Copy or rename `ESPyRain-controller/network_static_ip.example.yaml` to `ESPyRain-controller/network_static_ip.yaml`
+2. Edit it with your IP, gateway, subnet, and DNS values
+3. Uncomment the `manual_ip` line in `ESPyRain-controller/base.yaml`
+
+Expected result in `base.yaml`:
 
 ```yaml
 wifi:
-  manual_ip: !include ESP_espyrain/network_static_ip.local.yaml
+  manual_ip: !include network_static_ip.yaml
 ```
 
-Do not ship static IP values inside the shared package.
 
-### 4. Values that should be local overrides, not secrets
-These are site-specific and should be edited locally per install:
-- ESP `device_name`
-- ESP `friendly_name`
-- ESP board/hardware target
-- station GPIO mapping
-- number of stations if hardware differs
-- station names
-- schedule names
-- coupling settings if hardware layout differs
+## 6. Choose a dashboard path
+You have two dashboard options.
 
-### 5. Dashboard assets and custom cards
-Active dashboard file:
-- `HA_dashboard/HA dashboard.yaml`
+### Option A: Starter dashboard
+Use this first if you want the easiest install path.
 
-Required custom cards / plugins:
+File:
+- `HA_dashboard/HA_dashboard_starter.yaml`
+
+This dashboard:
+- uses only built-in Home Assistant cards
+- does not require HACS
+- does not require custom cards
+- does not require image assets
+
+### Option B: Full dashboard
+Use this if you want the richer ESPyRain dashboard.
+
+File:
+- `HA_dashboard/HA_dashboard.yaml`
+
+This dashboard:
+- uses custom cards
+- uses image assets under `/config/www/espyrain/`
+- is more polished but has more setup steps
+
+Required custom cards for the full dashboard:
 - `button-card`
 - `card-mod`
 - `fold-entity-row`
@@ -90,51 +180,77 @@ Required custom cards / plugins:
 - `template-entity-row`
 - `time-picker-card`
 
-Required dashboard image assets:
-- `/local/background.jpg`
-- `/local/sprinklers/backyard_overhead_vert.jpg`
-
-If those files are not present, either:
-- add matching files under HA `www/`, or
-- update `HA_dashboard/HA dashboard.yaml` to your local image paths
-
-For dependency details, see:
+For more detail, see:
 - `HA_dashboard/README.md`
 
-### 6. HA reload/restart order
-After copying files:
-1. restart Home Assistant once for new helpers
-2. reload templates
-3. reload automations
-4. reload scripts
-5. reload dashboard / refresh browser
+## 7. Restart Home Assistant and validate config
+After copying the files:
+1. Check YAML / configuration in Home Assistant
+2. Restart Home Assistant
+3. Confirm there are no package or secret errors
+4. Confirm the new helpers exist, for example:
+   - `input_text.espyrain_station_1_name`
+   - `input_boolean.espyrain_notifications`
+   - `input_text.espyrain_notify_service`
 
-### 7. ESP build/redeploy
-After copying ESP files:
-1. create a local wrapper YAML if needed
-2. verify secrets exist
-3. compile
-4. flash
-5. confirm entities appear in HA
+## 8. Compile and flash ESPyRain
+In ESPHome:
+1. Open `espyrain_controller.yaml`
+2. Verify the package includes resolve correctly
+3. Compile the firmware
+4. Flash the ESP
+5. Wait for the device to come online in Home Assistant
 
-### 8. Legacy export sync
-If you still need `HA_files/` for compatibility, regenerate it from the package source:
+After the first successful flash, confirm entities appear, for example:
+- `sensor.espyrain_controller_status`
+- `button.espyrain_controller_pause`
+- `number.espyrain_controller_number_of_stations`
 
-```powershell
-tools\sync_ha_package_to_legacy.ps1
-```
+## 9. Import or create the dashboard
+Once Home Assistant and the ESP are both up:
+1. Add the starter dashboard first, or the full dashboard if you already installed its dependencies
+2. Refresh the browser once after importing the dashboard
+3. If using the full dashboard, verify the image paths load correctly
 
-### 9. Packaging status
-Already package-safe:
-- Telegram notifier moved to HA secrets
-- ESP Wi-Fi/API/OTA credentials moved to secrets
-- ESP network defaults now use DHCP
-- HA package entrypoint created under `packages/`
-- HA source moved to `package_sources/`
+## 10. First-time controller setup
+Once the ESPyRain entities appear in Home Assistant:
+1. Set the number of stations
+2. Set the number of schedules
+3. Set rain delay to `0`
+4. Turn winter mode off unless you actually want it on
 
-Still intentionally local/site-specific:
-- dashboard image files
-- hardware pin mapping
-- device/friendly naming
-- local network static IP choice
+Then configure stations:
+- name each station
+- enable the stations you use
+- set runtime in minutes
+- assign the GPIO pin for each valve
+- set coupled stations if needed
+- enable master valve / pump if used
+- choose the master valve / pump GPIO pin
+- set the master valve delay
 
+Before configuring schedules, test your stations manually:
+- open the manual run controls
+- choose a runtime
+- choose a station
+- start a manual run
+- confirm the expected valve/output operates
+
+Then configure schedules:
+- name each schedule
+- enable the schedules you want to use
+- set start times
+- set seasonal adjust
+- choose the run days / interval mode
+- choose which stations each schedule runs
+- set soak cycles if needed
+
+## 11. Notification check
+Optional but recommended:
+1. Leave `input_text.espyrain_notify_service` blank and confirm a persistent notification works
+2. If you want push notifications, enter one or more `notify.*` targets
+3. Test again
+
+Examples:
+- `notify.mobile_app_my_phone`
+- `notify.telegram_bot_123456789_987654321, notify.mobile_app_my_phone`

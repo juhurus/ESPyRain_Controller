@@ -1,5 +1,6 @@
-interval:
-  - interval: 60s
+script:
+  - id: check_schedule_triggers
+    mode: single
     then:
       - lambda: |-
           auto now = id(esp_time).now();
@@ -98,8 +99,8 @@ interval:
               }
             }
 
-            ESP_LOGI("schedule_check", "AUTO-TRIGGERING Schedule %d at %02d:%02d",
-                     sched, current_hour, current_minute);
+            ESP_LOGI("schedule_check", "AUTO-TRIGGERING Schedule %d at %02d:%02d:%02d",
+                     sched, now.hour, now.minute, now.second);
 
             if (id(queue_schedule_run)(sched)) {
               id(set_schedule_last_run)(sched, now_ts);

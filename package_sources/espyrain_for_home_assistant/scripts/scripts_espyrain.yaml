@@ -66,9 +66,8 @@ espyrain_sync_esp_time_now:
                       entity_id: input_boolean.espyrain_notifications
                       state: "on"
                   sequence:
-                    - service: notify.send_message
+                    - service: script.espyrain_send_notification
                       data:
-                        entity_id: !secret telegram_notifier
                         title: "*Sprinkler ESP Time Sync Triggered*"
                         message: >
                           Restart requested to force SNTP re-sync.
@@ -83,9 +82,8 @@ espyrain_sync_esp_time_now:
                       entity_id: input_boolean.espyrain_notifications
                       state: "on"
                   sequence:
-                    - service: notify.send_message
+                    - service: script.espyrain_send_notification
                       data:
-                        entity_id: !secret telegram_notifier
                         title: "*Sprinkler ESP Time Sync Skipped*"
                         message: >
                           Controller is not idle ({{ states('sensor.espyrain_controller_status') }}).
@@ -123,4 +121,74 @@ espyrain_manual_run_station:
         station_num: "{{ station_num | int }}"
         duration_sec: "{{ duration_sec | int }}"
 
+
+# ============================================================
+# Central notification wrapper. Blank service list falls back
+# to a built-in Home Assistant persistent notification.
+# ============================================================
+espyrain_send_notification:
+  alias: "ESPyRain: Send Notification"
+  mode: queued
+  fields:
+    title:
+      required: false
+      selector:
+        text:
+    message:
+      required: true
+      selector:
+        text:
+  sequence:
+    - condition: state
+      entity_id: input_boolean.espyrain_notifications
+      state: "on"
+    - variables:
+        notification_title: "{{ title | default('ESPyRain Notification', true) }}"
+        notification_message: "{{ message | default('', true) }}"
+        notify_targets_raw: "{{ states('input_text.espyrain_notify_service') | default('', true) }}"
+    - choose:
+        - conditions:
+            - condition: template
+              value_template: >
+                {% set raw = notify_targets_raw %}
+                {% if raw in ['unknown', 'unavailable', 'None', none, ''] %}
+                  {{ false }}
+                {% else %}
+                  {{ raw.split(',')
+                     | map('trim')
+                     | reject('equalto', '')
+                     | select('match', '^notify\..+')
+                     | list
+                     | count > 0 }}
+                {% endif %}
+          sequence:
+            - repeat:
+                for_each: >
+                  {% set raw = notify_targets_raw %}
+                  {{ raw.split(',')
+                     | map('trim')
+                     | reject('equalto', '')
+                     | select('match', '^notify\..+')
+                     | list }}
+                sequence:
+                  - choose:
+                      - conditions:
+                          - condition: template
+                            value_template: "{{ states(repeat.item) not in ['unknown', 'unavailable'] }}"
+                        sequence:
+                          - service: notify.send_message
+                            data:
+                              entity_id: "{{ repeat.item }}"
+                              title: "{{ notification_title }}"
+                              message: "{{ notification_message }}"
+                    default:
+                      - service: "{{ repeat.item }}"
+                        data:
+                          title: "{{ notification_title }}"
+                          message: "{{ notification_message }}"
+      default:
+        - service: persistent_notification.create
+          data:
+            title: "{{ notification_title }}"
+            message: "{{ notification_message }}"
 

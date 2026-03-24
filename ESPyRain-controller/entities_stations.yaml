@@ -11,12 +11,17 @@ number:
     max_value: 60
     step: 1
     unit_of_measurement: "min"
+    update_interval: 1s
     lambda: |-
       return id(station_1_runtime);
     set_action:
       - globals.set:
           id: station_1_runtime
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_1_runtime_number).publish_state(x);
+      - lambda: |-
+          id(station_1_runtime_number).publish_state(x);
 
   - platform: template
     name: "Station 2 Runtime"
@@ -25,12 +30,17 @@ number:
     max_value: 60
     step: 1
     unit_of_measurement: "min"
+    update_interval: 1s
     lambda: |-
       return id(station_2_runtime);
     set_action:
       - globals.set:
           id: station_2_runtime
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_2_runtime_number).publish_state(x);
+      - lambda: |-
+          id(station_2_runtime_number).publish_state(x);
 
   - platform: template
     name: "Station 3 Runtime"
@@ -39,12 +49,17 @@ number:
     max_value: 60
     step: 1
     unit_of_measurement: "min"
+    update_interval: 1s
     lambda: |-
       return id(station_3_runtime);
     set_action:
       - globals.set:
           id: station_3_runtime
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_3_runtime_number).publish_state(x);
+      - lambda: |-
+          id(station_3_runtime_number).publish_state(x);
 
   - platform: template
     name: "Station 4 Runtime"
@@ -53,12 +68,17 @@ number:
     max_value: 60
     step: 1
     unit_of_measurement: "min"
+    update_interval: 1s
     lambda: |-
       return id(station_4_runtime);
     set_action:
       - globals.set:
           id: station_4_runtime
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_4_runtime_number).publish_state(x);
+      - lambda: |-
+          id(station_4_runtime_number).publish_state(x);
 
   - platform: template
     name: "Station 5 Runtime"
@@ -67,12 +87,17 @@ number:
     max_value: 60
     step: 1
     unit_of_measurement: "min"
+    update_interval: 1s
     lambda: |-
       return id(station_5_runtime);
     set_action:
       - globals.set:
           id: station_5_runtime
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_5_runtime_number).publish_state(x);
+      - lambda: |-
+          id(station_5_runtime_number).publish_state(x);
 
   - platform: template
     name: "Station 6 Runtime"
@@ -81,12 +106,17 @@ number:
     max_value: 60
     step: 1
     unit_of_measurement: "min"
+    update_interval: 1s
     lambda: |-
       return id(station_6_runtime);
     set_action:
       - globals.set:
           id: station_6_runtime
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_6_runtime_number).publish_state(x);
+      - lambda: |-
+          id(station_6_runtime_number).publish_state(x);
 
   - platform: template
     name: "Station 7 Runtime"
@@ -95,12 +125,17 @@ number:
     max_value: 60
     step: 1
     unit_of_measurement: "min"
+    update_interval: 1s
     lambda: |-
       return id(station_7_runtime);
     set_action:
       - globals.set:
           id: station_7_runtime
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_7_runtime_number).publish_state(x);
+      - lambda: |-
+          id(station_7_runtime_number).publish_state(x);
 
   - platform: template
     name: "Station 8 Runtime"
@@ -109,12 +144,17 @@ number:
     max_value: 60
     step: 1
     unit_of_measurement: "min"
+    update_interval: 1s
     lambda: |-
       return id(station_8_runtime);
     set_action:
       - globals.set:
           id: station_8_runtime
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_8_runtime_number).publish_state(x);
+      - lambda: |-
+          id(station_8_runtime_number).publish_state(x);
 
   - platform: template
     name: "Station 9 Runtime"
@@ -123,12 +163,17 @@ number:
     max_value: 60
     step: 1
     unit_of_measurement: "min"
+    update_interval: 1s
     lambda: |-
       return id(station_9_runtime);
     set_action:
       - globals.set:
           id: station_9_runtime
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_9_runtime_number).publish_state(x);
+      - lambda: |-
+          id(station_9_runtime_number).publish_state(x);
 
   - platform: template
     name: "Station 10 Runtime"
@@ -137,12 +182,17 @@ number:
     max_value: 60
     step: 1
     unit_of_measurement: "min"
+    update_interval: 1s
     lambda: |-
       return id(station_10_runtime);
     set_action:
       - globals.set:
           id: station_10_runtime
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_10_runtime_number).publish_state(x);
+      - lambda: |-
+          id(station_10_runtime_number).publish_state(x);
 
   - platform: template
     name: "Station 11 Runtime"
@@ -151,12 +201,17 @@ number:
     max_value: 60
     step: 1
     unit_of_measurement: "min"
+    update_interval: 1s
     lambda: |-
       return id(station_11_runtime);
     set_action:
       - globals.set:
           id: station_11_runtime
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_11_runtime_number).publish_state(x);
+      - lambda: |-
+          id(station_11_runtime_number).publish_state(x);
 
   - platform: template
     name: "Station 12 Runtime"
@@ -165,12 +220,17 @@ number:
     max_value: 60
     step: 1
     unit_of_measurement: "min"
+    update_interval: 1s
     lambda: |-
       return id(station_12_runtime);
     set_action:
       - globals.set:
           id: station_12_runtime
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_12_runtime_number).publish_state(x);
+      - lambda: |-
+          id(station_12_runtime_number).publish_state(x);
 
   - platform: template
     name: "Station 13 Runtime"
@@ -179,12 +239,17 @@ number:
     max_value: 60
     step: 1
     unit_of_measurement: "min"
+    update_interval: 1s
     lambda: |-
       return id(station_13_runtime);
     set_action:
       - globals.set:
           id: station_13_runtime
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_13_runtime_number).publish_state(x);
+      - lambda: |-
+          id(station_13_runtime_number).publish_state(x);
 
   - platform: template
     name: "Station 14 Runtime"
@@ -193,12 +258,17 @@ number:
     max_value: 60
     step: 1
     unit_of_measurement: "min"
+    update_interval: 1s
     lambda: |-
       return id(station_14_runtime);
     set_action:
       - globals.set:
           id: station_14_runtime
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_14_runtime_number).publish_state(x);
+      - lambda: |-
+          id(station_14_runtime_number).publish_state(x);
 
   - platform: template
     name: "Station 15 Runtime"
@@ -207,12 +277,17 @@ number:
     max_value: 60
     step: 1
     unit_of_measurement: "min"
+    update_interval: 1s
     lambda: |-
       return id(station_15_runtime);
     set_action:
       - globals.set:
           id: station_15_runtime
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_15_runtime_number).publish_state(x);
+      - lambda: |-
+          id(station_15_runtime_number).publish_state(x);
 
   - platform: template
     name: "Station 16 Runtime"
@@ -221,12 +296,17 @@ number:
     max_value: 60
     step: 1
     unit_of_measurement: "min"
+    update_interval: 1s
     lambda: |-
       return id(station_16_runtime);
     set_action:
       - globals.set:
           id: station_16_runtime
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_16_runtime_number).publish_state(x);
+      - lambda: |-
+          id(station_16_runtime_number).publish_state(x);
 
   # Expose station GPIO pins and coupling masks to Home Assistant
   - platform: template
@@ -236,12 +316,15 @@ number:
     min_value: 0
     max_value: 48
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_1_pin);
     set_action:
       - globals.set:
           id: station_1_pin
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_1_pin_number).publish_state(x);
 
   - platform: template
     name: "Station 1 Coupled Mask"
@@ -249,12 +332,15 @@ number:
     min_value: 0
     max_value: 65535
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_1_coupled_mask);
     set_action:
       - globals.set:
           id: station_1_coupled_mask
           value: !lambda 'return (uint16_t)x;'
+      - lambda: |-
+          id(station_1_coupled_mask_number).publish_state(x);
 
   - platform: template
     name: "Station 2 Pin"
@@ -263,12 +349,15 @@ number:
     min_value: 0
     max_value: 48
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_2_pin);
     set_action:
       - globals.set:
           id: station_2_pin
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_2_pin_number).publish_state(x);
 
   - platform: template
     name: "Station 2 Coupled Mask"
@@ -276,12 +365,15 @@ number:
     min_value: 0
     max_value: 65535
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_2_coupled_mask);
     set_action:
       - globals.set:
           id: station_2_coupled_mask
           value: !lambda 'return (uint16_t)x;'
+      - lambda: |-
+          id(station_2_coupled_mask_number).publish_state(x);
 
   - platform: template
     name: "Station 3 Pin"
@@ -290,12 +382,15 @@ number:
     min_value: 0
     max_value: 48
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_3_pin);
     set_action:
       - globals.set:
           id: station_3_pin
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_3_pin_number).publish_state(x);
 
   - platform: template
     name: "Station 3 Coupled Mask"
@@ -303,12 +398,15 @@ number:
     min_value: 0
     max_value: 65535
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_3_coupled_mask);
     set_action:
       - globals.set:
           id: station_3_coupled_mask
           value: !lambda 'return (uint16_t)x;'
+      - lambda: |-
+          id(station_3_coupled_mask_number).publish_state(x);
 
   - platform: template
     name: "Station 4 Pin"
@@ -317,12 +415,15 @@ number:
     min_value: 0
     max_value: 48
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_4_pin);
     set_action:
       - globals.set:
           id: station_4_pin
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_4_pin_number).publish_state(x);
 
   - platform: template
     name: "Station 4 Coupled Mask"
@@ -330,12 +431,15 @@ number:
     min_value: 0
     max_value: 65535
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_4_coupled_mask);
     set_action:
       - globals.set:
           id: station_4_coupled_mask
           value: !lambda 'return (uint16_t)x;'
+      - lambda: |-
+          id(station_4_coupled_mask_number).publish_state(x);
 
   - platform: template
     name: "Station 5 Pin"
@@ -344,12 +448,15 @@ number:
     min_value: 0
     max_value: 48
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_5_pin);
     set_action:
       - globals.set:
           id: station_5_pin
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_5_pin_number).publish_state(x);
 
   - platform: template
     name: "Station 5 Coupled Mask"
@@ -357,12 +464,15 @@ number:
     min_value: 0
     max_value: 65535
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_5_coupled_mask);
     set_action:
       - globals.set:
           id: station_5_coupled_mask
           value: !lambda 'return (uint16_t)x;'
+      - lambda: |-
+          id(station_5_coupled_mask_number).publish_state(x);
 
   - platform: template
     name: "Station 6 Pin"
@@ -371,12 +481,15 @@ number:
     min_value: 0
     max_value: 48
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_6_pin);
     set_action:
       - globals.set:
           id: station_6_pin
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_6_pin_number).publish_state(x);
 
   - platform: template
     name: "Station 6 Coupled Mask"
@@ -384,12 +497,15 @@ number:
     min_value: 0
     max_value: 65535
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_6_coupled_mask);
     set_action:
       - globals.set:
           id: station_6_coupled_mask
           value: !lambda 'return (uint16_t)x;'
+      - lambda: |-
+          id(station_6_coupled_mask_number).publish_state(x);
 
   - platform: template
     name: "Station 7 Pin"
@@ -398,12 +514,15 @@ number:
     min_value: 0
     max_value: 48
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_7_pin);
     set_action:
       - globals.set:
           id: station_7_pin
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_7_pin_number).publish_state(x);
 
   - platform: template
     name: "Station 7 Coupled Mask"
@@ -411,12 +530,15 @@ number:
     min_value: 0
     max_value: 65535
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_7_coupled_mask);
     set_action:
       - globals.set:
           id: station_7_coupled_mask
           value: !lambda 'return (uint16_t)x;'
+      - lambda: |-
+          id(station_7_coupled_mask_number).publish_state(x);
 
   - platform: template
     name: "Station 8 Pin"
@@ -425,12 +547,15 @@ number:
     min_value: 0
     max_value: 48
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_8_pin);
     set_action:
       - globals.set:
           id: station_8_pin
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_8_pin_number).publish_state(x);
 
   - platform: template
     name: "Station 8 Coupled Mask"
@@ -438,12 +563,15 @@ number:
     min_value: 0
     max_value: 65535
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_8_coupled_mask);
     set_action:
       - globals.set:
           id: station_8_coupled_mask
           value: !lambda 'return (uint16_t)x;'
+      - lambda: |-
+          id(station_8_coupled_mask_number).publish_state(x);
 
   - platform: template
     name: "Station 9 Pin"
@@ -452,12 +580,15 @@ number:
     min_value: 0
     max_value: 48
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_9_pin);
     set_action:
       - globals.set:
           id: station_9_pin
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_9_pin_number).publish_state(x);
 
   - platform: template
     name: "Station 9 Coupled Mask"
@@ -465,12 +596,15 @@ number:
     min_value: 0
     max_value: 65535
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_9_coupled_mask);
     set_action:
       - globals.set:
           id: station_9_coupled_mask
           value: !lambda 'return (uint16_t)x;'
+      - lambda: |-
+          id(station_9_coupled_mask_number).publish_state(x);
 
   - platform: template
     name: "Station 10 Pin"
@@ -479,12 +613,15 @@ number:
     min_value: 0
     max_value: 48
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_10_pin);
     set_action:
       - globals.set:
           id: station_10_pin
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_10_pin_number).publish_state(x);
 
   - platform: template
     name: "Station 10 Coupled Mask"
@@ -492,12 +629,15 @@ number:
     min_value: 0
     max_value: 65535
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_10_coupled_mask);
     set_action:
       - globals.set:
           id: station_10_coupled_mask
           value: !lambda 'return (uint16_t)x;'
+      - lambda: |-
+          id(station_10_coupled_mask_number).publish_state(x);
 
   - platform: template
     name: "Station 11 Pin"
@@ -506,12 +646,15 @@ number:
     min_value: 0
     max_value: 48
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_11_pin);
     set_action:
       - globals.set:
           id: station_11_pin
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_11_pin_number).publish_state(x);
 
   - platform: template
     name: "Station 11 Coupled Mask"
@@ -519,12 +662,15 @@ number:
     min_value: 0
     max_value: 65535
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_11_coupled_mask);
     set_action:
       - globals.set:
           id: station_11_coupled_mask
           value: !lambda 'return (uint16_t)x;'
+      - lambda: |-
+          id(station_11_coupled_mask_number).publish_state(x);
 
   - platform: template
     name: "Station 12 Pin"
@@ -533,12 +679,15 @@ number:
     min_value: 0
     max_value: 48
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_12_pin);
     set_action:
       - globals.set:
           id: station_12_pin
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_12_pin_number).publish_state(x);
 
   - platform: template
     name: "Station 12 Coupled Mask"
@@ -546,12 +695,15 @@ number:
     min_value: 0
     max_value: 65535
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_12_coupled_mask);
     set_action:
       - globals.set:
           id: station_12_coupled_mask
           value: !lambda 'return (uint16_t)x;'
+      - lambda: |-
+          id(station_12_coupled_mask_number).publish_state(x);
 
   - platform: template
     name: "Station 13 Pin"
@@ -560,12 +712,15 @@ number:
     min_value: 0
     max_value: 48
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_13_pin);
     set_action:
       - globals.set:
           id: station_13_pin
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_13_pin_number).publish_state(x);
 
   - platform: template
     name: "Station 13 Coupled Mask"
@@ -573,12 +728,15 @@ number:
     min_value: 0
     max_value: 65535
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_13_coupled_mask);
     set_action:
       - globals.set:
           id: station_13_coupled_mask
           value: !lambda 'return (uint16_t)x;'
+      - lambda: |-
+          id(station_13_coupled_mask_number).publish_state(x);
 
   - platform: template
     name: "Station 14 Pin"
@@ -587,12 +745,15 @@ number:
     min_value: 0
     max_value: 48
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_14_pin);
     set_action:
       - globals.set:
           id: station_14_pin
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_14_pin_number).publish_state(x);
 
   - platform: template
     name: "Station 14 Coupled Mask"
@@ -600,12 +761,15 @@ number:
     min_value: 0
     max_value: 65535
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_14_coupled_mask);
     set_action:
       - globals.set:
           id: station_14_coupled_mask
           value: !lambda 'return (uint16_t)x;'
+      - lambda: |-
+          id(station_14_coupled_mask_number).publish_state(x);
 
   - platform: template
     name: "Station 15 Pin"
@@ -614,12 +778,15 @@ number:
     min_value: 0
     max_value: 48
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_15_pin);
     set_action:
       - globals.set:
           id: station_15_pin
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_15_pin_number).publish_state(x);
 
   - platform: template
     name: "Station 15 Coupled Mask"
@@ -627,12 +794,15 @@ number:
     min_value: 0
     max_value: 65535
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_15_coupled_mask);
     set_action:
       - globals.set:
           id: station_15_coupled_mask
           value: !lambda 'return (uint16_t)x;'
+      - lambda: |-
+          id(station_15_coupled_mask_number).publish_state(x);
 
   - platform: template
     name: "Station 16 Pin"
@@ -641,12 +811,15 @@ number:
     min_value: 0
     max_value: 48
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_16_pin);
     set_action:
       - globals.set:
           id: station_16_pin
           value: !lambda 'return (uint8_t)x;'
+      - lambda: |-
+          id(station_16_pin_number).publish_state(x);
 
   - platform: template
     name: "Station 16 Coupled Mask"
@@ -654,12 +827,15 @@ number:
     min_value: 0
     max_value: 65535
     step: 1
+    update_interval: 1s
     lambda: |-
       return (int)id(station_16_coupled_mask);
     set_action:
       - globals.set:
           id: station_16_coupled_mask
           value: !lambda 'return (uint16_t)x;'
+      - lambda: |-
+          id(station_16_coupled_mask_number).publish_state(x);
 
 text:
   # Station names (writable from HA via text.set_value)
@@ -667,6 +843,7 @@ text:
     name: "Station 1 Name"
     id: station_1_name_text
     mode: text
+    update_interval: 1s
     lambda: |-
       return id(station_1_name);
     set_action:
@@ -678,6 +855,7 @@ text:
     name: "Station 2 Name"
     id: station_2_name_text
     mode: text
+    update_interval: 1s
     lambda: |-
       return id(station_2_name);
     set_action:
@@ -689,6 +867,7 @@ text:
     name: "Station 3 Name"
     id: station_3_name_text
     mode: text
+    update_interval: 1s
     lambda: |-
       return id(station_3_name);
     set_action:
@@ -700,6 +879,7 @@ text:
     name: "Station 4 Name"
     id: station_4_name_text
     mode: text
+    update_interval: 1s
     lambda: |-
       return id(station_4_name);
     set_action:
@@ -711,6 +891,7 @@ text:
     name: "Station 5 Name"
     id: station_5_name_text
     mode: text
+    update_interval: 1s
     lambda: |-
       return id(station_5_name);
     set_action:
@@ -722,6 +903,7 @@ text:
     name: "Station 6 Name"
     id: station_6_name_text
     mode: text
+    update_interval: 1s
     lambda: |-
       return id(station_6_name);
     set_action:
@@ -733,6 +915,7 @@ text:
     name: "Station 7 Name"
     id: station_7_name_text
     mode: text
+    update_interval: 1s
     lambda: |-
       return id(station_7_name);
     set_action:
@@ -744,6 +927,7 @@ text:
     name: "Station 8 Name"
     id: station_8_name_text
     mode: text
+    update_interval: 1s
     lambda: |-
       return id(station_8_name);
     set_action:
@@ -755,6 +939,7 @@ text:
     name: "Station 9 Name"
     id: station_9_name_text
     mode: text
+    update_interval: 1s
     lambda: |-
       return id(station_9_name);
     set_action:
@@ -766,6 +951,7 @@ text:
     name: "Station 10 Name"
     id: station_10_name_text
     mode: text
+    update_interval: 1s
     lambda: |-
       return id(station_10_name);
     set_action:
@@ -777,6 +963,7 @@ text:
     name: "Station 11 Name"
     id: station_11_name_text
     mode: text
+    update_interval: 1s
     lambda: |-
       return id(station_11_name);
     set_action:
@@ -788,6 +975,7 @@ text:
     name: "Station 12 Name"
     id: station_12_name_text
     mode: text
+    update_interval: 1s
     lambda: |-
       return id(station_12_name);
     set_action:
@@ -799,6 +987,7 @@ text:
     name: "Station 13 Name"
     id: station_13_name_text
     mode: text
+    update_interval: 1s
     lambda: |-
       return id(station_13_name);
     set_action:
@@ -810,6 +999,7 @@ text:
     name: "Station 14 Name"
     id: station_14_name_text
     mode: text
+    update_interval: 1s
     lambda: |-
       return id(station_14_name);
     set_action:
@@ -821,6 +1011,7 @@ text:
     name: "Station 15 Name"
     id: station_15_name_text
     mode: text
+    update_interval: 1s
     lambda: |-
       return id(station_15_name);
     set_action:
@@ -832,6 +1023,7 @@ text:
     name: "Station 16 Name"
     id: station_16_name_text
     mode: text
+    update_interval: 1s
     lambda: |-
       return id(station_16_name);
     set_action:

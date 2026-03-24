@@ -4,7 +4,7 @@ globals:
   - id: station_1_name
     type: std::string
     restore_value: true
-    initial_value: '"Station 1"'
+    initial_value: '"Station1"'
   - id: station_1_runtime
     type: uint8_t
     restore_value: true
@@ -25,7 +25,7 @@ globals:
   - id: station_2_name
     type: std::string
     restore_value: true
-    initial_value: '"Station 2"'
+    initial_value: '"Station2"'
   - id: station_2_runtime
     type: uint8_t
     restore_value: true
@@ -46,7 +46,7 @@ globals:
   - id: station_3_name
     type: std::string
     restore_value: true
-    initial_value: '"Station 3"'
+    initial_value: '"Station3"'
   - id: station_3_runtime
     type: uint8_t
     restore_value: true
@@ -69,7 +69,7 @@ globals:
   - id: station_4_name
     type: std::string
     restore_value: true
-    initial_value: '"Station 4"'
+    initial_value: '"Station4"'
   - id: station_4_runtime
     type: uint8_t
     restore_value: true
@@ -91,7 +91,7 @@ globals:
   - id: station_5_name
     type: std::string
     restore_value: true
-    initial_value: '"Station 5"'
+    initial_value: '"Station5"'
   - id: station_5_runtime
     type: uint8_t
     restore_value: true
@@ -113,7 +113,7 @@ globals:
   - id: station_6_name
     type: std::string
     restore_value: true
-    initial_value: '"Station 6"'
+    initial_value: '"Station6"'
   - id: station_6_runtime
     type: uint8_t
     restore_value: true
@@ -135,7 +135,7 @@ globals:
   - id: station_7_name
     type: std::string
     restore_value: true
-    initial_value: '"Station 7"'
+    initial_value: '"Station7"'
   - id: station_7_runtime
     type: uint8_t
     restore_value: true
@@ -157,7 +157,7 @@ globals:
   - id: station_8_name
     type: std::string
     restore_value: true
-    initial_value: '"Station 8"'
+    initial_value: '"Station8"'
   - id: station_8_runtime
     type: uint8_t
     restore_value: true
@@ -179,7 +179,7 @@ globals:
   - id: station_9_name
     type: std::string
     restore_value: true
-    initial_value: '"Station 9"'
+    initial_value: '"Station9"'
   - id: station_9_runtime
     type: uint8_t
     restore_value: true
@@ -201,7 +201,7 @@ globals:
   - id: station_10_name
     type: std::string
     restore_value: true
-    initial_value: '"Station 10"'
+    initial_value: '"Station10"'
   - id: station_10_runtime
     type: uint8_t
     restore_value: true
@@ -223,7 +223,7 @@ globals:
   - id: station_11_name
     type: std::string
     restore_value: true
-    initial_value: '"Station 11"'
+    initial_value: '"Station11"'
   - id: station_11_runtime
     type: uint8_t
     restore_value: true
@@ -244,7 +244,7 @@ globals:
   - id: station_12_name
     type: std::string
     restore_value: true
-    initial_value: '"Station 12"'
+    initial_value: '"Station12"'
   - id: station_12_runtime
     type: uint8_t
     restore_value: true
@@ -265,7 +265,7 @@ globals:
   - id: station_13_name
     type: std::string
     restore_value: true
-    initial_value: '"Station 13"'
+    initial_value: '"Station13"'
   - id: station_13_runtime
     type: uint8_t
     restore_value: true
@@ -286,7 +286,7 @@ globals:
   - id: station_14_name
     type: std::string
     restore_value: true
-    initial_value: '"Station 14"'
+    initial_value: '"Station14"'
   - id: station_14_runtime
     type: uint8_t
     restore_value: true
@@ -307,7 +307,7 @@ globals:
   - id: station_15_name
     type: std::string
     restore_value: true
-    initial_value: '"Station 15"'
+    initial_value: '"Station15"'
   - id: station_15_runtime
     type: uint8_t
     restore_value: true
@@ -328,7 +328,7 @@ globals:
   - id: station_16_name
     type: std::string
     restore_value: true
-    initial_value: '"Station 16"'
+    initial_value: '"Station16"'
   - id: station_16_runtime
     type: uint8_t
     restore_value: true

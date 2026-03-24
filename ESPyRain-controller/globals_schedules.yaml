@@ -8,7 +8,7 @@ globals:
   - id: schedule_1_name
     type: std::string
     restore_value: true
-    initial_value: '"Schedule 1"'
+    initial_value: '"Schedule1"'
   - id: schedule_1_hour
     type: uint8_t
     restore_value: true
@@ -60,7 +60,7 @@ globals:
   - id: schedule_2_name
     type: std::string
     restore_value: true
-    initial_value: '"Schedule 2"'
+    initial_value: '"Schedule2"'
   - id: schedule_2_hour
     type: uint8_t
     restore_value: true
@@ -110,7 +110,7 @@ globals:
   - id: schedule_3_name
     type: std::string
     restore_value: true
-    initial_value: '"Schedule 3"'
+    initial_value: '"Schedule3"'
   - id: schedule_3_hour
     type: uint8_t
     restore_value: true
@@ -160,7 +160,7 @@ globals:
   - id: schedule_4_name
     type: std::string
     restore_value: true
-    initial_value: '"Schedule 4"'
+    initial_value: '"Schedule4"'
   - id: schedule_4_hour
     type: uint8_t
     restore_value: true
@@ -210,7 +210,7 @@ globals:
   - id: schedule_5_name
     type: std::string
     restore_value: true
-    initial_value: '"Schedule 5"'
+    initial_value: '"Schedule5"'
   - id: schedule_5_hour
     type: uint8_t
     restore_value: true
@@ -259,7 +259,7 @@ globals:
   - id: schedule_6_name
     type: std::string
     restore_value: true
-    initial_value: '"Schedule 6"'
+    initial_value: '"Schedule6"'
   - id: schedule_6_hour
     type: uint8_t
     restore_value: true
@@ -308,7 +308,7 @@ globals:
   - id: schedule_7_name
     type: std::string
     restore_value: true
-    initial_value: '"Schedule 7"'
+    initial_value: '"Schedule7"'
   - id: schedule_7_hour
     type: uint8_t
     restore_value: true
@@ -357,7 +357,7 @@ globals:
   - id: schedule_8_name
     type: std::string
     restore_value: true
-    initial_value: '"Schedule 8"'
+    initial_value: '"Schedule8"'
   - id: schedule_8_hour
     type: uint8_t
     restore_value: true

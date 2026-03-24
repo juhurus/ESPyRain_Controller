@@ -1,41 +1,89 @@
 # ════════════════════════════════════════════════════════════════════════
-#
-#      A ESP 32 based sprinkler controller which can run independently 
-#      of Home Assiatant in case WiFi or HA is down. HA is only used 
-#      to set schedules and to monitor watering progress.
-#      
-#      The aim was to create a controller which is more user friendly
-#      and with more features than a typical controller. No buttons or 
-#      monitor on the controller device. Everything is controlled and 
-#      monitored through HA which means you can integrate it into 
-#      your dashboard as you like.
-#      
-#      Feature list:
-#      - HA integration for all control and monitoring of the system
-#      - run every X days, which eliminates the odd/even issue at the end of month
-#      - odd/even days
-#      - specific day selection
-#      - weekdays/weekends
-#      - pause/resume, for when you got friends over for a BBQ, you want to do gardening, car parked on your lawn...
-#      - soak cycles, to avoid water run offs, gives your soil more chance to absorb all water
-#      - seasonal runtime adjustment per schedule, quick and easy control over watering times on hot/colder days
-#      - rain delay, for rainy periods delay watering for a couple days instead turning the 
-#        controller off and then forget to turn it back on
-#      - simple manual station run
-#      - simple manual schedule run
-#      - queue stations and programs
-#
-#      - can be combined with weather and soil moisture data to e.g. control the seasonal adjustment
-#      - watering statistics, important when you have weather and soil moisture data control integrated
+# File location: esphome/espyrain_controller.yaml
 
-# ════════════════════════════════════════════════════════════════════════
+#      This is one of two yaml files you need to edit wiht your pesonalised details. 
+#      The other is your esphome/secrets.yaml
+#      
+#      CHANGE DETAILS BELOW TO SUIT YOUR SYSTEM:
+#
+#          - SECRETS
+#          - ESP BOARD
+#          - LOCATION
+#          - NETWORK
 
+# ════════════════════════════════════════════════════════════
+# SECRETS - copy the secrets block below to your esphome/secrets.yaml
+# and then uncomment required lines and fill in your correct details. 
+# ESPHome will create the details when you setup a new device.
+# Leave the lines below commented.
+# ════════════════════════════════════════════════════════════
+# Your Wi-Fi SSID and password
+# ----------------------------
+# wifi_ssid: "your_wifi_ssid"
+# wifi_password: "your_wifi_password"
+# wifi_ssid2: "your_wifi_ssid2"            # only if you have another SSID on your network
+# wifi_password2: "your_wifi_password2"    # only if you have another SSID on your network
+
+# OTA password
+# ----------------------------
+# espyrain_ota_password: "your_espyrain_ota_password" # ESPHome will provide this info when you create your new device
+
+# API encryption key (ESPHome will generate this for you)
+# ----------------------------
+# espyrain_api_key: "ypur_espyrain_api_key"         # ESPHome will provide info this when you create your new device
+    
+# Enable fallback hotspot (captive portal) in case wifi connection fails
+# ----------------------------
+# espyrain_ap_ssid: "your_espyrain_ap_ssid"         # ESPHome will provide this info when you create your new device
+# espyrain_ap_password: "your_espyrain_ap_password" # ESPHome will provide this info when you create your new device
+
+# ════════════════════════════════════════════════════════════
+# ESP32 board details
+# ════════════════════════════════════════════════════════════
+# insert the correct type of your ESP board
+esp32:
+  board: esp32-s3-devkitc-1
+  framework:
+    type: esp-idf
+    
+# ════════════════════════════════════════════════════════════
+# USER SUBSTITUTIONS
+# ════════════════════════════════════════════════════════════
 substitutions:
-  device_name: espyrain-controller
-  friendly_name: "ESPyRain Controller"
-  version: "2.5.0"
+  # Set your timezone for correct ESP clock
+  # If you don't know your timezone look it up here: https://gist.github.com/Skipants/788819
+  user_timezone: Australia/Perth #America/Denver  # Australia/Perth   Asia/Dubai   europe/amsterdam
 
+# ════════════════════════════════════════════════════════════
+# Wi-Fi
+# ════════════════════════════════════════════════════════════
+# uncomment the lines below if you need a static IP address for your ESP.
+#wifi:
+#  manual_ip: #!include ESPyRain-controller/network_static_ip.yaml
+#    static_ip: 192.168.1.88
+#    gateway: 192.168.1.1
+#    subnet: 255.255.255.0
+#    dns1: 192.168.1.50
+#    dns2: 8.8.8.8
+    
+# ════════════════════════════════════════════════════════════
+# ════════════════════════════════════════════════════════════
+# PACKAGES (NO NEED TO CHANGE THIS)
+# ════════════════════════════════════════════════════════════
+# ════════════════════════════════════════════════════════════
 packages:
   espyrain_controller: !include ESPyRain-controller/package.yaml
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
 

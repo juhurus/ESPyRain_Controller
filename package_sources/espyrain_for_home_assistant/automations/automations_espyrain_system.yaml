@@ -317,10 +317,8 @@
 # ════════════════════════════════════════════════════════════
 - id: espyrain_sync_station_names_to_esp
   alias: "ESPyRain: Sync Station Names to ESP"
-  description: "Push HA input_text station names to ESP text entities on change or startup"
+  description: "Push HA input_text station names to ESP text entities when the user changes them in HA"
   trigger:
-    - platform: homeassistant
-      event: start
     - platform: state
       entity_id:
         - input_text.espyrain_station_1_name
@@ -340,7 +338,6 @@
         - input_text.espyrain_station_15_name
         - input_text.espyrain_station_16_name
   action:
-    - delay: "00:00:05"
     - service: text.set_value
       target:
         entity_id: text.espyrain_controller_station_1_name
@@ -422,6 +419,156 @@
       data:
         value: "{{ states('input_text.espyrain_station_16_name') }}"
   mode: single
+
+- id: espyrain_sync_station_names_from_esp
+  alias: "ESPyRain: Sync Station Names from ESP"
+  description: "Mirror ESP text entity station name changes back into the HA helpers"
+  trigger:
+    - platform: state
+      entity_id:
+        - text.espyrain_controller_station_1_name
+        - text.espyrain_controller_station_2_name
+        - text.espyrain_controller_station_3_name
+        - text.espyrain_controller_station_4_name
+        - text.espyrain_controller_station_5_name
+        - text.espyrain_controller_station_6_name
+        - text.espyrain_controller_station_7_name
+        - text.espyrain_controller_station_8_name
+        - text.espyrain_controller_station_9_name
+        - text.espyrain_controller_station_10_name
+        - text.espyrain_controller_station_11_name
+        - text.espyrain_controller_station_12_name
+        - text.espyrain_controller_station_13_name
+        - text.espyrain_controller_station_14_name
+        - text.espyrain_controller_station_15_name
+        - text.espyrain_controller_station_16_name
+  condition:
+    - condition: template
+      value_template: "{{ trigger.to_state is not none }}"
+    - condition: template
+      value_template: "{{ trigger.to_state.state not in ['unknown', 'unavailable', 'none', ''] }}"
+  action:
+    - variables:
+        helper_entity: "{{ trigger.entity_id | replace('text.espyrain_controller_', 'input_text.espyrain_') }}"
+        esp_value: "{{ trigger.to_state.state }}"
+        helper_value: "{{ states(helper_entity) }}"
+        entity_index: "{{ trigger.entity_id.split('_')[-2] }}"
+        default_value: "{{ 'Station' ~ entity_index }}"
+    - choose:
+        - conditions:
+            - condition: template
+              value_template: >
+                {{ helper_value != esp_value and (
+                  helper_value in ['unknown', 'unavailable', 'none', ''] or
+                  helper_value == default_value or
+                  esp_value != default_value
+                ) }}
+          sequence:
+            - service: input_text.set_value
+              data:
+                entity_id: "{{ helper_entity }}"
+                value: "{{ esp_value }}"
+  mode: restart
+
+# Sync schedule names immediately on change, but keep a short startup delay so the ESP text entities are ready.
+- id: espyrain_sync_schedule_names_to_esp
+  alias: "ESPyRain: Sync Schedule Names to ESP"
+  description: "Push HA input_text schedule names to ESP text entities when the user changes them in HA"
+  trigger:
+    - platform: state
+      entity_id:
+        - input_text.espyrain_schedule_1_name
+        - input_text.espyrain_schedule_2_name
+        - input_text.espyrain_schedule_3_name
+        - input_text.espyrain_schedule_4_name
+        - input_text.espyrain_schedule_5_name
+        - input_text.espyrain_schedule_6_name
+        - input_text.espyrain_schedule_7_name
+        - input_text.espyrain_schedule_8_name
+  action:
+    - service: text.set_value
+      target:
+        entity_id: text.espyrain_controller_schedule_1_name
+      data:
+        value: "{{ states('input_text.espyrain_schedule_1_name') }}"
+    - service: text.set_value
+      target:
+        entity_id: text.espyrain_controller_schedule_2_name
+      data:
+        value: "{{ states('input_text.espyrain_schedule_2_name') }}"
+    - service: text.set_value
+      target:
+        entity_id: text.espyrain_controller_schedule_3_name
+      data:
+        value: "{{ states('input_text.espyrain_schedule_3_name') }}"
+    - service: text.set_value
+      target:
+        entity_id: text.espyrain_controller_schedule_4_name
+      data:
+        value: "{{ states('input_text.espyrain_schedule_4_name') }}"
+    - service: text.set_value
+      target:
+        entity_id: text.espyrain_controller_schedule_5_name
+      data:
+        value: "{{ states('input_text.espyrain_schedule_5_name') }}"
+    - service: text.set_value
+      target:
+        entity_id: text.espyrain_controller_schedule_6_name
+      data:
+        value: "{{ states('input_text.espyrain_schedule_6_name') }}"
+    - service: text.set_value
+      target:
+        entity_id: text.espyrain_controller_schedule_7_name
+      data:
+        value: "{{ states('input_text.espyrain_schedule_7_name') }}"
+    - service: text.set_value
+      target:
+        entity_id: text.espyrain_controller_schedule_8_name
+      data:
+        value: "{{ states('input_text.espyrain_schedule_8_name') }}"
+  mode: single
+
+- id: espyrain_sync_schedule_names_from_esp
+  alias: "ESPyRain: Sync Schedule Names from ESP"
+  description: "Mirror ESP text entity schedule name changes back into the HA helpers"
+  trigger:
+    - platform: state
+      entity_id:
+        - text.espyrain_controller_schedule_1_name
+        - text.espyrain_controller_schedule_2_name
+        - text.espyrain_controller_schedule_3_name
+        - text.espyrain_controller_schedule_4_name
+        - text.espyrain_controller_schedule_5_name
+        - text.espyrain_controller_schedule_6_name
+        - text.espyrain_controller_schedule_7_name
+        - text.espyrain_controller_schedule_8_name
+  condition:
+    - condition: template
+      value_template: "{{ trigger.to_state is not none }}"
+    - condition: template
+      value_template: "{{ trigger.to_state.state not in ['unknown', 'unavailable', 'none', ''] }}"
+  action:
+    - variables:
+        helper_entity: "{{ trigger.entity_id | replace('text.espyrain_controller_', 'input_text.espyrain_') }}"
+        esp_value: "{{ trigger.to_state.state }}"
+        helper_value: "{{ states(helper_entity) }}"
+        entity_index: "{{ trigger.entity_id.split('_')[-2] }}"
+        default_value: "{{ 'Schedule' ~ entity_index }}"
+    - choose:
+        - conditions:
+            - condition: template
+              value_template: >
+                {{ helper_value != esp_value and (
+                  helper_value in ['unknown', 'unavailable', 'none', ''] or
+                  helper_value == default_value or
+                  esp_value != default_value
+                ) }}
+          sequence:
+            - service: input_text.set_value
+              data:
+                entity_id: "{{ helper_entity }}"
+                value: "{{ esp_value }}"
+  mode: restart
 
 # This makes the dropdown show the Station names, and respects the active station count.
 - id: espyrain_manual_station_options

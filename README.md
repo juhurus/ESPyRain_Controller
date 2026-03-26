@@ -1,151 +1,146 @@
 ![Sprinkler Header](images/screenshots/espyrain_controller_head.png)
 # ESPyRain Sprinkler Controller for Home Assistant
 
-An ESP32-based sprinkler controller with Home Assistant integration, designed to keep scheduled irrigation running autonomously even if HA or Wi-Fi is temporarily unavailable..
+An ESP32-based sprinkler controller with Home Assistant integration, designed to keep scheduled irrigation running autonomously even if Home Assistant or Wi-Fi is temporarily unavailable.
 
 ESPyRain is built for users who want a powerful, transparent, highly configurable irrigation system without depending on a cloud service or a closed commercial controller.
 
-There is already a wide selection of ESP based sprinkler systems out there. More common controllers like the ESPHome Sprinkler Controller and Irrigation Unlimited are both great and reliable sprinkler systems but they all require to recompile and reflash the ESP32 for any change to the system. 
+There is already a wide selection of ESP-based sprinkler systems available. More common solutions like ESPHome Sprinkler Controller and Irrigation Unlimited are both capable and reliable, but they usually require recompiling and reflashing the ESP32 when you want to make changes to the controller itself.
 
-The aim was to built a system which doesn't require reflashing or reloading yaml files to do a minor change. The user should have the flexibility to set and control everything through HA so even your wife or a family member can change a schedule start time or a station runtime without having to edit and reload HA yaml files or recompile and reflash the ESP. 
+The aim of ESPyRain is different. The goal is to avoid reflashing or reloading YAML files for everyday changes. Users should be able to set and control everything through Home Assistant, so even a partner or family member can change a schedule start time or a station runtime without editing YAML files, reloading Home Assistant, or recompiling and reflashing the ESP.
 
-ESPyRain Controller allows users to be in full control of their watering requirements through HA without having to restart/reload HA or reflash the ESP after the initial setup.
+ESPyRain Controller gives users full control of their watering requirements through Home Assistant without needing to restart Home Assistant or reflash the ESP after the initial setup.
 
-As previously mentioned another important factor was that the ESP32 controller continuous  scheduled watering even if HA or Wi-Fi is down temporarily. ESPyRain stores all schedules directly on the ESP device to allow fully autonomous watering.
+Another important design goal is autonomy. The ESP32 continues scheduled watering even if Home Assistant or Wi-Fi is temporarily unavailable. ESPyRain stores all schedules directly on the ESP device to allow fully autonomous watering.
 
+![Sprinkler Controller](images/screenshots/controller_head.png)
 
-![Sprinkler Controller](./screenshots/controller_head.png)
-
-## What is ESPyRain Controller
+## What Is ESPyRain Controller?
 
 ESPyRain provides a full-featured sprinkler controller built with:
 
 - `ESPHome` on an `ESP32` for local irrigation execution
 - `Home Assistant` for configuration, dashboard control, notifications, and higher-level logic
 
-The key design goal is reliability:
+The key design goals are reliability and usability:
 
 - schedules run locally on the controller
 - overlapping runs are queued instead of being skipped or cancelled
 - manual and scheduled runs can coexist
-- the queue runs on first-in-first-out bases
+- the queue runs on a first-in, first-out basis
 - Home Assistant enhances the system, but is not required for scheduled watering once the initial setup is complete
 
 ## Key Features
 
 ### Configuration
 
-Easy configuration through HA dashboard. You can configure all aspects directly through HA. No YAML editing needed, no YAML reloading needed, no further ESP flashing needed just to change a GPIO pin or update a runtime. 
+Easy configuration through the HA dashboard. You can configure all major aspects directly through Home Assistant. No further YAML editing, YAML reloading, or ESP flashing is required just to change a GPIO pin or update a runtime.
 
-ESPyRain doesn't use Programs like regular controllers, instead it uses Schedules where the user can select stations and start times.
+ESPyRain does not use programs like many regular controllers. Instead, it uses schedules where the user selects stations and start times.
 
-ESPyRain configuration options from HA without restarting HA or reflashing the ESP32:
+ESPyRain configuration options from HA without restarting HA or reflashing the ESP32 include:
 
-- Set the amount of required Stations/Zones (1 to 16) (hardware permitting)
-- Set the amount of required Schedules you want to run (1 to 8)
-- Set the Master Valve / Pump GPIO pin
-- Set the Station/Zone GPIO pins
-- Name your Stations/Zones
-- Enable/Disable Stations/Zones
-- set individual Station runtimes
-- Select Coupled Stations to work together
-- Name your Schedules
-- Enable/Disable Schedules
-- Set Schedule Start time
-- Seasonal Adjust% per schedule
-- Schedule Day Mode, Odd/Even, Every 2 to 7 Days, Selected Days, Weekends, Weekdays
-- Soak Cycle
-- Soak Delay between Cycles
-- Rain Delay
-- Winter Mode
-- Auto Winter Mode
-- Notifications On/Off
-- Bypass Interval Check
+- set the number of required stations/zones from `1` to `16` (hardware permitting)
+- set the number of required schedules from `1` to `8`
+- set the master valve / pump GPIO pin
+- set the station/zone GPIO pins
+- name your stations/zones
+- enable or disable stations/zones
+- set individual station runtimes
+- select coupled stations to work together
+- name your schedules
+- enable or disable schedules
+- set schedule start times
+- set seasonal adjust percentage per schedule
+- choose schedule day mode, odd/even, every 2 to 7 days, selected days, weekends, or weekdays
+- set soak cycles
+- set soak delay between cycles
+- set rain delay
+- set winter mode
+- set automatic winter mode
+- enable or disable notifications
+- bypass interval check
 
-Note: Using day mode "Every 2x Days" has the advantage that your sprinklers will not water two days in a row or miss watering days at the end of a month like it happens with "Odd/Even". 
-
+Note: using the day mode `Every 2x Days` has the advantage that your sprinklers will not water on two consecutive days or miss watering days at the end of a month, as can happen with `Odd/Even`.
 
 ![[./screenshots/every2days.png]]
 
 ### Core Irrigation Control
 
-- Bore Pump / Master Valve
+- bore pump / master valve support
 - up to `16` stations
 - up to `8` schedules
-- Seasonal adjust runtimes 50% to 150%
-- Manual station runs
-- Manual per Station runtime selection
-- Queue-based execution
-- Overlapping runs are added to the queue without interrupting the current run
-- Support for scheduled runs and manual runs in the same system
+- seasonal adjust runtimes from `50%` to `150%`
+- manual station runs
+- manual per-station runtime selection
+- queue-based execution
+- overlapping runs are added to the queue without interrupting the current run
+- support for scheduled runs and manual runs in the same system
 
-
-![Controller Config](./screenshots/system_config.png)
+![System Config](images/screenshots/system_config.png)
 
 ### Advanced Irrigation Logic
 
-- Pause/Resume any time
-- Soak cycles 2x to 5x
-- Configurable soak rest time
-- Seasonal adjust per schedule
-- Daily, selected-day, and interval-based schedules
-- Coupled stations / linked stations
-- Rain delay
-- Winter mode
-- Optional automatic winter mode using start/end dates
+- pause and resume at any time
+- soak cycles `2x` to `5x`
+- configurable soak rest time
+- seasonal adjust per schedule
+- daily, selected-day, and interval-based schedules
+- coupled stations / linked stations
+- rain delay
+- winter mode
+- optional automatic winter mode using start and end dates
 
-
-![Controller Config card](./screenshots/controller_config_rain_delay_and_winter_mode.png)
+![Rain delay and winter mode](images/screenshots/controller_config_rain_delay_and_winter_mode.png)
 
 ### Reliability and Autonomy
 
-- Scheduled watering continues on the ESP32 even if Home Assistant is unavailable
-- Scheduled watering continues if Wi-Fi is unavailable
-- State restore across controller restarts
-- Heartbeat/disconnect awareness between HA and the controller
-- Controller-side queue execution
-- No cloud dependency
+- scheduled watering continues on the ESP32 even if Home Assistant is unavailable
+- scheduled watering continues if Wi-Fi is unavailable
+- state restore across controller restarts
+- heartbeat / disconnect awareness between HA and the controller
+- controller-side queue execution
+- no cloud dependency
 
-
-![Controller Offline](./screenshots/controller_offline.png)
+![Controller Offline](images/screenshots/controller_offline.png)
 
 ### Home Assistant Integration
 
 - Home Assistant package-based installation
-- Lovelace Dashboard included
+- dashboard YAML included
 - HA Companion app control through Home Assistant
-- Flexible notification support
-- Forecast and next-run sensors
-- Debug sensors and troubleshooting helpers
-- Manual run image-map/dashboard support
-- Runtime stats through custom cards. 
+- flexible notification support
+- forecast and next-run sensors
+- basic diagnostic and troubleshooting sensors
+- manual run image-map dashboard support
+- runtime stats through custom cards on the full dashboard
 
 ### Hardware Integration
 
-- Pump / master valve switching
-- Pump / valve delay handling
-- Solenoid valve switching
-- Suitable for systems that need staged startup or safe changeover timing
+- pump / master valve switching
+- pump / valve delay handling
+- solenoid valve switching
+- suitable for systems that need staged startup or safe changeover timing
 
-## Why ESPyRain Project was designed 
+## Why ESPyRain Was Designed
 
 Many irrigation solutions are either:
 
 - easy to use but closed and limited
 - powerful but dependent on cloud services
 - integrated into Home Assistant but difficult to use
-- integrated into HA but not designed for independent operation
+- integrated into Home Assistant but not designed for autonomous operation
 
-ESPyRain project aims to combine the best parts of both worlds:
+ESPyRain aims to combine the best parts of both worlds:
 
 - local, reliable execution on the ESP controller
 - rich control and visibility through Home Assistant
-- easy to use, operate and maintain through HA 
+- easy day-to-day operation through Home Assistant
 - transparent logic that can be understood, modified, and extended
 
 ## How It Works
 
-The architecture is split between two layers:
+The architecture is split between two layers.
 
 ### ESP32 / ESPHome Layer
 
@@ -157,9 +152,9 @@ The ESP32 is the actual sprinkler controller. It is responsible for:
 - handling soak cycles
 - preserving autonomous scheduled operation
 
-This is what allows the system to keep watering on schedule even if Home Assistant or Wi-Fi is offline.
+This is what allows the system to keep watering on schedule even if Home Assistant or Wi-Fi is temporarily offline.
 
-![Scheduled watering](./screenshots/upcoming_watering.png)
+![Scheduled watering](images/screenshots/upcoming_watering.png)
 
 ### Home Assistant Layer
 
@@ -178,24 +173,23 @@ Home Assistant is the management and visibility layer, but not the only thing ke
 
 ### Real Pause Function
 
-This system includes a real pause function for active watering. The Pause feature eliminates having to cancel and restart a schedule later to finish watering. 
+This system includes a real pause function for active watering. The pause feature removes the need to cancel and restart a schedule later just to finish watering.
 
-Examples where this is useful:
+Examples where pausing can be useful useful:
 
 - you need to quickly stop watering without losing the run state
-- sprinkler maintenance, pause the system while you replace or change a sprinkler head
-- your kids want playing on the lawn
-- you have visitors over for a BBQ in your backyard
+- sprinkler maintenance while you replace or adjust a sprinkler head
+- your kids want to play on the lawn
+- you have visitors over for a BBQ
 - the lawn maintenance person arrives
-- a car is parked on the lawn
+- a car is parked on the front lawn
 - you want to finish gardening without getting wet
 
-
-The goal is to pause cleanly and resume properly, instead of cancelling a run. This could potentially save you water if you don't need to re-run a schedule from the start. 
+The goal is to pause cleanly and resume properly, instead of cancelling a run. This can save water because you do not need to restart the whole schedule from the beginning.
 
 ### Queueing Instead of Cancelling or Skipping
 
-If one schedule is already active and another schedule becomes due, the new run is added to the end of the queue. This could happen when you have two schedules programmed to run one after another but due to seasonal adjust they may now overlap. ESPyRain handles this issue by queueing the next run on a first-in-first-out basis. 
+If one schedule is already active and another schedule becomes due, the new run is added to the end of the queue. This can happen when two schedules were originally programmed to run one after another, but seasonal adjust causes them to overlap.
 
 This is an important reliability feature. The system is designed so irrigation runs are not silently cancelled or skipped just because something else is already watering.
 
@@ -205,13 +199,13 @@ If multiple valves need to operate together, they can be linked.
 
 Selecting or starting any station in a linked group can resolve to the whole group, so coupled irrigation zones behave consistently in both manual and scheduled operation.
 
-### Seasonal Adjust%
+### Seasonal Adjust %
 
-Each schedule supports individual seasonal adjustment between 50% to 150%.
+Each schedule supports individual seasonal adjustment between `50%` and `150%`.
 
 This is useful on its own, but it also makes weather-based runtime adjustment easy to add for users who have reliable local weather or rainfall data in Home Assistant.
 
-Rather than building one fixed weather model into the controller, this project lets advanced users drive `Seasonal Adjust' through HA automations if they want that behavior.
+Rather than building one fixed weather model into the controller, this project lets advanced users drive `Seasonal Adjust` through HA automations if they want that behavior.
 
 ## Pump / Master Valve Support
 
@@ -219,14 +213,13 @@ This project supports pump or master valve switching, including delay handling.
 
 This is useful for installations where:
 
-- a pump must start before station valves open
+- a pump must start before or after station valves open
 - a pump or master valve should remain active during station changeover
 - valve/pump timing needs to be coordinated safely
 
 Note: pump / master valve behavior should always be validated for each hardware installation before relying on it in production.
 
-
-![[./screenshots/master_valve_bore_pump_card.png]]
+![Master Valve Card](images/screenshots/master_valve_bore_pump_card.png)
 
 ## Control Options
 
@@ -234,27 +227,25 @@ You can control the system through:
 
 - the Home Assistant dashboard
 - the Home Assistant companion app
-- Built-in webserver (for when HA is down)
+- the built-in webserver when Home Assistant is down
 - Home Assistant automations
-- ESPHome button/services exposed to Home Assistant
+- ESPHome buttons and services exposed to Home Assistant
 
 Manual watering can be started either from standard controls or from a mapped image-based station selection card.
 
-
-![Sprinkler Controller](./screenshots/mobile_manual_station_s8_active_image.jpg)
+![Sprinkler Controller](images/screenshots/mobile_manual_station_s8_active_image.jpg)
 
 ## Who This Project Is For
 
 This project is a good fit if you:
 
-- want an easy to use sprinkler controller 
+- want an easy-to-use feature rich sprinkler controller
 - want a local-first irrigation controller
 - already use Home Assistant and ESPHome
 - are comfortable editing YAML
-- want more flexibility than a fixed commercial controller usually provides
+- want more flexibility than a typical fixed commercial controller provides
 - need more than 8 stations/zones
 - care about autonomy, visibility, and reliability
-
 
 ## Requirements
 
@@ -262,16 +253,17 @@ This project is a good fit if you:
 
 - Home Assistant
 - ESPHome
-- Required Lovelace custom cards for the full dashboard
+- required Lovelace custom cards for the full dashboard
 - HACS if you want to install the full custom-card dashboard
 
 ### Hardware
 
 - ESP32 board
-- Relay board or suitable sprinkler output hardware
-- Optional pump or master valve output
-- Optional Home Assistant `notify.*` services for notifications
+- relay board or suitable sprinkler output hardware
+- optional pump or master valve output
+- optional Home Assistant `notify.*` services for notifications
 
+![ESP32 and Relay board wiring](images/screenshots/esp32_relay_boards_wiring2.jpg)
 ### Expected User Skill Level
 
 This project is best suited for users who are comfortable with:
@@ -285,6 +277,23 @@ It is packaged to be easier to install, but it is still designed for advanced Ho
 
 ## Quick Start
 
+Detailed setup steps are documented in:
+
+- `INSTALL_CHECKLIST.md`
+
+At a high level, installation looks like this:
+
+1. Copy the package files into Home Assistant
+2. Create a temporary ESPHome device to harvest the API key and board settings
+3. Prepare `espyrain_controller_wrapper.yaml` and `/config/esphome/secrets.yaml`
+4. Compile and flash the ESP32
+5. Add the newly discovered ESPyRain device in Home Assistant
+6. Enable Home Assistant package loading in `configuration.yaml`
+7. Restart Home Assistant and confirm the helpers appear
+8. Import the simple dashboard first, or the full dashboard if you already installed its dependencies
+9. Configure stations, schedules, coupling, and notification settings
+10. Run the first manual and scheduled tests
+
 ## Notifications
 
 Notifications work out of the box without Telegram or any other third-party service.
@@ -293,32 +302,17 @@ Default behavior:
 - if notifications are enabled and no custom service is configured, ESPyRain creates a Home Assistant persistent notification
 
 Optional custom targets:
-- set `input_text.espyrain_notify_service` to one `notify.*` service
-- or enter multiple comma-separated `notify.*` services
+- set `input_text.espyrain_notify_service` to one `notify.*` target
+- or enter multiple comma-separated `notify.*` targets
+- this can easily be done in the dashboard "Notification Service(s)"
 
 Examples:
 - `notify.mobile_app_my_phone`
 - `notify.telegram_bot_123456789_987654321, notify.mobile_app_my_phone`
 
-Detailed setup steps are documented in:
-
-- `INSTALL_CHECKLIST.md`
-
-At a high level, installation looks like this:
-
-1. Install the Home Assistant package
-2. Add required notification and Wi-Fi secrets 
-3. Install required Lovelace custom cards
-4. Prepare the ESPHome wrapper config (`espyrain_controller_wrapper.yaml`)
-5. Configure Wi-Fi, API, OTA, and hardware-specific settings
-6. Flash the ESP32
-7. Import or add the dashboard
-8. Configure stations, schedules, and optional features
-9. Run first manual and scheduled tests
-
 ## First-Time Setup Checklist
 
-After the package is installed, the first things most users will want to configure are:
+After installation, the first things most users will want to configure are:
 
 - station names
 - station enabled states
@@ -331,26 +325,21 @@ After the package is installed, the first things most users will want to configu
 - coupled stations if used
 - notification settings
 - winter mode dates if used
-- dashboard image paths if using the manual run map
+- dashboard image paths if using the full dashboard manual-run image map
 
 ## Repository Layout
 
 - `ESPyRain-controller/`
   - ESPHome package, wrapper examples, and controller firmware configuration
-  
-- `HA_dashboard/`
-  - dashboard YAML and dashboard dependency notes
+
+- `HA_dashboards/`
+  - dashboard YAML files and dashboard dependency notes
 
 - `packages/`
   - Home Assistant package entrypoint
 
 - `package_sources/`
-  - Home Assistant package source files:
-  - helpers
-  - automations
-  - scripts
-  - sensors
-  - templates
+  - Home Assistant package source files for helpers, automations, scripts, sensors, and templates
 
 - `INSTALL_CHECKLIST.md`
   - detailed installation and setup checklist
@@ -360,16 +349,17 @@ After the package is installed, the first things most users will want to configu
 
 ## Dashboard and Companion App
 
-The included dashboard is designed to expose the controller in a practical, operator-friendly way.
+The included dashboards are designed to expose the controller in a practical, operator-friendly way.
 
-It includes:
+The simple dashboard is intended for:
+- easy onboarding
+- built-in cards only
+- no HACS requirement
 
-- schedule configuration
-- watering progress
-- runtime stats
-- manual run controls
-- controller status and debug information
-- optional image-based station start buttons
+The full dashboard is intended for:
+- richer visuals
+- custom cards
+- advanced presentation and image-based controls
 
 Because the system is exposed through Home Assistant, it can also be controlled through the Home Assistant companion app.
 

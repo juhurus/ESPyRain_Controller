@@ -3,11 +3,11 @@
 Two HA dashboards are supplied in this folder.
 
 ### 1. Starter dashboard with only built-in Home Assistant cards:
-It's a simple dashboard to get you started quickly
+It's a simple dashboard to get you started quickly without dependencies or styling.
 - `HA_dashboard/ESPyRain_dashboard_simple.yaml`
 
 ### 2. Full custom-card dashboard:
-Full featured dashboard for a nicer user experience but HACS and custom cards required
+Full featured dashboard for a better user experience but HACS and custom cards required.
 - `HA_dashboard/ESPyRain_dashboard_full.yaml`
 ## Starter dashboard notes
 - No HACS or custom cards required.

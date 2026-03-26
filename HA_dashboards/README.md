@@ -1,17 +1,24 @@
 # Dashboard Options
 
-Full custom-card dashboard:
-- `HA_dashboard/HA_dashboard.yaml`
+Starter dashboard with only built-in Home Assistant cards:
+- `HA_dashboard/ESPyRain_dashboard_simple.yaml`
+
+## Starter dashboard notes
+- No HACS or custom cards required.
+- No image assets required.
+- Good for first install, testing, and minimal setups.
 
 Starter dashboard with only built-in Home Assistant cards:
-- `HA_dashboard/HA_dashboard_starter.yaml`
+- `HA_dashboard/ESPyRain_dashboard_simple.yaml`
 
+Full custom-card dashboard:
+- `HA_dashboard/ESPyRain_dashboard_full.yaml`
 ## Full dashboard dependencies
 This dashboard currently uses these custom cards:
 - `button-card`
 - `card-mod`
 - `fold-entity-row`
-- `large-number-input-card`
+- `large-number-input-card` (search for `large-number-input)
 - `mini-graph-card`
 - `template-entity-row`
 - `time-picker-card`
@@ -23,16 +30,21 @@ The full dashboard also references built-in wrapper types that appear as custom-
 Those are HA frontend wrappers, not external HACS dependencies.
 
 ## Required image assets for the full dashboard
-The full dashboard currently expects these files under HA `www/`:
-- `/local/background.jpg`
-- `/local/sprinklers/backyard_overhead_vert.jpg`
+The full dashboard currently expects these files under HA `www/espyrain/`:
+- `/local/espyrain/espyrain_background.jpg`
+- `/local/espyrain/your_property_overhead.jpg`
+
+```
+`-- www/
+    `-- espyrain/
+        |-- espyrain_background.jpg
+        `-- your_property_overhead.jpg
+```
+
+For best result use the supplied ESPyRain Theme. Make sure you copied ESPyRain Theme into your themes folder and restarted HA.
 
 If those assets are missing, either:
 - add files with those exact paths, or
-- edit `HA_dashboard/HA_dashboard.yaml` to point to your own images
+- edit `HA_dashboard/ESPyRain_dashboard_full.yaml` to point to your own images
 
-## Starter dashboard notes
-- No HACS or custom cards required.
-- No image assets required.
-- Good for first install, testing, and minimal setups.
-- Once users want the richer UI, they can switch to the full dashboard later.
+

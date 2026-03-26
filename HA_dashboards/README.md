@@ -7,7 +7,7 @@ It's a simple dashboard to get you started quickly without dependencies or styli
 - `HA_dashboard/ESPyRain_dashboard_simple.yaml`
 
 ### 2. Full custom-card dashboard:
-Full featured dashboard for a better user experience but HACS and custom cards required.
+Full featured dashboard for a better user experience but requires HACS and custom cards.
 - `HA_dashboard/ESPyRain_dashboard_full.yaml`
 ## Starter dashboard notes
 - No HACS or custom cards required.

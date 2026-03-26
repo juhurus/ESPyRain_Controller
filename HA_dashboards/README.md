@@ -1,18 +1,19 @@
 # Dashboard Options
 
-Starter dashboard with only built-in Home Assistant cards:
+Two HA dashboards are supplied in this folder.
+
+### 1. Starter dashboard with only built-in Home Assistant cards:
+It's a simple dashboard to get you started quickly
 - `HA_dashboard/ESPyRain_dashboard_simple.yaml`
 
+### 2. Full custom-card dashboard:
+Full featured dashboard for a nicer user experience but HACS and custom cards required
+- `HA_dashboard/ESPyRain_dashboard_full.yaml`
 ## Starter dashboard notes
 - No HACS or custom cards required.
 - No image assets required.
 - Good for first install, testing, and minimal setups.
 
-Starter dashboard with only built-in Home Assistant cards:
-- `HA_dashboard/ESPyRain_dashboard_simple.yaml`
-
-Full custom-card dashboard:
-- `HA_dashboard/ESPyRain_dashboard_full.yaml`
 ## Full dashboard dependencies
 This dashboard currently uses these custom cards:
 - `button-card`
@@ -42,6 +43,14 @@ The full dashboard currently expects these files under HA `www/espyrain/`:
 ```
 
 For best result use the supplied ESPyRain Theme. Make sure you copied ESPyRain Theme into your themes folder and restarted HA.
+
+Replace your_property_overhead.jpg with your image and move the buttons in the dashboard card by adjusting top and left %:
+
+```
+style:
+   top: 90%
+   left: 85%
+```   
 
 If those assets are missing, either:
 - add files with those exact paths, or

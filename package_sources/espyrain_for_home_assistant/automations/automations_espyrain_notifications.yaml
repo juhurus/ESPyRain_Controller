@@ -334,6 +334,15 @@
     - platform: state
       entity_id: switch.espyrain_controller_winter_mode
   condition:
+    - condition: template
+      value_template: >
+        {{
+          trigger.from_state is not none and
+          trigger.to_state is not none and
+          trigger.from_state.state not in ['unknown', 'unavailable'] and
+          trigger.to_state.state not in ['unknown', 'unavailable'] and
+          trigger.from_state.state != trigger.to_state.state
+        }}
     - condition: state
       entity_id: input_boolean.espyrain_notifications
       state: "on"
@@ -496,25 +505,70 @@
 # # ============================================================
 # # SPECIAL NOTIFICATIONS
 # # ============================================================
-- id: espyrain_s3_coupling_active
-  alias: "ESPyRain: S3 Coupling Activated"
+- id: espyrain_coupling_active_generic
+  alias: "ESPyRain: Coupled Stations Activated"
+  mode: queued
+  max: 20
   trigger:
     - platform: state
-      entity_id: binary_sensor.espyrain_controller_station_3_watering
+      entity_id:
+        - binary_sensor.espyrain_controller_station_1_watering
+        - binary_sensor.espyrain_controller_station_2_watering
+        - binary_sensor.espyrain_controller_station_3_watering
+        - binary_sensor.espyrain_controller_station_4_watering
+        - binary_sensor.espyrain_controller_station_5_watering
+        - binary_sensor.espyrain_controller_station_6_watering
+        - binary_sensor.espyrain_controller_station_7_watering
+        - binary_sensor.espyrain_controller_station_8_watering
+        - binary_sensor.espyrain_controller_station_9_watering
+        - binary_sensor.espyrain_controller_station_10_watering
+        - binary_sensor.espyrain_controller_station_11_watering
+        - binary_sensor.espyrain_controller_station_12_watering
+        - binary_sensor.espyrain_controller_station_13_watering
+        - binary_sensor.espyrain_controller_station_14_watering
+        - binary_sensor.espyrain_controller_station_15_watering
+        - binary_sensor.espyrain_controller_station_16_watering
       to: "on"
+  condition:
+    - condition: state
+      entity_id: input_boolean.espyrain_notifications
+      state: "on"
+    - condition: template
+      value_template: >
+        {% set station_num = trigger.entity_id.split('station_')[1].split('_')[0] | int(0) %}
+        {% set coupled = namespace(items=[]) %}
+        {% for i in range(1, 17) %}
+          {% if i != station_num and is_state('input_boolean.espyrain_station_' ~ station_num ~ '_coupled_' ~ i, 'on') %}
+            {% set coupled.items = coupled.items + ['S' ~ i] %}
+          {% endif %}
+        {% endfor %}
+        {{ coupled.items | count > 0 }}
   action:
     - delay:
-        milliseconds: 2500 # to keep messages in order
-        
+        milliseconds: 2500
+    - variables:
+        station_num: "{{ trigger.entity_id.split('station_')[1].split('_')[0] | int(0) }}"
+        station_name: "{{ states('input_text.espyrain_station_' ~ station_num ~ '_name') }}"
+        coupled_station_list: >
+          {% set coupled = namespace(items=[]) %}
+          {% for i in range(1, 17) %}
+            {% if i != station_num and is_state('input_boolean.espyrain_station_' ~ station_num ~ '_coupled_' ~ i, 'on') %}
+              {% set station_label = states('input_text.espyrain_station_' ~ i ~ '_name') %}
+              {% if station_label not in ['unknown', 'unavailable', '', 'None'] %}
+                {% set coupled.items = coupled.items + ['S' ~ i ~ ' ' ~ station_label] %}
+              {% else %}
+                {% set coupled.items = coupled.items + ['S' ~ i] %}
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+          {{ coupled.items | join(', ') }}
     - service: script.espyrain_send_notification
       data:
-        title: "*🔗 S3 S4 S7 Active*"
+        title: "*?? Coupled Stations Active*"
         message: >
-          S3 Small Island started → 
-          
-          S4 Garden Beds and →
-          
-          S7 Arena are running simultaneously.
+          S{{ station_num }} {{ station_name }} started.
+
+          Coupled with: {{ coupled_station_list }}
 
 - id: espyrain_seasonal_changed
   alias: "ESPyRain: Seasonal Adjustment Changed"

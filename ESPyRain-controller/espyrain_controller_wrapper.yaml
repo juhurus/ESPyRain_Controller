@@ -1,5 +1,5 @@
 # ════════════════════════════════════════════════════════════════════════
-# File location: esphome/espyrain_controller.yaml
+# File location: esphome/espyrain_controller_wrapper.yaml
 
 #      This is one of two yaml files you need to edit wiht your pesonalised details. 
 #      The other is your esphome/secrets.yaml
@@ -21,21 +21,19 @@
 # ----------------------------
 # wifi_ssid: "your_wifi_ssid"
 # wifi_password: "your_wifi_password"
-# wifi_ssid2: "your_wifi_ssid2"            # only if you have another SSID on your network
-# wifi_password2: "your_wifi_password2"    # only if you have another SSID on your network
 
 # OTA password
 # ----------------------------
-# espyrain_ota_password: "your_espyrain_ota_password" # ESPHome will provide this info when you create your new device
+# espyrain_ota_password: "your_espyrain_ota_password" # give it any password you want 
 
 # API encryption key (ESPHome will generate this for you)
 # ----------------------------
-# espyrain_api_key: "ypur_espyrain_api_key"         # ESPHome will provide info this when you create your new device
+# espyrain_api_key: "ypur_espyrain_api_key"           # ESPHome will provide API key when you create your new device
     
 # Enable fallback hotspot (captive portal) in case wifi connection fails
 # ----------------------------
-# espyrain_ap_ssid: "your_espyrain_ap_ssid"         # ESPHome will provide this info when you create your new device
-# espyrain_ap_password: "your_espyrain_ap_password" # ESPHome will provide this info when you create your new device
+# espyrain_ap_ssid: "your_espyrain_ap_ssid"           
+# espyrain_ap_password: "your_espyrain_ap_password"   # any password you want
 
 # ════════════════════════════════════════════════════════════
 # ESP32 board details
@@ -59,7 +57,7 @@ substitutions:
 # ════════════════════════════════════════════════════════════
 # uncomment the lines below if you need a static IP address for your ESP.
 #wifi:
-#  manual_ip: #!include ESPyRain-controller/network_static_ip.yaml
+#  manual_ip: 
 #    static_ip: 192.168.1.88
 #    gateway: 192.168.1.1
 #    subnet: 255.255.255.0
@@ -68,7 +66,7 @@ substitutions:
     
 # ════════════════════════════════════════════════════════════
 # ════════════════════════════════════════════════════════════
-# PACKAGES (NO NEED TO CHANGE THIS)
+# PACKAGES (NO NEED TO CHANGE ANYTHING BELOW)
 # ════════════════════════════════════════════════════════════
 # ════════════════════════════════════════════════════════════
 packages:
@@ -85,5 +83,4 @@ packages:
   
   
   
-
 

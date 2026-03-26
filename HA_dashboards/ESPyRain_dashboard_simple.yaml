@@ -1,0 +1,1352 @@
+title: ESPyRain Starter
+views:
+  - title: Overview
+    path: overview
+    icon: mdi:sprinkler-variant
+    cards:
+      - type: markdown
+        content: >
+          # ESPyRain Controller Starter Dashboard
+
+
+          This dashboard uses only built-in Home Assistant cards.
+
+          It is intended as the simplest way to get started without HACS or
+          custom cards.
+      - type: entities
+        title: Controller Status
+        show_header_toggle: false
+        entities:
+          - entity: sensor.espyrain_controller_status
+            name: Status
+          - entity: sensor.espyrain_controller_queue
+            name: Queue
+          - entity: sensor.espyrain_next_scheduled_run
+            name: Next scheduled run
+          - entity: sensor.espyrain_controller_esp_date_time
+            name: Controller time
+          - entity: binary_sensor.espyrain_controller_ha_link
+            name: HA link
+          - entity: sensor.espyrain_controller_connection_status
+            name: Connection status
+          - entity: sensor.espyrain_controller_ip_address
+            name: IP address
+          - entity: sensor.espyrain_controller_wifi_signal
+            name: Wi-Fi signal
+          - entity: sensor.espyrain_controller_firmware_version
+            name: Firmware version
+      - type: horizontal-stack
+        cards:
+          - type: button
+            entity: button.espyrain_controller_pause
+            name: Pause
+            icon: mdi:pause-circle
+            tap_action:
+              action: perform-action
+              perform_action: button.press
+              target:
+                entity_id: button.espyrain_controller_pause
+          - type: button
+            entity: button.espyrain_controller_resume
+            name: Resume
+            icon: mdi:play-circle
+            tap_action:
+              action: perform-action
+              perform_action: button.press
+              target:
+                entity_id: button.espyrain_controller_resume
+          - type: button
+            entity: button.espyrain_controller_stop
+            name: Stop
+            icon: mdi:stop-circle
+            tap_action:
+              action: perform-action
+              perform_action: button.press
+              target:
+                entity_id: button.espyrain_controller_stop
+          - type: button
+            entity: button.espyrain_controller_restart_esp
+            name: Restart ESP
+            icon: mdi:restart
+            tap_action:
+              action: toggle
+              confirmation:
+                text: Are you sure you want to restart the sprinkler controller?
+      - type: entities
+        title: Manual Run
+        show_header_toggle: false
+        entities:
+          - entity: input_select.espyrain_manual_station
+          - entity: input_datetime.espyrain_manual_runtime
+          - entity: script.espyrain_manual_run
+            name: Start Manual Run
+      - type: entities
+        title: Core Settings
+        show_header_toggle: false
+        entities:
+          - entity: number.espyrain_controller_number_of_stations
+            name: Number of stations
+          - entity: number.espyrain_controller_number_of_schedules
+            name: Number of schedules
+          - entity: switch.espyrain_controller_winter_mode
+            name: Winter mode
+          - entity: switch.espyrain_controller_master_valve_enabled
+            name: Master valve enabled
+          - entity: number.espyrain_controller_master_valve_pin
+            name: Master valve pin
+          - entity: number.espyrain_controller_master_valve_delay_ms
+            name: Master valve delay
+          - entity: number.espyrain_controller_soak_rest_minutes
+            name: Soak rest minutes
+          - entity: number.espyrain_controller_rain_delay_days
+            name: Rain delay days
+          - entity: switch.espyrain_controller_bypass_interval_check
+            name: Bypass interval check
+          - entity: input_boolean.espyrain_notifications
+          - entity: input_text.espyrain_notify_service
+            name: Notification service(s)
+      - type: markdown
+        content: >
+          Leave **Notification service(s)** blank to use Home Assistant
+          persistent notifications.
+
+
+          You can also enter one or more comma-separated `notify.*` services,
+          for example:
+
+          `notify.mobile_app_my_phone, notify.telegram`
+      - type: entities
+        title: Helpful Sensors
+        show_header_toggle: false
+        entities:
+          - entity: sensor.espyrain_controller_active_station
+            name: Active station
+          - entity: sensor.espyrain_controller_current_schedule
+            name: Current schedule
+          - entity: sensor.espyrain_controller_station_time_remaining_formatted
+            name: Station time remaining
+          - entity: sensor.espyrain_controller_total_queue_time_remaining_formatted
+            name: Total queue remaining
+          - entity: sensor.espyrain_controller_uptime
+            name: Uptime
+          - entity: sensor.espyrain_controller_free_memory
+            name: Free memory
+  - title: Schedules
+    path: schedules
+    icon: mdi:calendar-clock
+    cards:
+      - type: markdown
+        content: >
+          # Schedule Configuration
+
+
+          Edit names, enable schedules, and use the built-in Run Schedule Now
+          buttons.
+      - type: grid
+        columns: 1
+        square: false
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: markdown
+                content: |
+                  ## Schedule 1
+              - type: entities
+                show_header_toggle: false
+                entities:
+                  - entity: input_text.espyrain_schedule_1_name
+                  - entity: input_boolean.espyrain_schedule_1_enabled
+                  - entity: input_datetime.espyrain_schedule_1_time
+                  - entity: input_select.espyrain_schedule_1_days
+                  - entity: input_number.espyrain_schedule_1_interval
+                  - entity: input_number.espyrain_schedule_1_seasonal
+                  - entity: input_select.espyrain_schedule_1_soak_cycles
+                  - entity: sensor.espyrain_schedule_1_last_run
+                  - entity: sensor.espyrain_controller_schedule_1_next_run
+                    name: Next run
+                  - entity: button.espyrain_controller_run_schedule_1_now
+                    name: Run now
+          - type: vertical-stack
+            cards:
+              - type: markdown
+                content: |
+                  ## Schedule 2
+              - type: entities
+                show_header_toggle: false
+                entities:
+                  - entity: input_text.espyrain_schedule_2_name
+                  - entity: input_boolean.espyrain_schedule_2_enabled
+                  - entity: input_datetime.espyrain_schedule_2_time
+                  - entity: input_select.espyrain_schedule_2_days
+                  - entity: input_number.espyrain_schedule_2_interval
+                  - entity: input_number.espyrain_schedule_2_seasonal
+                  - entity: input_select.espyrain_schedule_2_soak_cycles
+                  - entity: sensor.espyrain_schedule_2_last_run
+                  - entity: sensor.espyrain_controller_schedule_2_next_run
+                    name: Next run
+                  - entity: button.espyrain_controller_run_schedule_2_now
+                    name: Run now
+          - type: vertical-stack
+            cards:
+              - type: markdown
+                content: |
+                  ## Schedule 3
+              - type: entities
+                show_header_toggle: false
+                entities:
+                  - entity: input_text.espyrain_schedule_3_name
+                  - entity: input_boolean.espyrain_schedule_3_enabled
+                  - entity: input_datetime.espyrain_schedule_3_time
+                  - entity: input_select.espyrain_schedule_3_days
+                  - entity: input_number.espyrain_schedule_3_interval
+                  - entity: input_number.espyrain_schedule_3_seasonal
+                  - entity: input_select.espyrain_schedule_3_soak_cycles
+                  - entity: sensor.espyrain_schedule_3_last_run
+                  - entity: sensor.espyrain_controller_schedule_3_next_run
+                    name: Next run
+                  - entity: button.espyrain_controller_run_schedule_3_now
+                    name: Run now
+          - type: vertical-stack
+            cards:
+              - type: markdown
+                content: |
+                  ## Schedule 4
+              - type: entities
+                show_header_toggle: false
+                entities:
+                  - entity: input_text.espyrain_schedule_4_name
+                  - entity: input_boolean.espyrain_schedule_4_enabled
+                  - entity: input_datetime.espyrain_schedule_4_time
+                  - entity: input_select.espyrain_schedule_4_days
+                  - entity: input_number.espyrain_schedule_4_interval
+                  - entity: input_number.espyrain_schedule_4_seasonal
+                  - entity: input_select.espyrain_schedule_4_soak_cycles
+                  - entity: sensor.espyrain_schedule_4_last_run
+                  - entity: sensor.espyrain_controller_schedule_4_next_run
+                    name: Next run
+                  - entity: button.espyrain_controller_run_schedule_4_now
+                    name: Run now
+          - type: vertical-stack
+            cards:
+              - type: markdown
+                content: |
+                  ## Schedule 5
+              - type: entities
+                show_header_toggle: false
+                entities:
+                  - entity: input_text.espyrain_schedule_5_name
+                  - entity: input_boolean.espyrain_schedule_5_enabled
+                  - entity: input_datetime.espyrain_schedule_5_time
+                  - entity: input_select.espyrain_schedule_5_days
+                  - entity: input_number.espyrain_schedule_5_interval
+                  - entity: input_number.espyrain_schedule_5_seasonal
+                  - entity: input_select.espyrain_schedule_5_soak_cycles
+                  - entity: sensor.espyrain_schedule_5_last_run
+                  - entity: sensor.espyrain_controller_schedule_5_next_run
+                    name: Next run
+                  - entity: button.espyrain_controller_run_schedule_5_now
+                    name: Run now
+          - type: vertical-stack
+            cards:
+              - type: markdown
+                content: |
+                  ## Schedule 6
+              - type: entities
+                show_header_toggle: false
+                entities:
+                  - entity: input_text.espyrain_schedule_6_name
+                  - entity: input_boolean.espyrain_schedule_6_enabled
+                  - entity: input_datetime.espyrain_schedule_6_time
+                  - entity: input_select.espyrain_schedule_6_days
+                  - entity: input_number.espyrain_schedule_6_interval
+                  - entity: input_number.espyrain_schedule_6_seasonal
+                  - entity: input_select.espyrain_schedule_6_soak_cycles
+                  - entity: sensor.espyrain_schedule_6_last_run
+                  - entity: sensor.espyrain_controller_schedule_6_next_run
+                    name: Next run
+                  - entity: button.espyrain_controller_run_schedule_6_now
+                    name: Run now
+          - type: vertical-stack
+            cards:
+              - type: markdown
+                content: |
+                  ## Schedule 7
+              - type: entities
+                show_header_toggle: false
+                entities:
+                  - entity: input_text.espyrain_schedule_7_name
+                  - entity: input_boolean.espyrain_schedule_7_enabled
+                  - entity: input_datetime.espyrain_schedule_7_time
+                  - entity: input_select.espyrain_schedule_7_days
+                  - entity: input_number.espyrain_schedule_7_interval
+                  - entity: input_number.espyrain_schedule_7_seasonal
+                  - entity: input_select.espyrain_schedule_7_soak_cycles
+                  - entity: sensor.espyrain_schedule_7_last_run
+                  - entity: sensor.espyrain_controller_schedule_7_next_run
+                    name: Next run
+                  - entity: button.espyrain_controller_run_schedule_7_now
+                    name: Run now
+          - type: vertical-stack
+            cards:
+              - type: markdown
+                content: |
+                  ## Schedule 8
+              - type: entities
+                show_header_toggle: false
+                entities:
+                  - entity: input_text.espyrain_schedule_8_name
+                  - entity: input_boolean.espyrain_schedule_8_enabled
+                  - entity: input_datetime.espyrain_schedule_8_time
+                  - entity: input_select.espyrain_schedule_8_days
+                  - entity: input_number.espyrain_schedule_8_interval
+                  - entity: input_number.espyrain_schedule_8_seasonal
+                  - entity: input_select.espyrain_schedule_8_soak_cycles
+                  - entity: sensor.espyrain_schedule_8_last_run
+                  - entity: sensor.espyrain_controller_schedule_8_next_run
+                    name: Next run
+                  - entity: button.espyrain_controller_run_schedule_8_now
+                    name: Run now
+  - title: Stations
+    path: stations
+    icon: mdi:valve
+    cards:
+      - type: markdown
+        content: >
+          # Station Configuration
+
+
+          This view keeps station setup simple: name, enable or disable,
+          runtime, and live watering status.
+      - type: entities
+        title: Stations 1-8
+        show_header_toggle: false
+        entities:
+          - type: section
+            label: Station 1
+          - entity: input_text.espyrain_station_1_name
+          - entity: input_boolean.espyrain_station_1_enabled
+          - entity: number.espyrain_controller_station_1_runtime
+          - entity: number.espyrain_controller_station_1_pin
+            name: GPIO pin
+          - entity: binary_sensor.espyrain_station_1_watering
+          - type: section
+            label: Station 2
+          - entity: input_text.espyrain_station_2_name
+          - entity: input_boolean.espyrain_station_2_enabled
+          - entity: number.espyrain_controller_station_2_runtime
+          - entity: number.espyrain_controller_station_2_pin
+            name: GPIO pin
+          - entity: binary_sensor.espyrain_station_2_watering
+          - type: section
+            label: Station 3
+          - entity: input_text.espyrain_station_3_name
+          - entity: input_boolean.espyrain_station_3_enabled
+          - entity: number.espyrain_controller_station_3_runtime
+          - entity: number.espyrain_controller_station_3_pin
+            name: GPIO pin
+          - entity: binary_sensor.espyrain_station_3_watering
+          - type: section
+            label: Station 4
+          - entity: input_text.espyrain_station_4_name
+          - entity: input_boolean.espyrain_station_4_enabled
+          - entity: number.espyrain_controller_station_4_runtime
+          - entity: number.espyrain_controller_station_4_pin
+            name: GPIO pin
+          - entity: binary_sensor.espyrain_station_4_watering
+          - type: section
+            label: Station 5
+          - entity: input_text.espyrain_station_5_name
+          - entity: input_boolean.espyrain_station_5_enabled
+          - entity: number.espyrain_controller_station_5_runtime
+          - entity: number.espyrain_controller_station_5_pin
+            name: GPIO pin
+          - entity: binary_sensor.espyrain_station_5_watering
+          - type: section
+            label: Station 6
+          - entity: input_text.espyrain_station_6_name
+          - entity: input_boolean.espyrain_station_6_enabled
+          - entity: number.espyrain_controller_station_6_runtime
+          - entity: number.espyrain_controller_station_6_pin
+            name: GPIO pin
+          - entity: binary_sensor.espyrain_station_6_watering
+          - type: section
+            label: Station 7
+          - entity: input_text.espyrain_station_7_name
+          - entity: input_boolean.espyrain_station_7_enabled
+          - entity: number.espyrain_controller_station_7_runtime
+          - entity: number.espyrain_controller_station_7_pin
+            name: GPIO pin
+          - entity: binary_sensor.espyrain_station_7_watering
+          - type: section
+            label: Station 8
+          - entity: input_text.espyrain_station_8_name
+          - entity: input_boolean.espyrain_station_8_enabled
+          - entity: number.espyrain_controller_station_8_runtime
+          - entity: number.espyrain_controller_station_8_pin
+            name: GPIO pin
+          - entity: binary_sensor.espyrain_station_8_watering
+      - type: entities
+        title: Stations 9-16
+        show_header_toggle: false
+        entities:
+          - type: section
+            label: Station 9
+          - entity: input_text.espyrain_station_9_name
+          - entity: input_boolean.espyrain_station_9_enabled
+          - entity: number.espyrain_controller_station_9_runtime
+          - entity: number.espyrain_controller_station_9_pin
+            name: GPIO pin
+          - entity: binary_sensor.espyrain_station_9_watering
+          - type: section
+            label: Station 10
+          - entity: input_text.espyrain_station_10_name
+          - entity: input_boolean.espyrain_station_10_enabled
+          - entity: number.espyrain_controller_station_10_runtime
+          - entity: number.espyrain_controller_station_10_pin
+            name: GPIO pin
+          - entity: binary_sensor.espyrain_station_10_watering
+          - type: section
+            label: Station 11
+          - entity: input_text.espyrain_station_11_name
+          - entity: input_boolean.espyrain_station_11_enabled
+          - entity: number.espyrain_controller_station_11_runtime
+          - entity: number.espyrain_controller_station_11_pin
+            name: GPIO pin
+          - entity: binary_sensor.espyrain_station_11_watering
+          - type: section
+            label: Station 12
+          - entity: input_text.espyrain_station_12_name
+          - entity: input_boolean.espyrain_station_12_enabled
+          - entity: number.espyrain_controller_station_12_runtime
+          - entity: number.espyrain_controller_station_12_pin
+            name: GPIO pin
+          - entity: binary_sensor.espyrain_station_12_watering
+          - type: section
+            label: Station 13
+          - entity: input_text.espyrain_station_13_name
+          - entity: input_boolean.espyrain_station_13_enabled
+          - entity: number.espyrain_controller_station_13_runtime
+          - entity: number.espyrain_controller_station_13_pin
+            name: GPIO pin
+          - entity: binary_sensor.espyrain_station_13_watering
+          - type: section
+            label: Station 14
+          - entity: input_text.espyrain_station_14_name
+          - entity: input_boolean.espyrain_station_14_enabled
+          - entity: number.espyrain_controller_station_14_runtime
+          - entity: number.espyrain_controller_station_14_pin
+            name: GPIO pin
+          - entity: binary_sensor.espyrain_station_14_watering
+          - type: section
+            label: Station 15
+          - entity: input_text.espyrain_station_15_name
+          - entity: input_boolean.espyrain_station_15_enabled
+          - entity: number.espyrain_controller_station_15_runtime
+          - entity: number.espyrain_controller_station_15_pin
+            name: GPIO pin
+          - entity: binary_sensor.espyrain_station_15_watering
+          - type: section
+            label: Station 16
+          - entity: input_text.espyrain_station_16_name
+          - entity: input_boolean.espyrain_station_16_enabled
+          - entity: number.espyrain_controller_station_16_runtime
+          - entity: number.espyrain_controller_station_16_pin
+            name: GPIO pin
+          - entity: binary_sensor.espyrain_station_16_watering
+  - title: Schedule Stations
+    path: schedule-stations
+    icon: mdi:playlist-check
+    cards:
+      - type: markdown
+        content: |
+          # Schedule Stations
+
+          This is the station selection matrix for schedules.
+
+          Turn on the stations each schedule should run.
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: entities
+            title: Schedule 1
+            show_header_toggle: false
+            entities:
+              - entity: input_boolean.espyrain_schedule_1_station_1
+                name: S1
+              - entity: input_boolean.espyrain_schedule_1_station_2
+                name: S2
+              - entity: input_boolean.espyrain_schedule_1_station_3
+                name: S3
+              - entity: input_boolean.espyrain_schedule_1_station_4
+                name: S4
+              - entity: input_boolean.espyrain_schedule_1_station_5
+                name: S5
+              - entity: input_boolean.espyrain_schedule_1_station_6
+                name: S6
+              - entity: input_boolean.espyrain_schedule_1_station_7
+                name: S7
+              - entity: input_boolean.espyrain_schedule_1_station_8
+                name: S8
+              - entity: input_boolean.espyrain_schedule_1_station_9
+                name: S9
+              - entity: input_boolean.espyrain_schedule_1_station_10
+                name: S10
+              - entity: input_boolean.espyrain_schedule_1_station_11
+                name: S11
+              - entity: input_boolean.espyrain_schedule_1_station_12
+                name: S12
+              - entity: input_boolean.espyrain_schedule_1_station_13
+                name: S13
+              - entity: input_boolean.espyrain_schedule_1_station_14
+                name: S14
+              - entity: input_boolean.espyrain_schedule_1_station_15
+                name: S15
+              - entity: input_boolean.espyrain_schedule_1_station_16
+                name: S16
+          - type: entities
+            title: Schedule 2
+            show_header_toggle: false
+            entities:
+              - entity: input_boolean.espyrain_schedule_2_station_1
+                name: S1
+              - entity: input_boolean.espyrain_schedule_2_station_2
+                name: S2
+              - entity: input_boolean.espyrain_schedule_2_station_3
+                name: S3
+              - entity: input_boolean.espyrain_schedule_2_station_4
+                name: S4
+              - entity: input_boolean.espyrain_schedule_2_station_5
+                name: S5
+              - entity: input_boolean.espyrain_schedule_2_station_6
+                name: S6
+              - entity: input_boolean.espyrain_schedule_2_station_7
+                name: S7
+              - entity: input_boolean.espyrain_schedule_2_station_8
+                name: S8
+              - entity: input_boolean.espyrain_schedule_2_station_9
+                name: S9
+              - entity: input_boolean.espyrain_schedule_2_station_10
+                name: S10
+              - entity: input_boolean.espyrain_schedule_2_station_11
+                name: S11
+              - entity: input_boolean.espyrain_schedule_2_station_12
+                name: S12
+              - entity: input_boolean.espyrain_schedule_2_station_13
+                name: S13
+              - entity: input_boolean.espyrain_schedule_2_station_14
+                name: S14
+              - entity: input_boolean.espyrain_schedule_2_station_15
+                name: S15
+              - entity: input_boolean.espyrain_schedule_2_station_16
+                name: S16
+          - type: entities
+            title: Schedule 3
+            show_header_toggle: false
+            entities:
+              - entity: input_boolean.espyrain_schedule_3_station_1
+                name: S1
+              - entity: input_boolean.espyrain_schedule_3_station_2
+                name: S2
+              - entity: input_boolean.espyrain_schedule_3_station_3
+                name: S3
+              - entity: input_boolean.espyrain_schedule_3_station_4
+                name: S4
+              - entity: input_boolean.espyrain_schedule_3_station_5
+                name: S5
+              - entity: input_boolean.espyrain_schedule_3_station_6
+                name: S6
+              - entity: input_boolean.espyrain_schedule_3_station_7
+                name: S7
+              - entity: input_boolean.espyrain_schedule_3_station_8
+                name: S8
+              - entity: input_boolean.espyrain_schedule_3_station_9
+                name: S9
+              - entity: input_boolean.espyrain_schedule_3_station_10
+                name: S10
+              - entity: input_boolean.espyrain_schedule_3_station_11
+                name: S11
+              - entity: input_boolean.espyrain_schedule_3_station_12
+                name: S12
+              - entity: input_boolean.espyrain_schedule_3_station_13
+                name: S13
+              - entity: input_boolean.espyrain_schedule_3_station_14
+                name: S14
+              - entity: input_boolean.espyrain_schedule_3_station_15
+                name: S15
+              - entity: input_boolean.espyrain_schedule_3_station_16
+                name: S16
+          - type: entities
+            title: Schedule 4
+            show_header_toggle: false
+            entities:
+              - entity: input_boolean.espyrain_schedule_4_station_1
+                name: S1
+              - entity: input_boolean.espyrain_schedule_4_station_2
+                name: S2
+              - entity: input_boolean.espyrain_schedule_4_station_3
+                name: S3
+              - entity: input_boolean.espyrain_schedule_4_station_4
+                name: S4
+              - entity: input_boolean.espyrain_schedule_4_station_5
+                name: S5
+              - entity: input_boolean.espyrain_schedule_4_station_6
+                name: S6
+              - entity: input_boolean.espyrain_schedule_4_station_7
+                name: S7
+              - entity: input_boolean.espyrain_schedule_4_station_8
+                name: S8
+              - entity: input_boolean.espyrain_schedule_4_station_9
+                name: S9
+              - entity: input_boolean.espyrain_schedule_4_station_10
+                name: S10
+              - entity: input_boolean.espyrain_schedule_4_station_11
+                name: S11
+              - entity: input_boolean.espyrain_schedule_4_station_12
+                name: S12
+              - entity: input_boolean.espyrain_schedule_4_station_13
+                name: S13
+              - entity: input_boolean.espyrain_schedule_4_station_14
+                name: S14
+              - entity: input_boolean.espyrain_schedule_4_station_15
+                name: S15
+              - entity: input_boolean.espyrain_schedule_4_station_16
+                name: S16
+          - type: entities
+            title: Schedule 5
+            show_header_toggle: false
+            entities:
+              - entity: input_boolean.espyrain_schedule_5_station_1
+                name: S1
+              - entity: input_boolean.espyrain_schedule_5_station_2
+                name: S2
+              - entity: input_boolean.espyrain_schedule_5_station_3
+                name: S3
+              - entity: input_boolean.espyrain_schedule_5_station_4
+                name: S4
+              - entity: input_boolean.espyrain_schedule_5_station_5
+                name: S5
+              - entity: input_boolean.espyrain_schedule_5_station_6
+                name: S6
+              - entity: input_boolean.espyrain_schedule_5_station_7
+                name: S7
+              - entity: input_boolean.espyrain_schedule_5_station_8
+                name: S8
+              - entity: input_boolean.espyrain_schedule_5_station_9
+                name: S9
+              - entity: input_boolean.espyrain_schedule_5_station_10
+                name: S10
+              - entity: input_boolean.espyrain_schedule_5_station_11
+                name: S11
+              - entity: input_boolean.espyrain_schedule_5_station_12
+                name: S12
+              - entity: input_boolean.espyrain_schedule_5_station_13
+                name: S13
+              - entity: input_boolean.espyrain_schedule_5_station_14
+                name: S14
+              - entity: input_boolean.espyrain_schedule_5_station_15
+                name: S15
+              - entity: input_boolean.espyrain_schedule_5_station_16
+                name: S16
+          - type: entities
+            title: Schedule 6
+            show_header_toggle: false
+            entities:
+              - entity: input_boolean.espyrain_schedule_6_station_1
+                name: S1
+              - entity: input_boolean.espyrain_schedule_6_station_2
+                name: S2
+              - entity: input_boolean.espyrain_schedule_6_station_3
+                name: S3
+              - entity: input_boolean.espyrain_schedule_6_station_4
+                name: S4
+              - entity: input_boolean.espyrain_schedule_6_station_5
+                name: S5
+              - entity: input_boolean.espyrain_schedule_6_station_6
+                name: S6
+              - entity: input_boolean.espyrain_schedule_6_station_7
+                name: S7
+              - entity: input_boolean.espyrain_schedule_6_station_8
+                name: S8
+              - entity: input_boolean.espyrain_schedule_6_station_9
+                name: S9
+              - entity: input_boolean.espyrain_schedule_6_station_10
+                name: S10
+              - entity: input_boolean.espyrain_schedule_6_station_11
+                name: S11
+              - entity: input_boolean.espyrain_schedule_6_station_12
+                name: S12
+              - entity: input_boolean.espyrain_schedule_6_station_13
+                name: S13
+              - entity: input_boolean.espyrain_schedule_6_station_14
+                name: S14
+              - entity: input_boolean.espyrain_schedule_6_station_15
+                name: S15
+              - entity: input_boolean.espyrain_schedule_6_station_16
+                name: S16
+          - type: entities
+            title: Schedule 7
+            show_header_toggle: false
+            entities:
+              - entity: input_boolean.espyrain_schedule_7_station_1
+                name: S1
+              - entity: input_boolean.espyrain_schedule_7_station_2
+                name: S2
+              - entity: input_boolean.espyrain_schedule_7_station_3
+                name: S3
+              - entity: input_boolean.espyrain_schedule_7_station_4
+                name: S4
+              - entity: input_boolean.espyrain_schedule_7_station_5
+                name: S5
+              - entity: input_boolean.espyrain_schedule_7_station_6
+                name: S6
+              - entity: input_boolean.espyrain_schedule_7_station_7
+                name: S7
+              - entity: input_boolean.espyrain_schedule_7_station_8
+                name: S8
+              - entity: input_boolean.espyrain_schedule_7_station_9
+                name: S9
+              - entity: input_boolean.espyrain_schedule_7_station_10
+                name: S10
+              - entity: input_boolean.espyrain_schedule_7_station_11
+                name: S11
+              - entity: input_boolean.espyrain_schedule_7_station_12
+                name: S12
+              - entity: input_boolean.espyrain_schedule_7_station_13
+                name: S13
+              - entity: input_boolean.espyrain_schedule_7_station_14
+                name: S14
+              - entity: input_boolean.espyrain_schedule_7_station_15
+                name: S15
+              - entity: input_boolean.espyrain_schedule_7_station_16
+                name: S16
+          - type: entities
+            title: Schedule 8
+            show_header_toggle: false
+            entities:
+              - entity: input_boolean.espyrain_schedule_8_station_1
+                name: S1
+              - entity: input_boolean.espyrain_schedule_8_station_2
+                name: S2
+              - entity: input_boolean.espyrain_schedule_8_station_3
+                name: S3
+              - entity: input_boolean.espyrain_schedule_8_station_4
+                name: S4
+              - entity: input_boolean.espyrain_schedule_8_station_5
+                name: S5
+              - entity: input_boolean.espyrain_schedule_8_station_6
+                name: S6
+              - entity: input_boolean.espyrain_schedule_8_station_7
+                name: S7
+              - entity: input_boolean.espyrain_schedule_8_station_8
+                name: S8
+              - entity: input_boolean.espyrain_schedule_8_station_9
+                name: S9
+              - entity: input_boolean.espyrain_schedule_8_station_10
+                name: S10
+              - entity: input_boolean.espyrain_schedule_8_station_11
+                name: S11
+              - entity: input_boolean.espyrain_schedule_8_station_12
+                name: S12
+              - entity: input_boolean.espyrain_schedule_8_station_13
+                name: S13
+              - entity: input_boolean.espyrain_schedule_8_station_14
+                name: S14
+              - entity: input_boolean.espyrain_schedule_8_station_15
+                name: S15
+              - entity: input_boolean.espyrain_schedule_8_station_16
+                name: S16
+  - title: Coupling
+    path: coupling
+    icon: mdi:link-variant
+    cards:
+      - type: markdown
+        content: >
+          # Station Coupling
+
+
+          This is the advanced coupling matrix for the simple dashboard.
+
+
+          Turn on the stations that should run together with the station at the
+          top of each card.
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: entities
+            title: Station 1
+            show_header_toggle: false
+            entities:
+              - entity: input_boolean.espyrain_station_1_coupled_1
+                name: S1
+              - entity: input_boolean.espyrain_station_1_coupled_2
+                name: S2
+              - entity: input_boolean.espyrain_station_1_coupled_3
+                name: S3
+              - entity: input_boolean.espyrain_station_1_coupled_4
+                name: S4
+              - entity: input_boolean.espyrain_station_1_coupled_5
+                name: S5
+              - entity: input_boolean.espyrain_station_1_coupled_6
+                name: S6
+              - entity: input_boolean.espyrain_station_1_coupled_7
+                name: S7
+              - entity: input_boolean.espyrain_station_1_coupled_8
+                name: S8
+              - entity: input_boolean.espyrain_station_1_coupled_9
+                name: S9
+              - entity: input_boolean.espyrain_station_1_coupled_10
+                name: S10
+              - entity: input_boolean.espyrain_station_1_coupled_11
+                name: S11
+              - entity: input_boolean.espyrain_station_1_coupled_12
+                name: S12
+              - entity: input_boolean.espyrain_station_1_coupled_13
+                name: S13
+              - entity: input_boolean.espyrain_station_1_coupled_14
+                name: S14
+              - entity: input_boolean.espyrain_station_1_coupled_15
+                name: S15
+              - entity: input_boolean.espyrain_station_1_coupled_16
+                name: S16
+          - type: entities
+            title: Station 2
+            show_header_toggle: false
+            entities:
+              - entity: input_boolean.espyrain_station_2_coupled_1
+                name: S1
+              - entity: input_boolean.espyrain_station_2_coupled_2
+                name: S2
+              - entity: input_boolean.espyrain_station_2_coupled_3
+                name: S3
+              - entity: input_boolean.espyrain_station_2_coupled_4
+                name: S4
+              - entity: input_boolean.espyrain_station_2_coupled_5
+                name: S5
+              - entity: input_boolean.espyrain_station_2_coupled_6
+                name: S6
+              - entity: input_boolean.espyrain_station_2_coupled_7
+                name: S7
+              - entity: input_boolean.espyrain_station_2_coupled_8
+                name: S8
+              - entity: input_boolean.espyrain_station_2_coupled_9
+                name: S9
+              - entity: input_boolean.espyrain_station_2_coupled_10
+                name: S10
+              - entity: input_boolean.espyrain_station_2_coupled_11
+                name: S11
+              - entity: input_boolean.espyrain_station_2_coupled_12
+                name: S12
+              - entity: input_boolean.espyrain_station_2_coupled_13
+                name: S13
+              - entity: input_boolean.espyrain_station_2_coupled_14
+                name: S14
+              - entity: input_boolean.espyrain_station_2_coupled_15
+                name: S15
+              - entity: input_boolean.espyrain_station_2_coupled_16
+                name: S16
+          - type: entities
+            title: Station 3
+            show_header_toggle: false
+            entities:
+              - entity: input_boolean.espyrain_station_3_coupled_1
+                name: S1
+              - entity: input_boolean.espyrain_station_3_coupled_2
+                name: S2
+              - entity: input_boolean.espyrain_station_3_coupled_3
+                name: S3
+              - entity: input_boolean.espyrain_station_3_coupled_4
+                name: S4
+              - entity: input_boolean.espyrain_station_3_coupled_5
+                name: S5
+              - entity: input_boolean.espyrain_station_3_coupled_6
+                name: S6
+              - entity: input_boolean.espyrain_station_3_coupled_7
+                name: S7
+              - entity: input_boolean.espyrain_station_3_coupled_8
+                name: S8
+              - entity: input_boolean.espyrain_station_3_coupled_9
+                name: S9
+              - entity: input_boolean.espyrain_station_3_coupled_10
+                name: S10
+              - entity: input_boolean.espyrain_station_3_coupled_11
+                name: S11
+              - entity: input_boolean.espyrain_station_3_coupled_12
+                name: S12
+              - entity: input_boolean.espyrain_station_3_coupled_13
+                name: S13
+              - entity: input_boolean.espyrain_station_3_coupled_14
+                name: S14
+              - entity: input_boolean.espyrain_station_3_coupled_15
+                name: S15
+              - entity: input_boolean.espyrain_station_3_coupled_16
+                name: S16
+          - type: entities
+            title: Station 4
+            show_header_toggle: false
+            entities:
+              - entity: input_boolean.espyrain_station_4_coupled_1
+                name: S1
+              - entity: input_boolean.espyrain_station_4_coupled_2
+                name: S2
+              - entity: input_boolean.espyrain_station_4_coupled_3
+                name: S3
+              - entity: input_boolean.espyrain_station_4_coupled_4
+                name: S4
+              - entity: input_boolean.espyrain_station_4_coupled_5
+                name: S5
+              - entity: input_boolean.espyrain_station_4_coupled_6
+                name: S6
+              - entity: input_boolean.espyrain_station_4_coupled_7
+                name: S7
+              - entity: input_boolean.espyrain_station_4_coupled_8
+                name: S8
+              - entity: input_boolean.espyrain_station_4_coupled_9
+                name: S9
+              - entity: input_boolean.espyrain_station_4_coupled_10
+                name: S10
+              - entity: input_boolean.espyrain_station_4_coupled_11
+                name: S11
+              - entity: input_boolean.espyrain_station_4_coupled_12
+                name: S12
+              - entity: input_boolean.espyrain_station_4_coupled_13
+                name: S13
+              - entity: input_boolean.espyrain_station_4_coupled_14
+                name: S14
+              - entity: input_boolean.espyrain_station_4_coupled_15
+                name: S15
+              - entity: input_boolean.espyrain_station_4_coupled_16
+                name: S16
+          - type: entities
+            title: Station 5
+            show_header_toggle: false
+            entities:
+              - entity: input_boolean.espyrain_station_5_coupled_1
+                name: S1
+              - entity: input_boolean.espyrain_station_5_coupled_2
+                name: S2
+              - entity: input_boolean.espyrain_station_5_coupled_3
+                name: S3
+              - entity: input_boolean.espyrain_station_5_coupled_4
+                name: S4
+              - entity: input_boolean.espyrain_station_5_coupled_5
+                name: S5
+              - entity: input_boolean.espyrain_station_5_coupled_6
+                name: S6
+              - entity: input_boolean.espyrain_station_5_coupled_7
+                name: S7
+              - entity: input_boolean.espyrain_station_5_coupled_8
+                name: S8
+              - entity: input_boolean.espyrain_station_5_coupled_9
+                name: S9
+              - entity: input_boolean.espyrain_station_5_coupled_10
+                name: S10
+              - entity: input_boolean.espyrain_station_5_coupled_11
+                name: S11
+              - entity: input_boolean.espyrain_station_5_coupled_12
+                name: S12
+              - entity: input_boolean.espyrain_station_5_coupled_13
+                name: S13
+              - entity: input_boolean.espyrain_station_5_coupled_14
+                name: S14
+              - entity: input_boolean.espyrain_station_5_coupled_15
+                name: S15
+              - entity: input_boolean.espyrain_station_5_coupled_16
+                name: S16
+          - type: entities
+            title: Station 6
+            show_header_toggle: false
+            entities:
+              - entity: input_boolean.espyrain_station_6_coupled_1
+                name: S1
+              - entity: input_boolean.espyrain_station_6_coupled_2
+                name: S2
+              - entity: input_boolean.espyrain_station_6_coupled_3
+                name: S3
+              - entity: input_boolean.espyrain_station_6_coupled_4
+                name: S4
+              - entity: input_boolean.espyrain_station_6_coupled_5
+                name: S5
+              - entity: input_boolean.espyrain_station_6_coupled_6
+                name: S6
+              - entity: input_boolean.espyrain_station_6_coupled_7
+                name: S7
+              - entity: input_boolean.espyrain_station_6_coupled_8
+                name: S8
+              - entity: input_boolean.espyrain_station_6_coupled_9
+                name: S9
+              - entity: input_boolean.espyrain_station_6_coupled_10
+                name: S10
+              - entity: input_boolean.espyrain_station_6_coupled_11
+                name: S11
+              - entity: input_boolean.espyrain_station_6_coupled_12
+                name: S12
+              - entity: input_boolean.espyrain_station_6_coupled_13
+                name: S13
+              - entity: input_boolean.espyrain_station_6_coupled_14
+                name: S14
+              - entity: input_boolean.espyrain_station_6_coupled_15
+                name: S15
+              - entity: input_boolean.espyrain_station_6_coupled_16
+                name: S16
+          - type: entities
+            title: Station 7
+            show_header_toggle: false
+            entities:
+              - entity: input_boolean.espyrain_station_7_coupled_1
+                name: S1
+              - entity: input_boolean.espyrain_station_7_coupled_2
+                name: S2
+              - entity: input_boolean.espyrain_station_7_coupled_3
+                name: S3
+              - entity: input_boolean.espyrain_station_7_coupled_4
+                name: S4
+              - entity: input_boolean.espyrain_station_7_coupled_5
+                name: S5
+              - entity: input_boolean.espyrain_station_7_coupled_6
+                name: S6
+              - entity: input_boolean.espyrain_station_7_coupled_7
+                name: S7
+              - entity: input_boolean.espyrain_station_7_coupled_8
+                name: S8
+              - entity: input_boolean.espyrain_station_7_coupled_9
+                name: S9
+              - entity: input_boolean.espyrain_station_7_coupled_10
+                name: S10
+              - entity: input_boolean.espyrain_station_7_coupled_11
+                name: S11
+              - entity: input_boolean.espyrain_station_7_coupled_12
+                name: S12
+              - entity: input_boolean.espyrain_station_7_coupled_13
+                name: S13
+              - entity: input_boolean.espyrain_station_7_coupled_14
+                name: S14
+              - entity: input_boolean.espyrain_station_7_coupled_15
+                name: S15
+              - entity: input_boolean.espyrain_station_7_coupled_16
+                name: S16
+          - type: entities
+            title: Station 8
+            show_header_toggle: false
+            entities:
+              - entity: input_boolean.espyrain_station_8_coupled_1
+                name: S1
+              - entity: input_boolean.espyrain_station_8_coupled_2
+                name: S2
+              - entity: input_boolean.espyrain_station_8_coupled_3
+                name: S3
+              - entity: input_boolean.espyrain_station_8_coupled_4
+                name: S4
+              - entity: input_boolean.espyrain_station_8_coupled_5
+                name: S5
+              - entity: input_boolean.espyrain_station_8_coupled_6
+                name: S6
+              - entity: input_boolean.espyrain_station_8_coupled_7
+                name: S7
+              - entity: input_boolean.espyrain_station_8_coupled_8
+                name: S8
+              - entity: input_boolean.espyrain_station_8_coupled_9
+                name: S9
+              - entity: input_boolean.espyrain_station_8_coupled_10
+                name: S10
+              - entity: input_boolean.espyrain_station_8_coupled_11
+                name: S11
+              - entity: input_boolean.espyrain_station_8_coupled_12
+                name: S12
+              - entity: input_boolean.espyrain_station_8_coupled_13
+                name: S13
+              - entity: input_boolean.espyrain_station_8_coupled_14
+                name: S14
+              - entity: input_boolean.espyrain_station_8_coupled_15
+                name: S15
+              - entity: input_boolean.espyrain_station_8_coupled_16
+                name: S16
+          - type: entities
+            title: Station 9
+            show_header_toggle: false
+            entities:
+              - entity: input_boolean.espyrain_station_9_coupled_1
+                name: S1
+              - entity: input_boolean.espyrain_station_9_coupled_2
+                name: S2
+              - entity: input_boolean.espyrain_station_9_coupled_3
+                name: S3
+              - entity: input_boolean.espyrain_station_9_coupled_4
+                name: S4
+              - entity: input_boolean.espyrain_station_9_coupled_5
+                name: S5
+              - entity: input_boolean.espyrain_station_9_coupled_6
+                name: S6
+              - entity: input_boolean.espyrain_station_9_coupled_7
+                name: S7
+              - entity: input_boolean.espyrain_station_9_coupled_8
+                name: S8
+              - entity: input_boolean.espyrain_station_9_coupled_9
+                name: S9
+              - entity: input_boolean.espyrain_station_9_coupled_10
+                name: S10
+              - entity: input_boolean.espyrain_station_9_coupled_11
+                name: S11
+              - entity: input_boolean.espyrain_station_9_coupled_12
+                name: S12
+              - entity: input_boolean.espyrain_station_9_coupled_13
+                name: S13
+              - entity: input_boolean.espyrain_station_9_coupled_14
+                name: S14
+              - entity: input_boolean.espyrain_station_9_coupled_15
+                name: S15
+              - entity: input_boolean.espyrain_station_9_coupled_16
+                name: S16
+          - type: entities
+            title: Station 10
+            show_header_toggle: false
+            entities:
+              - entity: input_boolean.espyrain_station_10_coupled_1
+                name: S1
+              - entity: input_boolean.espyrain_station_10_coupled_2
+                name: S2
+              - entity: input_boolean.espyrain_station_10_coupled_3
+                name: S3
+              - entity: input_boolean.espyrain_station_10_coupled_4
+                name: S4
+              - entity: input_boolean.espyrain_station_10_coupled_5
+                name: S5
+              - entity: input_boolean.espyrain_station_10_coupled_6
+                name: S6
+              - entity: input_boolean.espyrain_station_10_coupled_7
+                name: S7
+              - entity: input_boolean.espyrain_station_10_coupled_8
+                name: S8
+              - entity: input_boolean.espyrain_station_10_coupled_9
+                name: S9
+              - entity: input_boolean.espyrain_station_10_coupled_10
+                name: S10
+              - entity: input_boolean.espyrain_station_10_coupled_11
+                name: S11
+              - entity: input_boolean.espyrain_station_10_coupled_12
+                name: S12
+              - entity: input_boolean.espyrain_station_10_coupled_13
+                name: S13
+              - entity: input_boolean.espyrain_station_10_coupled_14
+                name: S14
+              - entity: input_boolean.espyrain_station_10_coupled_15
+                name: S15
+              - entity: input_boolean.espyrain_station_10_coupled_16
+                name: S16
+          - type: entities
+            title: Station 11
+            show_header_toggle: false
+            entities:
+              - entity: input_boolean.espyrain_station_11_coupled_1
+                name: S1
+              - entity: input_boolean.espyrain_station_11_coupled_2
+                name: S2
+              - entity: input_boolean.espyrain_station_11_coupled_3
+                name: S3
+              - entity: input_boolean.espyrain_station_11_coupled_4
+                name: S4
+              - entity: input_boolean.espyrain_station_11_coupled_5
+                name: S5
+              - entity: input_boolean.espyrain_station_11_coupled_6
+                name: S6
+              - entity: input_boolean.espyrain_station_11_coupled_7
+                name: S7
+              - entity: input_boolean.espyrain_station_11_coupled_8
+                name: S8
+              - entity: input_boolean.espyrain_station_11_coupled_9
+                name: S9
+              - entity: input_boolean.espyrain_station_11_coupled_10
+                name: S10
+              - entity: input_boolean.espyrain_station_11_coupled_11
+                name: S11
+              - entity: input_boolean.espyrain_station_11_coupled_12
+                name: S12
+              - entity: input_boolean.espyrain_station_11_coupled_13
+                name: S13
+              - entity: input_boolean.espyrain_station_11_coupled_14
+                name: S14
+              - entity: input_boolean.espyrain_station_11_coupled_15
+                name: S15
+              - entity: input_boolean.espyrain_station_11_coupled_16
+                name: S16
+          - type: entities
+            title: Station 12
+            show_header_toggle: false
+            entities:
+              - entity: input_boolean.espyrain_station_12_coupled_1
+                name: S1
+              - entity: input_boolean.espyrain_station_12_coupled_2
+                name: S2
+              - entity: input_boolean.espyrain_station_12_coupled_3
+                name: S3
+              - entity: input_boolean.espyrain_station_12_coupled_4
+                name: S4
+              - entity: input_boolean.espyrain_station_12_coupled_5
+                name: S5
+              - entity: input_boolean.espyrain_station_12_coupled_6
+                name: S6
+              - entity: input_boolean.espyrain_station_12_coupled_7
+                name: S7
+              - entity: input_boolean.espyrain_station_12_coupled_8
+                name: S8
+              - entity: input_boolean.espyrain_station_12_coupled_9
+                name: S9
+              - entity: input_boolean.espyrain_station_12_coupled_10
+                name: S10
+              - entity: input_boolean.espyrain_station_12_coupled_11
+                name: S11
+              - entity: input_boolean.espyrain_station_12_coupled_12
+                name: S12
+              - entity: input_boolean.espyrain_station_12_coupled_13
+                name: S13
+              - entity: input_boolean.espyrain_station_12_coupled_14
+                name: S14
+              - entity: input_boolean.espyrain_station_12_coupled_15
+                name: S15
+              - entity: input_boolean.espyrain_station_12_coupled_16
+                name: S16
+          - type: entities
+            title: Station 13
+            show_header_toggle: false
+            entities:
+              - entity: input_boolean.espyrain_station_13_coupled_1
+                name: S1
+              - entity: input_boolean.espyrain_station_13_coupled_2
+                name: S2
+              - entity: input_boolean.espyrain_station_13_coupled_3
+                name: S3
+              - entity: input_boolean.espyrain_station_13_coupled_4
+                name: S4
+              - entity: input_boolean.espyrain_station_13_coupled_5
+                name: S5
+              - entity: input_boolean.espyrain_station_13_coupled_6
+                name: S6
+              - entity: input_boolean.espyrain_station_13_coupled_7
+                name: S7
+              - entity: input_boolean.espyrain_station_13_coupled_8
+                name: S8
+              - entity: input_boolean.espyrain_station_13_coupled_9
+                name: S9
+              - entity: input_boolean.espyrain_station_13_coupled_10
+                name: S10
+              - entity: input_boolean.espyrain_station_13_coupled_11
+                name: S11
+              - entity: input_boolean.espyrain_station_13_coupled_12
+                name: S12
+              - entity: input_boolean.espyrain_station_13_coupled_13
+                name: S13
+              - entity: input_boolean.espyrain_station_13_coupled_14
+                name: S14
+              - entity: input_boolean.espyrain_station_13_coupled_15
+                name: S15
+              - entity: input_boolean.espyrain_station_13_coupled_16
+                name: S16
+          - type: entities
+            title: Station 14
+            show_header_toggle: false
+            entities:
+              - entity: input_boolean.espyrain_station_14_coupled_1
+                name: S1
+              - entity: input_boolean.espyrain_station_14_coupled_2
+                name: S2
+              - entity: input_boolean.espyrain_station_14_coupled_3
+                name: S3
+              - entity: input_boolean.espyrain_station_14_coupled_4
+                name: S4
+              - entity: input_boolean.espyrain_station_14_coupled_5
+                name: S5
+              - entity: input_boolean.espyrain_station_14_coupled_6
+                name: S6
+              - entity: input_boolean.espyrain_station_14_coupled_7
+                name: S7
+              - entity: input_boolean.espyrain_station_14_coupled_8
+                name: S8
+              - entity: input_boolean.espyrain_station_14_coupled_9
+                name: S9
+              - entity: input_boolean.espyrain_station_14_coupled_10
+                name: S10
+              - entity: input_boolean.espyrain_station_14_coupled_11
+                name: S11
+              - entity: input_boolean.espyrain_station_14_coupled_12
+                name: S12
+              - entity: input_boolean.espyrain_station_14_coupled_13
+                name: S13
+              - entity: input_boolean.espyrain_station_14_coupled_14
+                name: S14
+              - entity: input_boolean.espyrain_station_14_coupled_15
+                name: S15
+              - entity: input_boolean.espyrain_station_14_coupled_16
+                name: S16
+          - type: entities
+            title: Station 15
+            show_header_toggle: false
+            entities:
+              - entity: input_boolean.espyrain_station_15_coupled_1
+                name: S1
+              - entity: input_boolean.espyrain_station_15_coupled_2
+                name: S2
+              - entity: input_boolean.espyrain_station_15_coupled_3
+                name: S3
+              - entity: input_boolean.espyrain_station_15_coupled_4
+                name: S4
+              - entity: input_boolean.espyrain_station_15_coupled_5
+                name: S5
+              - entity: input_boolean.espyrain_station_15_coupled_6
+                name: S6
+              - entity: input_boolean.espyrain_station_15_coupled_7
+                name: S7
+              - entity: input_boolean.espyrain_station_15_coupled_8
+                name: S8
+              - entity: input_boolean.espyrain_station_15_coupled_9
+                name: S9
+              - entity: input_boolean.espyrain_station_15_coupled_10
+                name: S10
+              - entity: input_boolean.espyrain_station_15_coupled_11
+                name: S11
+              - entity: input_boolean.espyrain_station_15_coupled_12
+                name: S12
+              - entity: input_boolean.espyrain_station_15_coupled_13
+                name: S13
+              - entity: input_boolean.espyrain_station_15_coupled_14
+                name: S14
+              - entity: input_boolean.espyrain_station_15_coupled_15
+                name: S15
+              - entity: input_boolean.espyrain_station_15_coupled_16
+                name: S16
+          - type: entities
+            title: Station 16
+            show_header_toggle: false
+            entities:
+              - entity: input_boolean.espyrain_station_16_coupled_1
+                name: S1
+              - entity: input_boolean.espyrain_station_16_coupled_2
+                name: S2
+              - entity: input_boolean.espyrain_station_16_coupled_3
+                name: S3
+              - entity: input_boolean.espyrain_station_16_coupled_4
+                name: S4
+              - entity: input_boolean.espyrain_station_16_coupled_5
+                name: S5
+              - entity: input_boolean.espyrain_station_16_coupled_6
+                name: S6
+              - entity: input_boolean.espyrain_station_16_coupled_7
+                name: S7
+              - entity: input_boolean.espyrain_station_16_coupled_8
+                name: S8
+              - entity: input_boolean.espyrain_station_16_coupled_9
+                name: S9
+              - entity: input_boolean.espyrain_station_16_coupled_10
+                name: S10
+              - entity: input_boolean.espyrain_station_16_coupled_11
+                name: S11
+              - entity: input_boolean.espyrain_station_16_coupled_12
+                name: S12
+              - entity: input_boolean.espyrain_station_16_coupled_13
+                name: S13
+              - entity: input_boolean.espyrain_station_16_coupled_14
+                name: S14
+              - entity: input_boolean.espyrain_station_16_coupled_15
+                name: S15
+              - entity: input_boolean.espyrain_station_16_coupled_16
+                name: S16

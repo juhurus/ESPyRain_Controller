@@ -1,36 +1,57 @@
-# ESP Package Layout
+# ESPyRain ESPHome Package Layout
 
-This folder is the package-ready ESPHome bundle for:
-- ESPHome Sprinkler Controller for Home Assistant
+This folder contains the ESPHome package files for:
+- ESPyRain Controller for Home Assistant
 
 ## Source of truth
-Edit here:
-- `ESP_sprinkler-controller/`
+Edit the ESPHome files here:
+- `ESPyRain-controller/`
 
-## Package entrypoint
-- `ESP_sprinkler-controller/package.yaml`
+## Main ESPHome device file
+The main ESPHome device YAML is:
+- `ESPyRain-controller/espyrain_controller_wrapper.yaml`
 
-## Example wrapper
-- `ESP_sprinkler-controller/wrapper.example.yaml`
+This is the file you typically copy into:
+- `/config/esphome/espyrain_controller_wrapper.yaml`
 
-A local ESPHome device file can look like this:
+## Package entry point
+The ESPHome package entry point is:
+- `ESPyRain-controller/package.yaml`
 
-```yaml
-substitutions:
-  device_name: sprinkler-controller
-  friendly_name: "Sprinkler Controller"
-  version: "2.0.2"
+That package pulls in the rest of the ESPyRain controller YAML files in this folder.
 
-packages:
-  sprinkler_controller: !include ESP_sprinkler-controller/package.yaml
-```
+## Important files
+- `base.yaml`
+  - shared ESPHome base configuration
+- `entities_system.yaml`
+  - controller system entities
+- `entities_schedules.yaml`
+  - schedule entities
+- `entities_stations.yaml`
+  - station entities
+- `globals_system.yaml`
+  - system globals
+- `globals_schedules.yaml`
+  - schedule globals
+- `globals_stations.yaml`
+  - station globals
+- `schedule_interval.yaml`
+  - schedule trigger logic
+- `sensors.yaml`
+  - ESP-side sensors and diagnostics
+- `VERSION`
+  - current ESPyRain version used by the config
 
-## Optional local override
-For static IP networking, add:
+## Site-specific setup
+Before compiling, review and adjust the settings in:
+- `ESPyRain-controller/espyrain_controller_wrapper.yaml`
 
-```yaml
-wifi:
-  manual_ip: !include ESP_sprinkler-controller/network_static_ip.local.yaml
-```
+At minimum, check:
+- board type
+- framework type
+- timezone
+- Wi-Fi / API / OTA secrets
+- optional static IP settings if needed
 
-Use `network_static_ip.example.yaml` as the template for that local file.
+## Important note
+The `VERSION` file must remain in this folder because the ESPHome configuration reads the version from it.

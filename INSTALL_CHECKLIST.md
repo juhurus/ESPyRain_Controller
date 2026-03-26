@@ -29,7 +29,7 @@ Your final layout should look like this:
 |-- packages/
 |   `-- espyrain_for_home_assistant.yaml
 |-- esphome/
-|   |-- espyrain_controller.yaml
+|   |-- espyrain_controller_wrapper.yaml
 |   |-- secrets.yaml
 |   `-- ESPyRain-controller/
 |       |-- VERSION
@@ -54,7 +54,7 @@ Your final layout should look like this:
 Copy from the downloaded ZIP like this:
 - `ESPyRain_Controller-main/package_sources/` -> `/config/package_sources/`
 - `ESPyRain_Controller-main/packages/` -> `/config/packages/`
-- ESPyRain-controller/espyrain_controller.yaml` -> `/config/esphome/espyrain_controller.yaml`
+- `ESPyRain-controller/espyrain_controller_wrapper.yaml` -> `/config/esphome/espyrain_controller_wrapper.yaml`
 - `ESPyRain_Controller-main/ESPyRain-controller/` -> `/config/esphome/ESPyRain-controller/`
 - `ESPyRain_Controller-main/themes/espyrain_theme.yaml` -> `/config/themes/espyrain_theme.yaml`
 - `images/www/espyrain/` -> `/config/www/espyrain/`
@@ -195,7 +195,7 @@ After copying the files:
 
 ## 8. Compile and flash ESPyRain
 In ESPHome:
-1. Open `espyrain_controller.yaml`
+1. Open `espyrain_controller_wrapper.yaml`
 2. Verify the package includes resolve correctly
 3. Compile the firmware
 4. Flash the ESP

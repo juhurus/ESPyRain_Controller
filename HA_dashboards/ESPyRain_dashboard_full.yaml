@@ -701,7 +701,6 @@ views:
                       font-size: .9em;
                       padding: 15px !important;
                       color: white;
-                      border-radius: 5px;
                       {% if is_running %}
                         background: radial-gradient(circle, rgba(39, 66, 77, 0.9) 50%, rgba(76, 175, 80, 0.3) 100%);
                         border: 1px solid #00FF00;
@@ -749,7 +748,6 @@ views:
                       ha-card {
                         border: 2px solid #FF9800;
                         border-left: 6px solid #FF9800;
-                        border-radius: 5px;
                         background: linear-gradient(135deg, rgba(255, 152, 0, 0.18) 0%, rgba(39, 66, 77, 0.85) 100%);
                       }
           - type: horizontal-stack
@@ -1068,7 +1066,7 @@ views:
                         --lnic-button-background: #254650;
                         --lnic-background: radial-gradient(circle, #31525e 0%, #183139 100%);
                         --lnic-time-button-size: 40px;
-                        --lnic-border-radius: 5px
+                        --lnic-border-radius: .3em
                       }    
                 - type: section
                 - entity: input_select.espyrain_schedule_1_days
@@ -1217,7 +1215,7 @@ views:
 
                   #states > div > fold-entity-row {
                     background: rgba(0, 150, 136, 0.08);
-                    border-radius: 5px;
+                    border-radius: 4px;
                   }
 
                   @keyframes blink-border {
@@ -1313,7 +1311,7 @@ views:
                         --lnic-button-background: #1f4062;
                         --lnic-background: radial-gradient(circle, #365b8c 0%, #1b3354 100%);
                         --lnic-time-button-size: 40px;
-                        --lnic-border-radius: 5px
+                        --lnic-border-radius: .3em
                       }
                 - type: section
                 - entity: input_select.espyrain_schedule_2_days
@@ -1462,7 +1460,7 @@ views:
 
                   #states > div > fold-entity-row {
                     background: rgba(0, 150, 136, 0.08);
-                    border-radius: 5px;
+                    border-radius: 4px;
                   }
 
                   @keyframes blink-border {
@@ -1558,7 +1556,7 @@ views:
                         --lnic-button-background: #1d5342;
                         --lnic-background: radial-gradient(circle, #39725e 0%, #1a4034 100%);
                         --lnic-time-button-size: 40px;
-                        --lnic-border-radius: 5px
+                        --lnic-border-radius: .3em
                       }
                 - type: section
                 - entity: input_select.espyrain_schedule_3_days
@@ -1707,7 +1705,7 @@ views:
 
                   #states > div > fold-entity-row {
                     background: rgba(0, 150, 136, 0.08);
-                    border-radius: 5px;
+                    border-radius: 4px;
                   }
 
                   @keyframes blink-border {
@@ -1803,7 +1801,7 @@ views:
                         --lnic-button-background: #422d59;
                         --lnic-background: radial-gradient(circle, #664a8a 0%, #38264d 100%);
                         --lnic-time-button-size: 40px;
-                        --lnic-border-radius: 5px
+                        --lnic-border-radius: .3em
                       }
                 - type: section
                 - entity: input_select.espyrain_schedule_4_days
@@ -1952,7 +1950,7 @@ views:
 
                   #states > div > fold-entity-row {
                     background: rgba(0, 150, 136, 0.08);
-                    border-radius: 5px;
+                    border-radius: 4px;
                   }
 
                   @keyframes blink-border {
@@ -2048,7 +2046,7 @@ views:
                         --lnic-button-background: #1c4461;
                         --lnic-background: radial-gradient(circle, #315f89 0%, #173548 100%);
                         --lnic-time-button-size: 40px;
-                        --lnic-border-radius: 5px
+                        --lnic-border-radius: .3em
                       }
                 - type: section
                 - entity: input_select.espyrain_schedule_5_days
@@ -2197,7 +2195,7 @@ views:
 
                   #states > div > fold-entity-row {
                     background: rgba(0, 150, 136, 0.08);
-                    border-radius: 5px;
+                    border-radius: 4px;
                   }
 
                   @keyframes blink-border {
@@ -2293,7 +2291,7 @@ views:
                         --lnic-button-background: #1d5645;
                         --lnic-background: radial-gradient(circle, #327766 0%, #184136 100%);
                         --lnic-time-button-size: 40px;
-                        --lnic-border-radius: 5px
+                        --lnic-border-radius: .3em
                       }
                 - type: section
                 - entity: input_select.espyrain_schedule_6_days
@@ -2442,7 +2440,7 @@ views:
 
                   #states > div > fold-entity-row {
                     background: rgba(0, 150, 136, 0.08);
-                    border-radius: 5px;
+                    border-radius: 4px;
                   }
 
                   @keyframes blink-border {
@@ -2538,7 +2536,7 @@ views:
                         --lnic-button-background: #3a4355;
                         --lnic-background: radial-gradient(circle, #56657d 0%, #2a3340 100%);
                         --lnic-time-button-size: 40px;
-                        --lnic-border-radius: 5px
+                        --lnic-border-radius: .3em
                       }
                 - type: section
                 - entity: input_select.espyrain_schedule_7_days
@@ -2687,7 +2685,7 @@ views:
 
                   #states > div > fold-entity-row {
                     background: rgba(0, 150, 136, 0.08);
-                    border-radius: 5px;
+                    border-radius: 4px;
                   }
 
                   @keyframes blink-border {
@@ -2783,7 +2781,7 @@ views:
                         --lnic-button-background: #2f3e72;
                         --lnic-background: radial-gradient(circle, #3e4e86 0%, #1c2547 100%);
                         --lnic-time-button-size: 40px;
-                        --lnic-border-radius: 5px
+                        --lnic-border-radius: .3em
                       }
                 - type: section
                 - entity: input_select.espyrain_schedule_8_days
@@ -2932,7 +2930,7 @@ views:
 
                   #states > div > fold-entity-row {
                     background: rgba(0, 150, 136, 0.08);
-                    border-radius: 5px;
+                    border-radius: 4px;
                   }
 
                   @keyframes blink-border {
@@ -2965,7 +2963,6 @@ views:
                       font-size: .9em;
                       padding: 15px !important;
                       color: white;
-                      border-radius: 5px;
                       {% if is_running %}
                         background: radial-gradient(circle, rgba(39, 66, 77, 0.9) 50%, rgba(76, 175, 80, 0.3) 100%);
                         border: 1px solid #00FF00;
@@ -3012,7 +3009,6 @@ views:
                     style: |
                       ha-card {
                         border: 2px solid #FF9800;
-                        border-radius: 5px;
                         border-left: 6px solid #FF9800;
                         background: linear-gradient(135deg, rgba(255, 152, 0, 0.18) 0%, rgba(39, 66, 77, 0.85) 100%);
                       }
@@ -3049,7 +3045,8 @@ views:
                     ha-card {
                       background: radial-gradient(circle, rgba(39, 66, 77, 0.95) 0%, rgba(18, 37, 44, 0.95) 100%);
                       cursor: pointer;
-                      border-radius: 5px;
+                      border-bottom-left-radius: 0px;
+                      border-bottom-right-radius: 0px;
                       {% if is_paused %}
                         border-left: 2px solid #00FF00;
                         border-right: 2px solid #00FF00;
@@ -3092,7 +3089,6 @@ views:
                         ha-card {
                           background: linear-gradient(135deg, rgba(239, 83, 80, 0.3) 0%, rgba(39, 66, 77, 0.85) 100%);
                           border: 2px solid #EF5350;
-                          border-radius: 5px;
                           color: white;
                           --card-mod-icon-color: #EF5350;
                           text-shadow: 0px 0px .5px white;
@@ -3118,7 +3114,6 @@ views:
                           ha-card {
                             background: linear-gradient(135deg, rgba(255, 152, 0, 0.3) 0%, rgba(39, 66, 77, 0.85) 100%);
                             border: 2px solid #FFA500;
-                            border-radius: 5px;
                             color: white;
                             --card-mod-icon-color: #FFA500;
                             text-shadow: 0px 0px .5px white;
@@ -3144,7 +3139,6 @@ views:
                           ha-card {
                             background: linear-gradient(135deg, rgba(33, 150, 243, 0.3) 0%, rgba(39, 66, 77, 0.85) 100%);
                             border: 2px solid #2196F3;
-                            border-radius: 5px;
                             color: white;
                             --card-mod-icon-color: #2196F3;
                             text-shadow: 0px 0px .5px white;
@@ -3164,7 +3158,6 @@ views:
                         ha-card {
                           background: linear-gradient(135deg, rgba(76, 175, 80, 0.3) 0%, rgba(39, 66, 77, 0.85) 100%);
                           border: 2px solid #66BB6A;
-                          border-radius: 5px;
                           color: white;
                           --card-mod-icon-color: #66BB6A;
                           text-shadow: 0px 0px .5px white;
@@ -3296,7 +3289,8 @@ views:
                       ha-card {
                         background: radial-gradient(circle, rgba(39, 66, 77, 0.95) 0%, rgba(18, 37, 44, 0.95) 100%);
                         cursor: pointer;
-                          border-radius: 5px;
+                        border-bottom-left-radius: 0px;
+                        border-bottom-right-radius: 0px;
                         {% if is_paused %}
                           border-left: 2px solid #00FF00;
                           border-right: 2px solid #00FF00;
@@ -3407,7 +3401,8 @@ views:
                     ha-card {
                     background: radial-gradient(circle, rgba(39, 66, 77, 0.95) 0%, rgba(18, 37, 44, 0.95) 100%);
                     cursor: pointer;
-                      border-radius: 5px;
+                    border-bottom-left-radius: 0px;
+                    border-bottom-right-radius: 0px;
                     {% if is_running %}
                       border-left: 2px solid #00FF00;
                       border-right: 2px solid #00FF00;            
@@ -3429,7 +3424,7 @@ views:
       - type: grid
         cards:
           - type: picture-elements
-            image: /local/espyrain/test_property_overhead.PNG
+            image: /local/sprinklers/backyard_overhead_vert.jpg
             elements:
               - type: state-label
                 entity: input_datetime.espyrain_manual_runtime
@@ -3441,599 +3436,348 @@ views:
                   font-size: 16px
                   background: rgba(0,0,0,0.45)
                   padding: 6px 10px
-                  border-radius: 5px
-              - type: conditional
-                conditions:
-                  - condition: numeric_state
-                    entity: number.espyrain_controller_number_of_stations
-                    above: 0
-                elements:
-                  - type: custom:button-card
-                    entity: binary_sensor.espyrain_station_1_watering
-                    name: S1
-                    icon: mdi:sprinkler-variant
-                    show_state: false
-                    tap_action:
-                      action: call-service
-                      service: script.espyrain_manual_run_station
-                      service_data:
-                        station_num: 1
+                  border-radius: 8px
+              - type: custom:button-card
+                entity: binary_sensor.espyrain_station_1_watering
+                name: S1
+                icon: mdi:sprinkler-variant
+                show_state: false
+                tap_action:
+                  action: call-service
+                  service: script.espyrain_manual_run_station
+                  service_data:
+                    station_num: 1
+                styles:
+                  card:
+                    - border-radius: 50%
+                    - width: 42px
+                    - height: 42px
+                    - padding: 0
+                    - background: rgba(30, 64, 98, 0.75)
+                  icon:
+                    - color: white
+                    - width: 20px
+                  name:
+                    - color: white
+                    - font-size: 11px
+                state:
+                  - value: 'on'
                     styles:
                       card:
-                        - border-radius: 50%
-                        - width: 42px
-                        - height: 42px
-                        - padding: 0
-                        - background: rgba(30, 64, 98, 0.75)
-                      icon:
-                        - color: white
-                        - width: 20px
-                      name:
-                        - color: white
-                        - font-size: 11px
-                    state:
-                      - value: 'on'
-                        styles:
-                          card:
-                            - background: rgba(0, 170, 90, 0.9)
-                    style:
-                      top: 90%
-                      left: 85%
-              - type: conditional
-                conditions:
-                  - condition: numeric_state
-                    entity: number.espyrain_controller_number_of_stations
-                    above: 1
-                elements:
-                  - type: custom:button-card
-                    entity: binary_sensor.espyrain_station_2_watering
-                    name: S2
-                    icon: mdi:sprinkler-variant
-                    show_state: false
-                    tap_action:
-                      action: call-service
-                      service: script.espyrain_manual_run_station
-                      service_data:
-                        station_num: 2
+                        - background: rgba(0, 170, 90, 0.9)
+                style:
+                  top: 90%
+                  left: 85%
+              - type: custom:button-card
+                entity: binary_sensor.espyrain_station_2_watering
+                name: S2
+                icon: mdi:sprinkler-variant
+                show_state: false
+                tap_action:
+                  action: call-service
+                  service: script.espyrain_manual_run_station
+                  service_data:
+                    station_num: 2
+                styles:
+                  card:
+                    - border-radius: 50%
+                    - width: 42px
+                    - height: 42px
+                    - padding: 0
+                    - background: rgba(30, 64, 98, 0.75)
+                  icon:
+                    - color: white
+                    - width: 20px
+                  name:
+                    - color: white
+                    - font-size: 11px
+                state:
+                  - value: 'on'
                     styles:
                       card:
-                        - border-radius: 50%
-                        - width: 42px
-                        - height: 42px
-                        - padding: 0
-                        - background: rgba(30, 64, 98, 0.75)
-                      icon:
-                        - color: white
-                        - width: 20px
-                      name:
-                        - color: white
-                        - font-size: 11px
-                    state:
-                      - value: 'on'
-                        styles:
-                          card:
-                            - background: rgba(0, 170, 90, 0.9)
-                    style:
-                      top: 85%
-                      left: 30%
-              - type: conditional
-                conditions:
-                  - condition: numeric_state
-                    entity: number.espyrain_controller_number_of_stations
-                    above: 2
-                elements:
-                  - type: custom:button-card
-                    entity: binary_sensor.espyrain_station_3_watering
-                    name: S3
-                    icon: mdi:sprinkler-variant
-                    show_state: false
-                    tap_action:
-                      action: call-service
-                      service: script.espyrain_manual_run_station
-                      service_data:
-                        station_num: 3
+                        - background: rgba(0, 170, 90, 0.9)
+                style:
+                  top: 85%
+                  left: 30%
+              - type: custom:button-card
+                entity: binary_sensor.espyrain_station_3_watering
+                name: S3
+                icon: mdi:sprinkler-variant
+                show_state: false
+                tap_action:
+                  action: call-service
+                  service: script.espyrain_manual_run_station
+                  service_data:
+                    station_num: 3
+                styles:
+                  card:
+                    - border-radius: 50%
+                    - width: 42px
+                    - height: 42px
+                    - padding: 0
+                    - background: rgba(30, 64, 98, 0.75)
+                  icon:
+                    - color: white
+                    - width: 20px
+                  name:
+                    - color: white
+                    - font-size: 11px
+                state:
+                  - value: 'on'
                     styles:
                       card:
-                        - border-radius: 50%
-                        - width: 42px
-                        - height: 42px
-                        - padding: 0
-                        - background: rgba(30, 64, 98, 0.75)
-                      icon:
-                        - color: white
-                        - width: 20px
-                      name:
-                        - color: white
-                        - font-size: 11px
-                    state:
-                      - value: 'on'
-                        styles:
-                          card:
-                            - background: rgba(0, 170, 90, 0.9)
-                    style:
-                      top: 65%
-                      left: 47%
-              - type: conditional
-                conditions:
-                  - condition: numeric_state
-                    entity: number.espyrain_controller_number_of_stations
-                    above: 3
-                elements:
-                  - type: custom:button-card
-                    entity: binary_sensor.espyrain_station_4_watering
-                    name: S4
-                    icon: mdi:sprinkler-variant
-                    show_state: false
-                    tap_action:
-                      action: call-service
-                      service: script.espyrain_manual_run_station
-                      service_data:
-                        station_num: 4
+                        - background: rgba(0, 170, 90, 0.9)
+                style:
+                  top: 65%
+                  left: 47%
+              - type: custom:button-card
+                entity: binary_sensor.espyrain_station_4_watering
+                name: S4
+                icon: mdi:sprinkler-variant
+                show_state: false
+                tap_action:
+                  action: call-service
+                  service: script.espyrain_manual_run_station
+                  service_data:
+                    station_num: 4
+                styles:
+                  card:
+                    - border-radius: 50%
+                    - width: 42px
+                    - height: 42px
+                    - padding: 0
+                    - background: rgba(30, 64, 98, 0.75)
+                  icon:
+                    - color: white
+                    - width: 20px
+                  name:
+                    - color: white
+                    - font-size: 11px
+                state:
+                  - value: 'on'
                     styles:
                       card:
-                        - border-radius: 50%
-                        - width: 42px
-                        - height: 42px
-                        - padding: 0
-                        - background: rgba(30, 64, 98, 0.75)
-                      icon:
-                        - color: white
-                        - width: 20px
-                      name:
-                        - color: white
-                        - font-size: 11px
-                    state:
-                      - value: 'on'
-                        styles:
-                          card:
-                            - background: rgba(0, 170, 90, 0.9)
-                    style:
-                      top: 54%
-                      left: 35%
-              - type: conditional
-                conditions:
-                  - condition: numeric_state
-                    entity: number.espyrain_controller_number_of_stations
-                    above: 4
-                elements:
-                  - type: custom:button-card
-                    entity: binary_sensor.espyrain_station_5_watering
-                    name: S5
-                    icon: mdi:sprinkler-variant
-                    show_state: false
-                    tap_action:
-                      action: call-service
-                      service: script.espyrain_manual_run_station
-                      service_data:
-                        station_num: 5
+                        - background: rgba(0, 170, 90, 0.9)
+                style:
+                  top: 54%
+                  left: 35%
+              - type: custom:button-card
+                entity: binary_sensor.espyrain_station_5_watering
+                name: S5
+                icon: mdi:sprinkler-variant
+                show_state: false
+                tap_action:
+                  action: call-service
+                  service: script.espyrain_manual_run_station
+                  service_data:
+                    station_num: 5
+                styles:
+                  card:
+                    - border-radius: 50%
+                    - width: 42px
+                    - height: 42px
+                    - padding: 0
+                    - background: rgba(30, 64, 98, 0.75)
+                  icon:
+                    - color: white
+                    - width: 20px
+                  name:
+                    - color: white
+                    - font-size: 11px
+                state:
+                  - value: 'on'
                     styles:
                       card:
-                        - border-radius: 50%
-                        - width: 42px
-                        - height: 42px
-                        - padding: 0
-                        - background: rgba(30, 64, 98, 0.75)
-                      icon:
-                        - color: white
-                        - width: 20px
-                      name:
-                        - color: white
-                        - font-size: 11px
-                    state:
-                      - value: 'on'
-                        styles:
-                          card:
-                            - background: rgba(0, 170, 90, 0.9)
-                    style:
-                      top: 53%
-                      left: 70%
-              - type: conditional
-                conditions:
-                  - condition: numeric_state
-                    entity: number.espyrain_controller_number_of_stations
-                    above: 5
-                elements:
-                  - type: custom:button-card
-                    entity: binary_sensor.espyrain_station_6_watering
-                    name: S6
-                    icon: mdi:sprinkler-variant
-                    show_state: false
-                    tap_action:
-                      action: call-service
-                      service: script.espyrain_manual_run_station
-                      service_data:
-                        station_num: 6
+                        - background: rgba(0, 170, 90, 0.9)
+                style:
+                  top: 53%
+                  left: 70%
+              - type: custom:button-card
+                entity: binary_sensor.espyrain_station_6_watering
+                name: S6
+                icon: mdi:sprinkler-variant
+                show_state: false
+                tap_action:
+                  action: call-service
+                  service: script.espyrain_manual_run_station
+                  service_data:
+                    station_num: 6
+                styles:
+                  card:
+                    - border-radius: 50%
+                    - width: 42px
+                    - height: 42px
+                    - padding: 0
+                    - background: rgba(30, 64, 98, 0.75)
+                  icon:
+                    - color: white
+                    - width: 20px
+                  name:
+                    - color: white
+                    - font-size: 11px
+                state:
+                  - value: 'on'
                     styles:
                       card:
-                        - border-radius: 50%
-                        - width: 42px
-                        - height: 42px
-                        - padding: 0
-                        - background: rgba(30, 64, 98, 0.75)
-                      icon:
-                        - color: white
-                        - width: 20px
-                      name:
-                        - color: white
-                        - font-size: 11px
-                    state:
-                      - value: 'on'
-                        styles:
-                          card:
-                            - background: rgba(0, 170, 90, 0.9)
-                    style:
-                      top: 30%
-                      left: 25%
-              - type: conditional
-                conditions:
-                  - condition: numeric_state
-                    entity: number.espyrain_controller_number_of_stations
-                    above: 6
-                elements:
-                  - type: custom:button-card
-                    entity: binary_sensor.espyrain_station_7_watering
-                    name: S7
-                    icon: mdi:sprinkler-variant
-                    show_state: false
-                    tap_action:
-                      action: call-service
-                      service: script.espyrain_manual_run_station
-                      service_data:
-                        station_num: 7
+                        - background: rgba(0, 170, 90, 0.9)
+                style:
+                  top: 30%
+                  left: 25%
+              - type: custom:button-card
+                entity: binary_sensor.espyrain_station_7_watering
+                name: S7
+                icon: mdi:sprinkler-variant
+                show_state: false
+                tap_action:
+                  action: call-service
+                  service: script.espyrain_manual_run_station
+                  service_data:
+                    station_num: 7
+                styles:
+                  card:
+                    - border-radius: 50%
+                    - width: 42px
+                    - height: 42px
+                    - padding: 0
+                    - background: rgba(30, 64, 98, 0.75)
+                  icon:
+                    - color: white
+                    - width: 20px
+                  name:
+                    - color: white
+                    - font-size: 11px
+                state:
+                  - value: 'on'
                     styles:
                       card:
-                        - border-radius: 50%
-                        - width: 42px
-                        - height: 42px
-                        - padding: 0
-                        - background: rgba(30, 64, 98, 0.75)
-                      icon:
-                        - color: white
-                        - width: 20px
-                      name:
-                        - color: white
-                        - font-size: 11px
-                    state:
-                      - value: 'on'
-                        styles:
-                          card:
-                            - background: rgba(0, 170, 90, 0.9)
-                    style:
-                      top: 50%
-                      left: 5%
-              - type: conditional
-                conditions:
-                  - condition: numeric_state
-                    entity: number.espyrain_controller_number_of_stations
-                    above: 7
-                elements:
-                  - type: custom:button-card
-                    entity: binary_sensor.espyrain_station_8_watering
-                    name: S8
-                    icon: mdi:sprinkler-variant
-                    show_state: false
-                    tap_action:
-                      action: call-service
-                      service: script.espyrain_manual_run_station
-                      service_data:
-                        station_num: 8
+                        - background: rgba(0, 170, 90, 0.9)
+                style:
+                  top: 50%
+                  left: 5%
+              - type: custom:button-card
+                entity: binary_sensor.espyrain_station_8_watering
+                name: S8
+                icon: mdi:sprinkler-variant
+                show_state: false
+                tap_action:
+                  action: call-service
+                  service: script.espyrain_manual_run_station
+                  service_data:
+                    station_num: 8
+                styles:
+                  card:
+                    - border-radius: 50%
+                    - width: 42px
+                    - height: 42px
+                    - padding: 0
+                    - background: rgba(30, 64, 98, 0.75)
+                  icon:
+                    - color: white
+                    - width: 20px
+                  name:
+                    - color: white
+                    - font-size: 11px
+                state:
+                  - value: 'on'
                     styles:
                       card:
-                        - border-radius: 50%
-                        - width: 42px
-                        - height: 42px
-                        - padding: 0
-                        - background: rgba(30, 64, 98, 0.75)
-                      icon:
-                        - color: white
-                        - width: 20px
-                      name:
-                        - color: white
-                        - font-size: 11px
-                    state:
-                      - value: 'on'
-                        styles:
-                          card:
-                            - background: rgba(0, 170, 90, 0.9)
-                    style:
-                      top: 18%
-                      left: 15%
-              - type: conditional
-                conditions:
-                  - condition: numeric_state
-                    entity: number.espyrain_controller_number_of_stations
-                    above: 8
-                elements:
-                  - type: custom:button-card
-                    entity: binary_sensor.espyrain_station_9_watering
-                    name: S9
-                    icon: mdi:sprinkler-variant
-                    show_state: false
-                    tap_action:
-                      action: call-service
-                      service: script.espyrain_manual_run_station
-                      service_data:
-                        station_num: 9
+                        - background: rgba(0, 170, 90, 0.9)
+                style:
+                  top: 18%
+                  left: 15%
+              - type: custom:button-card
+                entity: binary_sensor.espyrain_station_9_watering
+                name: S9
+                icon: mdi:sprinkler-variant
+                show_state: false
+                tap_action:
+                  action: call-service
+                  service: script.espyrain_manual_run_station
+                  service_data:
+                    station_num: 9
+                styles:
+                  card:
+                    - border-radius: 50%
+                    - width: 42px
+                    - height: 42px
+                    - padding: 0
+                    - background: rgba(30, 64, 98, 0.75)
+                  icon:
+                    - color: white
+                    - width: 20px
+                  name:
+                    - color: white
+                    - font-size: 11px
+                state:
+                  - value: 'on'
                     styles:
                       card:
-                        - border-radius: 50%
-                        - width: 42px
-                        - height: 42px
-                        - padding: 0
-                        - background: rgba(30, 64, 98, 0.75)
-                      icon:
-                        - color: white
-                        - width: 20px
-                      name:
-                        - color: white
-                        - font-size: 11px
-                    state:
-                      - value: 'on'
-                        styles:
-                          card:
-                            - background: rgba(0, 170, 90, 0.9)
-                    style:
-                      top: 10%
-                      left: 33%
-              - type: conditional
-                conditions:
-                  - condition: numeric_state
-                    entity: number.espyrain_controller_number_of_stations
-                    above: 9
-                elements:
-                  - type: custom:button-card
-                    entity: binary_sensor.espyrain_station_10_watering
-                    name: S10
-                    icon: mdi:sprinkler-variant
-                    show_state: false
-                    tap_action:
-                      action: call-service
-                      service: script.espyrain_manual_run_station
-                      service_data:
-                        station_num: 10
+                        - background: rgba(0, 170, 90, 0.9)
+                style:
+                  top: 10%
+                  left: 33%
+              - type: custom:button-card
+                entity: binary_sensor.espyrain_station_10_watering
+                name: S10
+                icon: mdi:sprinkler-variant
+                show_state: false
+                tap_action:
+                  action: call-service
+                  service: script.espyrain_manual_run_station
+                  service_data:
+                    station_num: 10
+                styles:
+                  card:
+                    - border-radius: 50%
+                    - width: 42px
+                    - height: 42px
+                    - padding: 0
+                    - background: rgba(30, 64, 98, 0.75)
+                  icon:
+                    - color: white
+                    - width: 20px
+                  name:
+                    - color: white
+                    - font-size: 11px
+                state:
+                  - value: 'on'
                     styles:
                       card:
-                        - border-radius: 50%
-                        - width: 42px
-                        - height: 42px
-                        - padding: 0
-                        - background: rgba(30, 64, 98, 0.75)
-                      icon:
-                        - color: white
-                        - width: 20px
-                      name:
-                        - color: white
-                        - font-size: 11px
-                    state:
-                      - value: 'on'
-                        styles:
-                          card:
-                            - background: rgba(0, 170, 90, 0.9)
-                    style:
-                      top: 14%
-                      left: 64%
-              - type: conditional
-                conditions:
-                  - condition: numeric_state
-                    entity: number.espyrain_controller_number_of_stations
-                    above: 10
-                elements:
-                  - type: custom:button-card
-                    entity: binary_sensor.espyrain_station_11_watering
-                    name: S11
-                    icon: mdi:sprinkler-variant
-                    show_state: false
-                    tap_action:
-                      action: call-service
-                      service: script.espyrain_manual_run_station
-                      service_data:
-                        station_num: 11
+                        - background: rgba(0, 170, 90, 0.9)
+                style:
+                  top: 14%
+                  left: 64%
+              - type: custom:button-card
+                entity: binary_sensor.espyrain_station_9_watering
+                name: S9
+                icon: mdi:sprinkler-variant
+                show_state: false
+                tap_action:
+                  action: call-service
+                  service: script.espyrain_manual_run_station
+                  service_data:
+                    station_num: 9
+                styles:
+                  card:
+                    - border-radius: 50%
+                    - width: 42px
+                    - height: 42px
+                    - padding: 0
+                    - background: rgba(30, 64, 98, 0.75)
+                  icon:
+                    - color: white
+                    - width: 20px
+                  name:
+                    - color: white
+                    - font-size: 11px
+                state:
+                  - value: 'on'
                     styles:
                       card:
-                        - border-radius: 50%
-                        - width: 42px
-                        - height: 42px
-                        - padding: 0
-                        - background: rgba(30, 64, 98, 0.75)
-                      icon:
-                        - color: white
-                        - width: 20px
-                      name:
-                        - color: white
-                        - font-size: 11px
-                    state:
-                      - value: 'on'
-                        styles:
-                          card:
-                            - background: rgba(0, 170, 90, 0.9)
-                    style:
-                      top: 28%
-                      left: 3%
-              - type: conditional
-                conditions:
-                  - condition: numeric_state
-                    entity: number.espyrain_controller_number_of_stations
-                    above: 11
-                elements:
-                  - type: custom:button-card
-                    entity: binary_sensor.espyrain_station_12_watering
-                    name: S12
-                    icon: mdi:sprinkler-variant
-                    show_state: false
-                    tap_action:
-                      action: call-service
-                      service: script.espyrain_manual_run_station
-                      service_data:
-                        station_num: 12
-                    styles:
-                      card:
-                        - border-radius: 50%
-                        - width: 42px
-                        - height: 42px
-                        - padding: 0
-                        - background: rgba(30, 64, 98, 0.75)
-                      icon:
-                        - color: white
-                        - width: 20px
-                      name:
-                        - color: white
-                        - font-size: 11px
-                    state:
-                      - value: 'on'
-                        styles:
-                          card:
-                            - background: rgba(0, 170, 90, 0.9)
-                    style:
-                      top: 30%
-                      left: 82%
-              - type: conditional
-                conditions:
-                  - condition: numeric_state
-                    entity: number.espyrain_controller_number_of_stations
-                    above: 12
-                elements:
-                  - type: custom:button-card
-                    entity: binary_sensor.espyrain_station_13_watering
-                    name: S13
-                    icon: mdi:sprinkler-variant
-                    show_state: false
-                    tap_action:
-                      action: call-service
-                      service: script.espyrain_manual_run_station
-                      service_data:
-                        station_num: 13
-                    styles:
-                      card:
-                        - border-radius: 50%
-                        - width: 42px
-                        - height: 42px
-                        - padding: 0
-                        - background: rgba(30, 64, 98, 0.75)
-                      icon:
-                        - color: white
-                        - width: 20px
-                      name:
-                        - color: white
-                        - font-size: 11px
-                    state:
-                      - value: 'on'
-                        styles:
-                          card:
-                            - background: rgba(0, 170, 90, 0.9)
-                    style:
-                      top: 8%
-                      left: 84%
-              - type: conditional
-                conditions:
-                  - condition: numeric_state
-                    entity: number.espyrain_controller_number_of_stations
-                    above: 13
-                elements:
-                  - type: custom:button-card
-                    entity: binary_sensor.espyrain_station_14_watering
-                    name: S14
-                    icon: mdi:sprinkler-variant
-                    show_state: false
-                    tap_action:
-                      action: call-service
-                      service: script.espyrain_manual_run_station
-                      service_data:
-                        station_num: 14
-                    styles:
-                      card:
-                        - border-radius: 50%
-                        - width: 42px
-                        - height: 42px
-                        - padding: 0
-                        - background: rgba(30, 64, 98, 0.75)
-                      icon:
-                        - color: white
-                        - width: 20px
-                      name:
-                        - color: white
-                        - font-size: 11px
-                    state:
-                      - value: 'on'
-                        styles:
-                          card:
-                            - background: rgba(0, 170, 90, 0.9)
-                    style:
-                      top: 74%
-                      left: 12%
-              - type: conditional
-                conditions:
-                  - condition: numeric_state
-                    entity: number.espyrain_controller_number_of_stations
-                    above: 14
-                elements:
-                  - type: custom:button-card
-                    entity: binary_sensor.espyrain_station_15_watering
-                    name: S15
-                    icon: mdi:sprinkler-variant
-                    show_state: false
-                    tap_action:
-                      action: call-service
-                      service: script.espyrain_manual_run_station
-                      service_data:
-                        station_num: 15
-                    styles:
-                      card:
-                        - border-radius: 50%
-                        - width: 42px
-                        - height: 42px
-                        - padding: 0
-                        - background: rgba(30, 64, 98, 0.75)
-                      icon:
-                        - color: white
-                        - width: 20px
-                      name:
-                        - color: white
-                        - font-size: 11px
-                    state:
-                      - value: 'on'
-                        styles:
-                          card:
-                            - background: rgba(0, 170, 90, 0.9)
-                    style:
-                      top: 72%
-                      left: 58%
-              - type: conditional
-                conditions:
-                  - condition: numeric_state
-                    entity: number.espyrain_controller_number_of_stations
-                    above: 15
-                elements:
-                  - type: custom:button-card
-                    entity: binary_sensor.espyrain_station_16_watering
-                    name: S16
-                    icon: mdi:sprinkler-variant
-                    show_state: false
-                    tap_action:
-                      action: call-service
-                      service: script.espyrain_manual_run_station
-                      service_data:
-                        station_num: 16
-                    styles:
-                      card:
-                        - border-radius: 50%
-                        - width: 42px
-                        - height: 42px
-                        - padding: 0
-                        - background: rgba(30, 64, 98, 0.75)
-                      icon:
-                        - color: white
-                        - width: 20px
-                      name:
-                        - color: white
-                        - font-size: 11px
-                    state:
-                      - value: 'on'
-                        styles:
-                          card:
-                            - background: rgba(0, 170, 90, 0.9)
-                    style:
-                      top: 86%
-                      left: 58%
+                        - background: rgba(0, 170, 90, 0.9)
+                style:
+                  top: 28%
+                  left: 3%
   - type: sections
     max_columns: 4
     title: Stats
@@ -7473,7 +7217,7 @@ views:
               - type: custom:fold-entity-row
                 head:
                   type: section
-                  label: 💬 Notifications
+                  label: 💬 Notifications On/Off
                 open: false
                 entities:
                   - type: custom:hui-markdown-card
@@ -7502,14 +7246,38 @@ views:
               - entity: input_boolean.espyrain_notifications
                 name: Enable notifications
                 icon: mdi:email
+              - type: custom:fold-entity-row
+                head:
+                  type: section
+                  label: 💬 Notification devices
+                open: false
+                entities:
+                  - type: custom:hui-markdown-card
+                    content: >
+                      Leave **Notification service(s)** blank to use Home
+                      Assistant persistent
+
+                      notifications. 
+
+
+                      You can also enter multiple comma-separated `notify.*`
+
+                      services, for example: `notify.mobile_app_my_phone,
+                      notify.telegram_bot_xxx_xxx`
+                    card_mod:
+                      style: |
+                        ha-card {
+                          background: rgba(39, 66, 77, 0.5);
+                          border-left: 3px solid #FFA500;
+                          font-size: 0.95em;
+                          padding: 12px;
+                        }
+                        ha-markdown {
+                          padding: 0 !important;
+                        } 
               - entity: input_text.espyrain_notify_service
                 name: Notification service(s)
                 icon: mdi:message-badge-outline
-              - type: custom:hui-markdown-card
-                content: >
-                  Leave **Notification service(s)** blank to use Home Assistant persistent notifications.
-                  You can also enter multiple comma-separated `notify.*` services, for example:
-                  `notify.mobile_app_my_phone, notify.telegram`
               - type: custom:fold-entity-row
                 head:
                   type: section

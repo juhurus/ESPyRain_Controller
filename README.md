@@ -309,7 +309,7 @@ At a high level, installation looks like this:
 1. Install the Home Assistant package
 2. Add required notification and Wi-Fi secrets 
 3. Install required Lovelace custom cards
-4. Prepare the ESPHome wrapper config (espyrain_controller.yaml)
+4. Prepare the ESPHome wrapper config (`espyrain_controller_wrapper.yaml`)
 5. Configure Wi-Fi, API, OTA, and hardware-specific settings
 6. Flash the ESP32
 7. Import or add the dashboard
@@ -416,4 +416,8 @@ The goal is a reliable, transparent, local-first irrigation controller that can 
 
 ## License
 
-To be added.
+This project is licensed under the Apache License 2.0. See `LICENSE`.
+
+## Branding
+
+The code is licensed under Apache 2.0, but the `ESPyRain` name, branding, and presentation assets are not granted for reuse beyond what the license and applicable law allow. If you create a derivative project, please use your own name and branding.

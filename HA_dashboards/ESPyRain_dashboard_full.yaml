@@ -593,6 +593,13 @@ views:
                     }
           - type: markdown
             content: >
+              {% if states('input_number.espyrain_rain_delay_days') | int(0) > 0
+              %}
+
+              ## _Rain delay for next {{
+              states('input_number.espyrain_rain_delay_days') }} day(s)_ {%
+              endif %}
+
               {% set forecast = state_attr('sensor.espyrain_7_day_forecast',
               'days') %} {%
 
@@ -610,21 +617,21 @@ views:
                         {% set ns.times = ns.times + [t ~ ' ' ~ sched.name] %}
                       {% endfor %}
                     {% endfor %}
-
+               --- 
                 ### 📅 ***{{ day.day_name }}*** ({{ day.date }})
               ▶ {{ ns.times | sort | join('
 
               ▶ ') }}
 
-               --- 
+
 
                   {% else %}
-                  
+               ---       
               ### 📅 ***{{ day.day_name }}*** ({{ day.date }}):  
 
-               🛑 _No runs_
+               🛑 _No runs scheduled_
 
-               ---
+
 
                   {% endif %}
                 {% endfor %}
@@ -635,12 +642,6 @@ views:
                ---
 
               {% endif %}
-
-              {% if states('input_number.espyrain_rain_delay_days') | int(0) > 0
-              %}
-
-              ## _Rain delay: {{ states('input_number.espyrain_rain_delay_days')
-              }} day(s)_ {% endif %}
             card_mod:
               style: |
                 ha-card {

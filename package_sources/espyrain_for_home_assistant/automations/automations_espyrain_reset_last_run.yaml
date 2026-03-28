@@ -1,19 +1,16 @@
-# ════════════════════════════════════════════════════════════════
-# RESET LAST_RUN WHEN SCHEDULE ENABLED
-# Add to: config/automations/
-# ════════════════════════════════════════════════════════════════
-#
-# This automation resets the ESP's last_run timestamp to 0 when:
-# 1. Schedule is enabled (turned on)
-# 2. Days mode is changed TO an interval mode
-#
-# Result: Schedule treats itself as "never ran" and will run at
-# next available time (today if time hasn't passed, tomorrow if it has)
-# ════════════════════════════════════════════════════════════════
+# ================================================================
+#                                                                
+#                Last Run Reset Automations                  
+#                                                                
+# ================================================================
+# Saved as: config/package_sources/espyrain_for_home_assistant/automations/automations_espyrain_reset_last_run.yaml
 
-# Reset Schedule 1 Last Run
+# ================================================================
+# RESET SCHEDULE 1 LAST RUN ON ENABLE
+# ================================================================
 - id: reset_schedule_1_last_run_on_enable
   alias: "Reset Schedule 1 Last Run on Enable"
+  description: "Handle Reset Schedule 1 Last Run on Enable."
   trigger:
     # Trigger when schedule enabled
     - platform: state
@@ -43,8 +40,13 @@
         message: "Schedule 1 last_run reset requested, but no v2 reset button is exposed."
 
 # Reset Schedule 2 Last Run
+
+# ================================================================
+# RESET SCHEDULE 2 LAST RUN ON ENABLE
+# ================================================================
 - id: reset_schedule_2_last_run_on_enable
   alias: "Reset Schedule 2 Last Run on Enable"
+  description: "Handle Reset Schedule 2 Last Run on Enable."
   trigger:
     - platform: state
       entity_id: input_boolean.espyrain_schedule_2_enabled
@@ -69,8 +71,13 @@
         message: "Schedule 2 last_run reset requested, but no v2 reset button is exposed."
 
 # Reset Schedule 3 Last Run
+
+# ================================================================
+# RESET SCHEDULE 3 LAST RUN ON ENABLE
+# ================================================================
 - id: reset_schedule_3_last_run_on_enable
   alias: "Reset Schedule 3 Last Run on Enable"
+  description: "Handle Reset Schedule 3 Last Run on Enable."
   trigger:
     - platform: state
       entity_id: input_boolean.espyrain_schedule_3_enabled
@@ -95,8 +102,13 @@
         message: "Schedule 3 last_run reset requested, but no v2 reset button is exposed."
 
 # Reset Schedule 4 Last Run
+
+# ================================================================
+# RESET SCHEDULE 4 LAST RUN ON ENABLE
+# ================================================================
 - id: reset_schedule_4_last_run_on_enable
   alias: "Reset Schedule 4 Last Run on Enable"
+  description: "Handle Reset Schedule 4 Last Run on Enable."
   trigger:
     - platform: state
       entity_id: input_boolean.espyrain_schedule_4_enabled
@@ -120,8 +132,12 @@
         name: ESPyRain
         message: "Schedule 4 last_run reset requested, but no v2 reset button is exposed."
 
+# ================================================================
+# RESET SCHEDULE 5 LAST RUN ON ENABLE
+# ================================================================
 - id: reset_schedule_5_last_run_on_enable
   alias: "Reset Schedule 5 Last Run on Enable"
+  description: "Handle Reset Schedule 5 Last Run on Enable."
   trigger:
     - platform: state
       entity_id: input_boolean.espyrain_schedule_5_enabled
@@ -145,22 +161,21 @@
         name: ESPyRain
         message: "Schedule 5 last_run reset requested, but no v2 reset button is exposed."
 
-
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 # WHAT THIS DOES:
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 #
 # SCENARIO 1: Schedule disabled, then re-enabled
 # - User disables Schedule 3 (last_run = Jan 28)
 # - User re-enables Schedule 3
-# - Automation triggers → presses reset button
+# - Automation triggers â†’ presses reset button
 # - ESP sets last_run = 0
 # - ESP calculates next_run = tomorrow (if time passed)
 # - Forecast shows correctly
 #
 # SCENARIO 2: Days mode changed to interval
 # - User changes from "Selected Days" to "Every 3 Days"
-# - Automation triggers → presses reset button
+# - Automation triggers â†’ presses reset button
 # - ESP sets last_run = 0
 # - Fresh start for interval counting
 #
@@ -170,4 +185,4 @@
 # - Predictable behavior
 # - User expectation met
 #
-# ════════════════════════════════════════════════════════════════
+# ================================================================

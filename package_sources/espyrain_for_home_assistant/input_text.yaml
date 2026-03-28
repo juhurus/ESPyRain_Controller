@@ -1,21 +1,13 @@
-############################################################
-#                                                          #
-#                  SPRINKLER SCHEDULE                      #
-#                   8 Schedules Total                      #
-#                                                          #
-############################################################
-# # espyrain_backup_queue:
-  # # name: "Sprinkler Backup Queue"
-  # # max: 255
+# ================================================================
+#                                                          
+#                SCHEDULES AND STATIONS INPUT TEXT                     
+#                                                          
+# ================================================================
+# Saved as: config/package_sources/espyrain_for_home_assistant/input_text.yaml
 
-# # espyrain_backup_current_program:
-  # # name: "Sprinkler Backup Current Program"  
-  # # max: 255
-
-# # espyrain_backup_current_station:
-  # # name: "Sprinkler Backup Current Station"
-  # # max: 255
-
+# ================================================================
+# SCHEDULE NAMES                    
+# ================================================================
 # Schedule 1 Name
 espyrain_schedule_1_name:
   name: "Schedule 1 Name"
@@ -72,12 +64,9 @@ espyrain_schedule_8_name:
   max: 50
   icon: mdi:rename-box
 
-############################################################
-#                                                          #
-#               SPRINKLER STATION NAMES                    #
-#                  16 Stations Total                       #
-#                                                          #
-############################################################
+# ================================================================
+# STATION NAMES                    
+# ================================================================
 
 # Station 1 Name
 espyrain_station_1_name:
@@ -191,15 +180,13 @@ espyrain_station_16_name:
   max: 50
   icon: mdi:label-outline
 
-
+# ================================================================
 # Notification service target(s)
+# ================================================================
 espyrain_notify_service:
   name: "Notification Service(s)"
   initial: ""
   max: 255
   icon: mdi:message-badge-outline
 
-# # espyrain_active_program:
-  # # name: "Active Program"
-  # # max: 50
-  # # initial: "Idle"
+

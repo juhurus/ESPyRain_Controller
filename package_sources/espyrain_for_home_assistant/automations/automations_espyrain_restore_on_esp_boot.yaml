@@ -1,19 +1,13 @@
-############################################################
-#                                                          #
-#    RESTORE BOOLEAN STATE ON ESP BOOT (v2.0)             #
-#                                                          #
-############################################################
-# When the ESP comes online, restore the persistent HA state
-# of station_X_enabled and bypass_interval_check switches.
-#
-# These are persisted in HA input_booleans because the ESP
-# globals have restore_value: false (unreliable bool NVS).
-#
-# Automations:
-#   1. Master automation: detects ESP online, triggers sequences
-#   2. One sequence per station (1-16) to restore enabled state
-#   3. One sequence to restore bypass_interval_check
+# ================================================================
+#                                                                
+#                ESP Boot Restore Automations                
+#                                                                
+# ================================================================
+# Saved as: config/package_sources/espyrain_for_home_assistant/automations/automations_espyrain_restore_on_esp_boot.yaml
 
+# ================================================================
+# RESTORE BOOLEAN STATE ON ESP BOOT
+# ================================================================
 - id: espyrain_restore_on_esp_boot
   alias: "ESPyRain: Restore Boolean State on ESP Boot"
   description: "When ESP comes online, restore station_enabled and bypass_interval_check from HA helpers"
@@ -32,10 +26,10 @@
     - delay:
         seconds: 5
 
-    # ──────────────────────────────────────────────────────────
+    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     # Restore all 16 station enabled states
-    # ──────────────────────────────────────────────────────────
-    
+    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
     # Station 1
     - service: "switch.turn_{{ states('input_boolean.espyrain_station_1_enabled') }}"
       target:
@@ -132,9 +126,9 @@
         entity_id: switch.espyrain_controller_station_16_enabled
       continue_on_error: true
 
-    # ──────────────────────────────────────────────────────────
+    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     # Restore bypass_interval_check
-    # ──────────────────────────────────────────────────────────
+    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     - service: "switch.turn_{{ states('input_boolean.espyrain_bypass_interval_check') }}"
       target:
         entity_id: switch.espyrain_controller_bypass_interval_check
@@ -150,12 +144,15 @@
       data:
         level: info
         message: "ESPyRain: Restored 16 station enabled states + bypass_interval_check from HA helpers after ESP boot."
-    
-# ════════════════════════════════════════════════════════════════
+
+# ================================================================
 # KEEP HELPERS IN SYNC WITH ESP (HA -> ESP on change)
 # These automations sync the HA input_booleans to the ESP when changed.
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 
+# ================================================================
+# SYNC STATION ENABLED TO ESP (HA CHANGE)
+# ================================================================
 - id: espyrain_sync_station_enabled_to_esp
   alias: "ESPyRain: Sync Station Enabled to ESP (HA Change)"
   description: "When HA input_boolean station_X_enabled changes, update ESP switch"
@@ -229,12 +226,10 @@
       # # target:
         # # entity_id: input_boolean.espyrain_bypass_interval_check
 
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 # REVERSE SYNC: ESP -> HA (optional, for full state visibility)
 # Disabled by default. Enable if you want HA to always show ESP reality.
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 # Note: Enabling these creates bidirectional sync which can be risky
 # if not carefully gated. The primary sync (HA->ESP on boot) should
 # be sufficient for most use cases.
-
-

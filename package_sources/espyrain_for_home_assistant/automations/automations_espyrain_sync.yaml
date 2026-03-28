@@ -1,64 +1,48 @@
+# ================================================================
+#                                                                
+#                Schedule Sync Automations                   
+#                                                                
+# ================================================================
+# Saved as: config/package_sources/espyrain_for_home_assistant/automations/automations_espyrain_sync.yaml
 
-# --------------------------------------------------------
-# COMPATIBILITY - Migrate legacy Disabled day mode
-# --------------------------------------------------------
-- id: espyrain_migrate_disabled_days_mode
-  alias: "ESPyRain: Migrate Disabled Days Mode"
-  description: "Convert legacy Disabled day selectors to Selected Days and use the enabled boolean as the only on/off control"
-  trigger:
-    - platform: homeassistant
-      event: start
-  action:
-    - repeat:
-        for_each:
-          - 1
-          - 2
-          - 3
-          - 4
-          - 5
-          - 6
-          - 7
-          - 8
-        sequence:
-          - variables:
-              days_entity: "{{ 'input_select.espyrain_schedule_' ~ repeat.item ~ '_days' }}"
-              enabled_entity: "{{ 'input_boolean.espyrain_schedule_' ~ repeat.item ~ '_enabled' }}"
-          - if:
-              - condition: template
-                value_template: "{{ states(days_entity) == 'Disabled' }}"
-            then:
-              - service: input_boolean.turn_off
-                data:
-                  entity_id: "{{ enabled_entity }}"
-              - service: input_select.select_option
-                data:
-                  entity_id: "{{ days_entity }}"
-                  option: "Selected Days"
-  mode: single
-############################################################
-#                                                          #
-#    SPRINKLER v2 SYNC: HA INPUT HELPERS -> ESP            #
-#    One-directional sync. No sync_lock conditions.        #
-#                                                          #
-#    Replaces: automations_espyrain_schedule_syncs.yaml   #
-#              automations_sprinkler_days_bitmask_sync.yaml#
-#              automations_sync_interval_to_esp.yaml       #
-#                                                          #
-#    Generated: 2026-02-17                                 #
-#                                                          #
-############################################################
+# ================================================================
+# MIGRATE DISABLED DAYS MODE
+# ================================================================
+# - id: espyrain_migrate_disabled_days_mode
+  # alias: "ESPyRain: Migrate Disabled Days Mode"
+  # description: "Convert legacy Disabled day selectors to Selected Days and use the enabled boolean as the only on/off control"
+  # trigger:
+    # - platform: homeassistant
+      # event: start
+  # action:
+    # - repeat:
+        # for_each:
+          # - 1
+          # - 2
+          # - 3
+          # - 4
+          # - 5
+          # - 6
+          # - 7
+          # - 8
+        # sequence:
+          # - variables:
+              # days_entity: "{{ 'input_select.espyrain_schedule_' ~ repeat.item ~ '_days' }}"
+              # enabled_entity: "{{ 'input_boolean.espyrain_schedule_' ~ repeat.item ~ '_enabled' }}"
+          # - if:
+              # - condition: template
+                # value_template: "{{ states(days_entity) == 'Disabled' }}"
+            # then:
+              # - service: input_boolean.turn_off
+                # data:
+                  # entity_id: "{{ enabled_entity }}"
+              # - service: input_select.select_option
+                # data:
+                  # entity_id: "{{ days_entity }}"
+                  # option: "Selected Days"
+  # mode: single
 #
-# ESP ENTITY NAMING (ESPHome name -> HA entity_id):
-#   "Schedule N Hour"           -> number.espyrain_controller_schedule_N_hour
-#   "Schedule N Minute"         -> number.espyrain_controller_schedule_N_minute
-#   "Schedule N Day Mode"       -> number.espyrain_controller_schedule_N_day_mode
-#   "Schedule N Days Bitmask"   -> number.espyrain_controller_schedule_N_days_bitmask
-#   "Schedule N Interval"       -> number.espyrain_controller_schedule_N_interval
-#   "Schedule N Station Mask"   -> number.espyrain_controller_schedule_N_station_mask
-#   "Schedule N Soak Cycles"    -> number.espyrain_controller_schedule_N_soak_cycles
-#   "Schedule N Seasonal Adjust"-> number.espyrain_controller_schedule_N_seasonal_adjust
-#   "Schedule N Enabled"        -> switch.espyrain_controller_schedule_N_enabled
-#
+# ============================================================
 # SOAK MAPPING (ESP uses soak+1 for total passes):
 #   No Soak = 0, 2x Soak = 1, 3x Soak = 2, 4x Soak = 3, 5x Soak = 4
 #
@@ -67,14 +51,13 @@
 # DAY MODE: 0=Daily, 1=Selected Days, 2=Interval,
 #           3=Odd Days, 4=Even Days, 5=Weekdays/Weekends
 #
-
 # ============================================================
 # SCHEDULE 1 SYNCS
 # ============================================================
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 1 - Time Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_1_time
   alias: "ESPyRain: Sync Schedule 1 Time"
   description: "Sync schedule 1 start time from HA input_datetime to ESP hour/minute numbers"
@@ -98,9 +81,9 @@
         value: "{{ state_attr('input_datetime.espyrain_schedule_1_time', 'minute') }}"
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 1 - Day Mode + Bitmask + Interval Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_1_days
   alias: "ESPyRain: Sync Schedule 1 Days"
   description: "Sync day_mode, days_bitmask, and interval from HA dropdown/booleans to ESP"
@@ -170,9 +153,9 @@
 
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 1 - Station Mask Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_1_station_mask
   alias: "ESPyRain: Sync Schedule 1 Station Mask"
   description: "Calculate 16-bit station bitmask from individual station booleans and sync to ESP"
@@ -219,9 +202,9 @@
           {{ ns.mask }}
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 1 - Soak Cycles Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_1_soak
   alias: "ESPyRain: Sync Schedule 1 Soak Cycles"
   description: "Map soak cycle text selection to ESP number (No Soak=0, 2x=1, 3x=2, 4x=3, 5x=4)"
@@ -246,9 +229,9 @@
           {% else %}0{% endif %}
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 1 - Seasonal Adjustment Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_1_seasonal
   alias: "ESPyRain: Sync Schedule 1 Seasonal Adjust"
   description: "Sync seasonal adjustment percentage (50-150) directly to ESP"
@@ -267,9 +250,9 @@
         value: "{{ states('input_number.espyrain_schedule_1_seasonal') | int(100) }}"
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 1 - Enabled Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_1_enabled
   alias: "ESPyRain: Sync Schedule 1 Enabled"
   description: "Sync schedule enabled/disabled state from HA boolean to ESP switch"
@@ -286,9 +269,9 @@
 # SCHEDULE 2 SYNCS
 # ============================================================
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 2 - Time Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_2_time
   alias: "ESPyRain: Sync Schedule 2 Time"
   description: "Sync schedule 2 start time from HA input_datetime to ESP hour/minute numbers"
@@ -312,9 +295,9 @@
         value: "{{ state_attr('input_datetime.espyrain_schedule_2_time', 'minute') }}"
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 2 - Day Mode + Bitmask + Interval Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_2_days
   alias: "ESPyRain: Sync Schedule 2 Days"
   description: "Sync day_mode, days_bitmask, and interval from HA dropdown/booleans to ESP"
@@ -384,9 +367,9 @@
 
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 2 - Station Mask Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_2_station_mask
   alias: "ESPyRain: Sync Schedule 2 Station Mask"
   description: "Calculate 16-bit station bitmask from individual station booleans and sync to ESP"
@@ -433,9 +416,9 @@
           {{ ns.mask }}
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 2 - Soak Cycles Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_2_soak
   alias: "ESPyRain: Sync Schedule 2 Soak Cycles"
   description: "Map soak cycle text selection to ESP number (No Soak=0, 2x=1, 3x=2, 4x=3, 5x=4)"
@@ -460,9 +443,9 @@
           {% else %}0{% endif %}
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 2 - Seasonal Adjustment Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_2_seasonal
   alias: "ESPyRain: Sync Schedule 2 Seasonal Adjust"
   description: "Sync seasonal adjustment percentage (50-150) directly to ESP"
@@ -481,9 +464,9 @@
         value: "{{ states('input_number.espyrain_schedule_2_seasonal') | int(100) }}"
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 2 - Enabled Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_2_enabled
   alias: "ESPyRain: Sync Schedule 2 Enabled"
   description: "Sync schedule enabled/disabled state from HA boolean to ESP switch"
@@ -500,9 +483,9 @@
 # SCHEDULE 3 SYNCS
 # ============================================================
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 3 - Time Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_3_time
   alias: "ESPyRain: Sync Schedule 3 Time"
   description: "Sync schedule 3 start time from HA input_datetime to ESP hour/minute numbers"
@@ -526,9 +509,9 @@
         value: "{{ state_attr('input_datetime.espyrain_schedule_3_time', 'minute') }}"
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 3 - Day Mode + Bitmask + Interval Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_3_days
   alias: "ESPyRain: Sync Schedule 3 Days"
   description: "Sync day_mode, days_bitmask, and interval from HA dropdown/booleans to ESP"
@@ -598,9 +581,9 @@
 
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 3 - Station Mask Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_3_station_mask
   alias: "ESPyRain: Sync Schedule 3 Station Mask"
   description: "Calculate 16-bit station bitmask from individual station booleans and sync to ESP"
@@ -647,9 +630,9 @@
           {{ ns.mask }}
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 3 - Soak Cycles Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_3_soak
   alias: "ESPyRain: Sync Schedule 3 Soak Cycles"
   description: "Map soak cycle text selection to ESP number (No Soak=0, 2x=1, 3x=2, 4x=3, 5x=4)"
@@ -674,9 +657,9 @@
           {% else %}0{% endif %}
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 3 - Seasonal Adjustment Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_3_seasonal
   alias: "ESPyRain: Sync Schedule 3 Seasonal Adjust"
   description: "Sync seasonal adjustment percentage (50-150) directly to ESP"
@@ -695,9 +678,9 @@
         value: "{{ states('input_number.espyrain_schedule_3_seasonal') | int(100) }}"
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 3 - Enabled Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_3_enabled
   alias: "ESPyRain: Sync Schedule 3 Enabled"
   description: "Sync schedule enabled/disabled state from HA boolean to ESP switch"
@@ -714,9 +697,9 @@
 # SCHEDULE 4 SYNCS
 # ============================================================
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 4 - Time Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_4_time
   alias: "ESPyRain: Sync Schedule 4 Time"
   description: "Sync schedule 4 start time from HA input_datetime to ESP hour/minute numbers"
@@ -740,9 +723,9 @@
         value: "{{ state_attr('input_datetime.espyrain_schedule_4_time', 'minute') }}"
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 4 - Day Mode + Bitmask + Interval Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_4_days
   alias: "ESPyRain: Sync Schedule 4 Days"
   description: "Sync day_mode, days_bitmask, and interval from HA dropdown/booleans to ESP"
@@ -812,9 +795,9 @@
 
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 4 - Station Mask Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_4_station_mask
   alias: "ESPyRain: Sync Schedule 4 Station Mask"
   description: "Calculate 16-bit station bitmask from individual station booleans and sync to ESP"
@@ -861,9 +844,9 @@
           {{ ns.mask }}
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 4 - Soak Cycles Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_4_soak
   alias: "ESPyRain: Sync Schedule 4 Soak Cycles"
   description: "Map soak cycle text selection to ESP number (No Soak=0, 2x=1, 3x=2, 4x=3, 5x=4)"
@@ -888,9 +871,9 @@
           {% else %}0{% endif %}
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 4 - Seasonal Adjustment Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_4_seasonal
   alias: "ESPyRain: Sync Schedule 4 Seasonal Adjust"
   description: "Sync seasonal adjustment percentage (50-150) directly to ESP"
@@ -909,9 +892,9 @@
         value: "{{ states('input_number.espyrain_schedule_4_seasonal') | int(100) }}"
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 4 - Enabled Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_4_enabled
   alias: "ESPyRain: Sync Schedule 4 Enabled"
   description: "Sync schedule enabled/disabled state from HA boolean to ESP switch"
@@ -928,9 +911,9 @@
 # SCHEDULE 5 SYNCS
 # ============================================================
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 5 - Time Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_5_time
   alias: "ESPyRain: Sync Schedule 5 Time"
   description: "Sync schedule 5 start time from HA input_datetime to ESP hour/minute numbers"
@@ -954,9 +937,9 @@
         value: "{{ state_attr('input_datetime.espyrain_schedule_5_time', 'minute') }}"
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 5 - Day Mode + Bitmask + Interval Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_5_days
   alias: "ESPyRain: Sync Schedule 5 Days"
   description: "Sync day_mode, days_bitmask, and interval from HA dropdown/booleans to ESP"
@@ -1026,9 +1009,9 @@
 
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 5 - Station Mask Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_5_station_mask
   alias: "ESPyRain: Sync Schedule 5 Station Mask"
   description: "Calculate 16-bit station bitmask from individual station booleans and sync to ESP"
@@ -1075,9 +1058,9 @@
           {{ ns.mask }}
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 5 - Soak Cycles Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_5_soak
   alias: "ESPyRain: Sync Schedule 5 Soak Cycles"
   description: "Map soak cycle text selection to ESP number (No Soak=0, 2x=1, 3x=2, 4x=3, 5x=4)"
@@ -1102,9 +1085,9 @@
           {% else %}0{% endif %}
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 5 - Seasonal Adjustment Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_5_seasonal
   alias: "ESPyRain: Sync Schedule 5 Seasonal Adjust"
   description: "Sync seasonal adjustment percentage (50-150) directly to ESP"
@@ -1123,9 +1106,9 @@
         value: "{{ states('input_number.espyrain_schedule_5_seasonal') | int(100) }}"
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 5 - Enabled Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_5_enabled
   alias: "ESPyRain: Sync Schedule 5 Enabled"
   description: "Sync schedule enabled/disabled state from HA boolean to ESP switch"
@@ -1142,9 +1125,9 @@
 # SCHEDULE 6 SYNCS
 # ============================================================
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 6 - Time Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_6_time
   alias: "ESPyRain: Sync Schedule 6 Time"
   description: "Sync schedule 6 start time from HA input_datetime to ESP hour/minute numbers"
@@ -1168,9 +1151,9 @@
         value: "{{ state_attr('input_datetime.espyrain_schedule_6_time', 'minute') }}"
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 6 - Day Mode + Bitmask + Interval Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_6_days
   alias: "ESPyRain: Sync Schedule 6 Days"
   description: "Sync day_mode, days_bitmask, and interval from HA dropdown/booleans to ESP"
@@ -1240,9 +1223,9 @@
 
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 6 - Station Mask Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_6_station_mask
   alias: "ESPyRain: Sync Schedule 6 Station Mask"
   description: "Calculate 16-bit station bitmask from individual station booleans and sync to ESP"
@@ -1289,9 +1272,9 @@
           {{ ns.mask }}
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 6 - Soak Cycles Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_6_soak
   alias: "ESPyRain: Sync Schedule 6 Soak Cycles"
   description: "Map soak cycle text selection to ESP number (No Soak=0, 2x=1, 3x=2, 4x=3, 5x=4)"
@@ -1316,9 +1299,9 @@
           {% else %}0{% endif %}
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 6 - Seasonal Adjustment Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_6_seasonal
   alias: "ESPyRain: Sync Schedule 6 Seasonal Adjust"
   description: "Sync seasonal adjustment percentage (50-150) directly to ESP"
@@ -1337,9 +1320,9 @@
         value: "{{ states('input_number.espyrain_schedule_6_seasonal') | int(100) }}"
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 6 - Enabled Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_6_enabled
   alias: "ESPyRain: Sync Schedule 6 Enabled"
   description: "Sync schedule enabled/disabled state from HA boolean to ESP switch"
@@ -1356,9 +1339,9 @@
 # SCHEDULE 7 SYNCS
 # ============================================================
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 7 - Time Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_7_time
   alias: "ESPyRain: Sync Schedule 7 Time"
   description: "Sync schedule 7 start time from HA input_datetime to ESP hour/minute numbers"
@@ -1382,9 +1365,9 @@
         value: "{{ state_attr('input_datetime.espyrain_schedule_7_time', 'minute') }}"
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 7 - Day Mode + Bitmask + Interval Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_7_days
   alias: "ESPyRain: Sync Schedule 7 Days"
   description: "Sync day_mode, days_bitmask, and interval from HA dropdown/booleans to ESP"
@@ -1454,9 +1437,9 @@
 
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 7 - Station Mask Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_7_station_mask
   alias: "ESPyRain: Sync Schedule 7 Station Mask"
   description: "Calculate 16-bit station bitmask from individual station booleans and sync to ESP"
@@ -1503,9 +1486,9 @@
           {{ ns.mask }}
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 7 - Soak Cycles Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_7_soak
   alias: "ESPyRain: Sync Schedule 7 Soak Cycles"
   description: "Map soak cycle text selection to ESP number (No Soak=0, 2x=1, 3x=2, 4x=3, 5x=4)"
@@ -1530,9 +1513,9 @@
           {% else %}0{% endif %}
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 7 - Seasonal Adjustment Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_7_seasonal
   alias: "ESPyRain: Sync Schedule 7 Seasonal Adjust"
   description: "Sync seasonal adjustment percentage (50-150) directly to ESP"
@@ -1551,9 +1534,9 @@
         value: "{{ states('input_number.espyrain_schedule_7_seasonal') | int(100) }}"
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 7 - Enabled Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_7_enabled
   alias: "ESPyRain: Sync Schedule 7 Enabled"
   description: "Sync schedule enabled/disabled state from HA boolean to ESP switch"
@@ -1570,9 +1553,9 @@
 # SCHEDULE 8 SYNCS
 # ============================================================
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 8 - Time Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_8_time
   alias: "ESPyRain: Sync Schedule 8 Time"
   description: "Sync schedule 8 start time from HA input_datetime to ESP hour/minute numbers"
@@ -1596,9 +1579,9 @@
         value: "{{ state_attr('input_datetime.espyrain_schedule_8_time', 'minute') }}"
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 8 - Day Mode + Bitmask + Interval Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_8_days
   alias: "ESPyRain: Sync Schedule 8 Days"
   description: "Sync day_mode, days_bitmask, and interval from HA dropdown/booleans to ESP"
@@ -1668,9 +1651,9 @@
 
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 8 - Station Mask Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_8_station_mask
   alias: "ESPyRain: Sync Schedule 8 Station Mask"
   description: "Calculate 16-bit station bitmask from individual station booleans and sync to ESP"
@@ -1717,9 +1700,9 @@
           {{ ns.mask }}
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 8 - Soak Cycles Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_8_soak
   alias: "ESPyRain: Sync Schedule 8 Soak Cycles"
   description: "Map soak cycle text selection to ESP number (No Soak=0, 2x=1, 3x=2, 4x=3, 5x=4)"
@@ -1744,9 +1727,9 @@
           {% else %}0{% endif %}
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 8 - Seasonal Adjustment Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_8_seasonal
   alias: "ESPyRain: Sync Schedule 8 Seasonal Adjust"
   description: "Sync seasonal adjustment percentage (50-150) directly to ESP"
@@ -1765,9 +1748,9 @@
         value: "{{ states('input_number.espyrain_schedule_8_seasonal') | int(100) }}"
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 8 - Enabled Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_schedule_8_enabled
   alias: "ESPyRain: Sync Schedule 8 Enabled"
   description: "Sync schedule enabled/disabled state from HA boolean to ESP switch"
@@ -1780,13 +1763,13 @@
         entity_id: switch.espyrain_controller_schedule_8_enabled
   mode: single
 
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 # SYSTEM-LEVEL SYNCS (not per-schedule)
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # Winter Mode Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_master_enable
   alias: "ESPyRain: Sync Winter Mode"
   description: "Sync winter mode from HA boolean to ESP switch"
@@ -1799,9 +1782,9 @@
         entity_id: switch.espyrain_controller_winter_mode
   mode: single
 
-# ════════════════════════════════════════════════════════
+# ================================================================
 # Rain Delay Days Sync
-# ════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_rain_delay
   alias: "ESPyRain: Sync Rain Delay Days"
   description: "Sync rain delay days from HA input_number to ESP number"
@@ -1820,11 +1803,15 @@
         value: "{{ states('input_number.espyrain_rain_delay_days') | int(0) }}"
   mode: single
 
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 # HA START: RESTORE ALL SETTINGS TO ESP
 # After HA restarts, push all HA helper values to ESP
 # to ensure ESP has the latest configuration.
-# ════════════════════════════════════════════════════════════════
+# ================================================================
+
+# ================================================================
+# SYNC ALL SETTINGS TO ESP ON HA START
+# ================================================================
 - id: espyrain_sync_all_on_ha_start
   alias: "ESPyRain: Sync All Settings to ESP on HA Start"
   description: "After HA restart, wait 30s for ESP to connect, then push all schedule settings to ESP"
@@ -1836,7 +1823,7 @@
     - delay:
         seconds: 30
 
-    # ── SYSTEM SETTINGS ──
+    # â”€â”€ SYSTEM SETTINGS â”€â”€
     # Master enable
     - service: "switch.turn_{{ 'on' if is_state('input_boolean.espyrain_winter_mode', 'on') else 'off' }}"
       target:
@@ -1851,7 +1838,7 @@
         value: "{{ states('input_number.espyrain_rain_delay_days') | int(0) }}"
       continue_on_error: true
 
-    # ── SCHEDULE 1 ──
+    # â”€â”€ SCHEDULE 1 â”€â”€
     # Time
     - service: number.set_value
       target:
@@ -1950,7 +1937,7 @@
         entity_id: switch.espyrain_controller_schedule_1_enabled
       continue_on_error: true
 
-    # ── SCHEDULE 2 ──
+    # â”€â”€ SCHEDULE 2 â”€â”€
     # Time
     - service: number.set_value
       target:
@@ -2049,7 +2036,7 @@
         entity_id: switch.espyrain_controller_schedule_2_enabled
       continue_on_error: true
 
-    # ── SCHEDULE 3 ──
+    # â”€â”€ SCHEDULE 3 â”€â”€
     # Time
     - service: number.set_value
       target:
@@ -2148,7 +2135,7 @@
         entity_id: switch.espyrain_controller_schedule_3_enabled
       continue_on_error: true
 
-    # ── SCHEDULE 4 ──
+    # â”€â”€ SCHEDULE 4 â”€â”€
     # Time
     - service: number.set_value
       target:
@@ -2247,7 +2234,7 @@
         entity_id: switch.espyrain_controller_schedule_4_enabled
       continue_on_error: true
 
-    # ── SCHEDULE 5 ──
+    # â”€â”€ SCHEDULE 5 â”€â”€
     # Time
     - service: number.set_value
       target:
@@ -2346,7 +2333,7 @@
         entity_id: switch.espyrain_controller_schedule_5_enabled
       continue_on_error: true
 
-    # ── SCHEDULE 6 ──
+    # â”€â”€ SCHEDULE 6 â”€â”€
     # Time
     - service: number.set_value
       target:
@@ -2445,7 +2432,7 @@
         entity_id: switch.espyrain_controller_schedule_6_enabled
       continue_on_error: true
 
-    # ── SCHEDULE 7 ──
+    # â”€â”€ SCHEDULE 7 â”€â”€
     # Time
     - service: number.set_value
       target:
@@ -2544,7 +2531,7 @@
         entity_id: switch.espyrain_controller_schedule_7_enabled
       continue_on_error: true
 
-    # ── SCHEDULE 8 ──
+    # â”€â”€ SCHEDULE 8 â”€â”€
     # Time
     - service: number.set_value
       target:
@@ -2649,5 +2636,3 @@
         message: "ESPyRain: All 8 schedule settings synced HA -> ESP after HA start"
         level: info
   mode: single
-
-

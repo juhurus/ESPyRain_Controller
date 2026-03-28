@@ -1,12 +1,16 @@
-# ════════════════════════════════════════════════════════════════
-# PARSE DAYS SETTING AND SET INTERVAL - CORRECTED
-# This automation extracts the number from "Every X Days" and sets the interval
-# Add to your automations
-# ════════════════════════════════════════════════════════════════
+# ================================================================
+#                                                                
+#                Interval Parsing Automations                
+#                                                                
+# ================================================================
+# Saved as: config/package_sources/espyrain_for_home_assistant/automations/automations_espyrain_parse_intervals.yaml
 
-# Schedule 1: Parse interval from days setting
+# ================================================================
+# PARSE SCHEDULE 1 INTERVAL
+# ================================================================
 - id: espyrain_schedule_1_parse_interval
   alias: "ESPyRain: Parse Schedule 1 Interval"
+  description: "Handle Parse Schedule 1 Interval."
   trigger:
     - platform: state
       entity_id: input_select.espyrain_schedule_1_days
@@ -29,8 +33,13 @@
             value: 1
 
 # Schedule 2: Parse interval from days setting
+
+# ================================================================
+# PARSE SCHEDULE 2 INTERVAL
+# ================================================================
 - id: espyrain_schedule_2_parse_interval
   alias: "ESPyRain: Parse Schedule 2 Interval"
+  description: "Handle Parse Schedule 2 Interval."
   trigger:
     - platform: state
       entity_id: input_select.espyrain_schedule_2_days
@@ -53,8 +62,13 @@
             value: 1
 
 # Schedule 3: Parse interval from days setting
+
+# ================================================================
+# PARSE SCHEDULE 3 INTERVAL
+# ================================================================
 - id: espyrain_schedule_3_parse_interval
   alias: "ESPyRain: Parse Schedule 3 Interval"
+  description: "Handle Parse Schedule 3 Interval."
   trigger:
     - platform: state
       entity_id: input_select.espyrain_schedule_3_days
@@ -77,8 +91,13 @@
             value: 1
 
 # Schedule 4: Parse interval from days setting
+
+# ================================================================
+# PARSE SCHEDULE 4 INTERVAL
+# ================================================================
 - id: espyrain_schedule_4_parse_interval
   alias: "ESPyRain: Parse Schedule 4 Interval"
+  description: "Handle Parse Schedule 4 Interval."
   trigger:
     - platform: state
       entity_id: input_select.espyrain_schedule_4_days
@@ -99,10 +118,15 @@
             entity_id: input_number.espyrain_schedule_4_interval
           data:
             value: 1
-            
+
 # Schedule 5: Parse interval from days setting
+
+# ================================================================
+# PARSE SCHEDULE 5 INTERVAL
+# ================================================================
 - id: espyrain_schedule_5_parse_interval
   alias: "ESPyRain: Parse Schedule 5 Interval"
+  description: "Handle Parse Schedule 5 Interval."
   trigger:
     - platform: state
       entity_id: input_select.espyrain_schedule_5_days
@@ -123,10 +147,15 @@
             entity_id: input_number.espyrain_schedule_5_interval
           data:
             value: 1
-            
+
 # Schedule 6: Parse interval from days setting
+
+# ================================================================
+# PARSE SCHEDULE 6 INTERVAL
+# ================================================================
 - id: espyrain_schedule_6_parse_interval
   alias: "ESPyRain: Parse Schedule 6 Interval"
+  description: "Handle Parse Schedule 6 Interval."
   trigger:
     - platform: state
       entity_id: input_select.espyrain_schedule_6_days
@@ -147,10 +176,15 @@
             entity_id: input_number.espyrain_schedule_6_interval
           data:
             value: 1
-            
+
 # Schedule 7: Parse interval from days setting
+
+# ================================================================
+# PARSE SCHEDULE 7 INTERVAL
+# ================================================================
 - id: espyrain_schedule_7_parse_interval
   alias: "ESPyRain: Parse Schedule 7 Interval"
+  description: "Handle Parse Schedule 7 Interval."
   trigger:
     - platform: state
       entity_id: input_select.espyrain_schedule_7_days
@@ -171,10 +205,15 @@
             entity_id: input_number.espyrain_schedule_7_interval
           data:
             value: 1
-            
+
 # Schedule 8: Parse interval from days setting
+
+# ================================================================
+# PARSE SCHEDULE 8 INTERVAL
+# ================================================================
 - id: espyrain_schedule_8_parse_interval
   alias: "ESPyRain: Parse Schedule 8 Interval"
+  description: "Handle Parse Schedule 8 Interval."
   trigger:
     - platform: state
       entity_id: input_select.espyrain_schedule_8_days

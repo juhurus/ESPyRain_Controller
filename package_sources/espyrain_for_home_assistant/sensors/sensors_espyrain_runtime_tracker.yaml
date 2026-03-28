@@ -1,10 +1,13 @@
-############################################################
-#                                                          #
-#         SPRINKLER RUNTIME TRACKING                       #
-#                                                          #
-############################################################
-# V2 RUNTIME TRACKING (uses ESPHome v2 station watering binary sensors)
-# Today
+# ================================================================
+#                                                          
+#                 RUNTIME TRACKING                       
+#                                                          
+# ================================================================
+# Saved as: config/package_sources/espyrain_for_home_assistant/sensors/sensors_espyrain_runtime_tracker.yaml
+
+# ================================================================
+# Today's history stats
+# ================================================================
 - platform: history_stats
   name: S1 Runtime Today
   entity_id: binary_sensor.espyrain_controller_station_1_watering
@@ -85,7 +88,57 @@
   start: "{{ today_at('00:00') }}"
   end: "{{ now() }}"
 
-# Yesterday
+- platform: history_stats
+  name: S11 Runtime Today
+  entity_id: binary_sensor.espyrain_controller_station_11_watering
+  state: "on"
+  type: time
+  start: "{{ today_at('00:00') }}"
+  end: "{{ now() }}"
+
+- platform: history_stats
+  name: S12 Runtime Today
+  entity_id: binary_sensor.espyrain_controller_station_12_watering
+  state: "on"
+  type: time
+  start: "{{ today_at('00:00') }}"
+  end: "{{ now() }}"
+
+- platform: history_stats
+  name: S13 Runtime Today
+  entity_id: binary_sensor.espyrain_controller_station_13_watering
+  state: "on"
+  type: time
+  start: "{{ today_at('00:00') }}"
+  end: "{{ now() }}"
+
+- platform: history_stats
+  name: S14 Runtime Today
+  entity_id: binary_sensor.espyrain_controller_station_14_watering
+  state: "on"
+  type: time
+  start: "{{ today_at('00:00') }}"
+  end: "{{ now() }}"
+
+- platform: history_stats
+  name: S15 Runtime Today
+  entity_id: binary_sensor.espyrain_controller_station_15_watering
+  state: "on"
+  type: time
+  start: "{{ today_at('00:00') }}"
+  end: "{{ now() }}"
+
+- platform: history_stats
+  name: S16 Runtime Today
+  entity_id: binary_sensor.espyrain_controller_station_16_watering
+  state: "on"
+  type: time
+  start: "{{ today_at('00:00') }}"
+  end: "{{ now() }}"
+
+# ================================================================
+# Yesterday's history stats
+# ================================================================
 - platform: history_stats
   name: S1 Runtime Yesterday
   entity_id: binary_sensor.espyrain_controller_station_1_watering
@@ -166,7 +219,57 @@
   start: "{{ today_at('00:00') - timedelta(days=1) }}"
   end: "{{ today_at('00:00') }}"
 
-# This Week
+- platform: history_stats
+  name: S11 Runtime Yesterday
+  entity_id: binary_sensor.espyrain_controller_station_11_watering
+  state: "on"
+  type: time
+  start: "{{ today_at('00:00') - timedelta(days=1) }}"
+  end: "{{ today_at('00:00') }}"
+
+- platform: history_stats
+  name: S12 Runtime Yesterday
+  entity_id: binary_sensor.espyrain_controller_station_12_watering
+  state: "on"
+  type: time
+  start: "{{ today_at('00:00') - timedelta(days=1) }}"
+  end: "{{ today_at('00:00') }}"
+
+- platform: history_stats
+  name: S13 Runtime Yesterday
+  entity_id: binary_sensor.espyrain_controller_station_13_watering
+  state: "on"
+  type: time
+  start: "{{ today_at('00:00') - timedelta(days=1) }}"
+  end: "{{ today_at('00:00') }}"
+
+- platform: history_stats
+  name: S14 Runtime Yesterday
+  entity_id: binary_sensor.espyrain_controller_station_14_watering
+  state: "on"
+  type: time
+  start: "{{ today_at('00:00') - timedelta(days=1) }}"
+  end: "{{ today_at('00:00') }}"
+
+- platform: history_stats
+  name: S15 Runtime Yesterday
+  entity_id: binary_sensor.espyrain_controller_station_15_watering
+  state: "on"
+  type: time
+  start: "{{ today_at('00:00') - timedelta(days=1) }}"
+  end: "{{ today_at('00:00') }}"
+
+- platform: history_stats
+  name: S16 Runtime Yesterday
+  entity_id: binary_sensor.espyrain_controller_station_16_watering
+  state: "on"
+  type: time
+  start: "{{ today_at('00:00') - timedelta(days=1) }}"
+  end: "{{ today_at('00:00') }}"
+
+# ================================================================
+# This week's history stats
+# ================================================================
 - platform: history_stats
   name: S1 Runtime This Week
   entity_id: binary_sensor.espyrain_controller_station_1_watering
@@ -247,107 +350,6 @@
   start: "{{ as_timestamp(now().replace(hour=0, minute=0, second=0)) - now().weekday() * 86400 }}"
   end: "{{ now() }}"
 
-
-# V2 RUNTIME TRACKING EXTENSION (S11-S16)
-# Today (S11-S16)
-- platform: history_stats
-  name: S11 Runtime Today
-  entity_id: binary_sensor.espyrain_controller_station_11_watering
-  state: "on"
-  type: time
-  start: "{{ today_at('00:00') }}"
-  end: "{{ now() }}"
-
-- platform: history_stats
-  name: S12 Runtime Today
-  entity_id: binary_sensor.espyrain_controller_station_12_watering
-  state: "on"
-  type: time
-  start: "{{ today_at('00:00') }}"
-  end: "{{ now() }}"
-
-- platform: history_stats
-  name: S13 Runtime Today
-  entity_id: binary_sensor.espyrain_controller_station_13_watering
-  state: "on"
-  type: time
-  start: "{{ today_at('00:00') }}"
-  end: "{{ now() }}"
-
-- platform: history_stats
-  name: S14 Runtime Today
-  entity_id: binary_sensor.espyrain_controller_station_14_watering
-  state: "on"
-  type: time
-  start: "{{ today_at('00:00') }}"
-  end: "{{ now() }}"
-
-- platform: history_stats
-  name: S15 Runtime Today
-  entity_id: binary_sensor.espyrain_controller_station_15_watering
-  state: "on"
-  type: time
-  start: "{{ today_at('00:00') }}"
-  end: "{{ now() }}"
-
-- platform: history_stats
-  name: S16 Runtime Today
-  entity_id: binary_sensor.espyrain_controller_station_16_watering
-  state: "on"
-  type: time
-  start: "{{ today_at('00:00') }}"
-  end: "{{ now() }}"
-
-# Yesterday (S11-S16)
-- platform: history_stats
-  name: S11 Runtime Yesterday
-  entity_id: binary_sensor.espyrain_controller_station_11_watering
-  state: "on"
-  type: time
-  start: "{{ today_at('00:00') - timedelta(days=1) }}"
-  end: "{{ today_at('00:00') }}"
-
-- platform: history_stats
-  name: S12 Runtime Yesterday
-  entity_id: binary_sensor.espyrain_controller_station_12_watering
-  state: "on"
-  type: time
-  start: "{{ today_at('00:00') - timedelta(days=1) }}"
-  end: "{{ today_at('00:00') }}"
-
-- platform: history_stats
-  name: S13 Runtime Yesterday
-  entity_id: binary_sensor.espyrain_controller_station_13_watering
-  state: "on"
-  type: time
-  start: "{{ today_at('00:00') - timedelta(days=1) }}"
-  end: "{{ today_at('00:00') }}"
-
-- platform: history_stats
-  name: S14 Runtime Yesterday
-  entity_id: binary_sensor.espyrain_controller_station_14_watering
-  state: "on"
-  type: time
-  start: "{{ today_at('00:00') - timedelta(days=1) }}"
-  end: "{{ today_at('00:00') }}"
-
-- platform: history_stats
-  name: S15 Runtime Yesterday
-  entity_id: binary_sensor.espyrain_controller_station_15_watering
-  state: "on"
-  type: time
-  start: "{{ today_at('00:00') - timedelta(days=1) }}"
-  end: "{{ today_at('00:00') }}"
-
-- platform: history_stats
-  name: S16 Runtime Yesterday
-  entity_id: binary_sensor.espyrain_controller_station_16_watering
-  state: "on"
-  type: time
-  start: "{{ today_at('00:00') - timedelta(days=1) }}"
-  end: "{{ today_at('00:00') }}"
-
-# This Week (S11-S16)
 - platform: history_stats
   name: S11 Runtime This Week
   entity_id: binary_sensor.espyrain_controller_station_11_watering
@@ -394,5 +396,4 @@
   state: "on"
   type: time
   start: "{{ as_timestamp(now().replace(hour=0, minute=0, second=0)) - now().weekday() * 86400 }}"
-  end: "{{ now() }}"
-
+  end: "

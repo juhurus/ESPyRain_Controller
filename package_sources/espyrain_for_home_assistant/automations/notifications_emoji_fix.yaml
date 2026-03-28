@@ -1,16 +1,8 @@
-# ================================================================
-#                                                                
-#                Notification Automations                    
-#                                                                
-# ================================================================
-# Saved as: config/package_sources/espyrain_for_home_assistant/automations/automations_espyrain_notifications.yaml
+# Sprinkler Notifications
+# Extracted from legacy sprinkler notification automations and updated for current entities.
 
-# ================================================================
-# RUN STARTED (NOTIFICATIONS)
-# ================================================================
 - id: espyrain_notify_run_started
   alias: "ESPyRain: Run Started (Notifications)"
-  description: "Handle Run Started (Notifications)."
   mode: single
   trigger:
     - platform: state
@@ -61,12 +53,8 @@
           
           🕔 Remaining: {{ states('sensor.espyrain_controller_total_queue_time_remaining_formatted') }}
 
-# ================================================================
-# RUN STOPPED MANUALLY (NOTIFICATIONS)
-# ================================================================
 - id: espyrain_notify_run_stopped
   alias: "ESPyRain: Run Stopped Manually (Notifications)"
-  description: "Handle Run Stopped Manually (Notifications)."
   mode: single
   trigger:
     - platform: state
@@ -91,12 +79,8 @@
           ✔ Last station: {{ states('sensor.espyrain_controller_active_station') }}
           🕒 Remaining: {{ states('sensor.espyrain_controller_total_queue_time_remaining_formatted') }}
 
-# ================================================================
-# RUN COMPLETED (NOTIFICATIONS)
-# ================================================================
 - id: espyrain_notify_run_completed
   alias: "ESPyRain: Run Completed (Notifications)"
-  description: "Handle Run Completed (Notifications)."
   mode: single
   trigger:
     - platform: state
@@ -119,12 +103,8 @@
         message: >
           Completed {{ trigger.from_state.state if trigger.from_state is not none else 'n/a' }} at {{ now().strftime('%H:%M:%S') }}.
 
-# ================================================================
-# STATION STARTED (NOTIFICATIONS)
-# ================================================================
 - id: espyrain_notify_station_started
   alias: "ESPyRain: Station Started (Notifications)"
-  description: "Handle Station Started (Notifications)."
   mode: queued
   max: 20
   trigger:
@@ -166,12 +146,8 @@
 
           🕒 Started at {{ now().strftime('%H:%M:%S') }}
 
-# ================================================================
-# STATION FINISHED (NOTIFICATIONS)
-# ================================================================
 - id: espyrain_notify_station_finished
   alias: "ESPyRain: Station Finished (Notifications)"
-  description: "Handle Station Finished (Notifications)."
   mode: queued
   max: 20
   trigger:
@@ -219,12 +195,8 @@
           🕔 Finished at {{ now().strftime('%H:%M:%S') }}
           Runtime: {{ (runtime_sec // 60) | int }}m {{ (runtime_sec % 60) | int }}s
 
-# ================================================================
-# PAUSED (NOTIFICATIONS)
-# ================================================================
 - id: espyrain_notify_paused
   alias: "ESPyRain: Paused (Notifications)"
-  description: "Handle Paused (Notifications)."
   mode: single
   trigger:
     - platform: state
@@ -246,12 +218,8 @@
           
           Remaining: {{ states('sensor.espyrain_controller_station_time_remaining_formatted') }}
 
-# ================================================================
-# RESUMED (NOTIFICATIONS)
-# ================================================================
 - id: espyrain_notify_resumed
   alias: "ESPyRain: Resumed (Notifications)"
-  description: "Handle Resumed (Notifications)."
   mode: single
   trigger:
     - platform: state
@@ -273,12 +241,8 @@
           
           Current: {{ states('sensor.espyrain_controller_active_station') }}
 
-# ================================================================
-# STATION RUNTIME CHANGED (NOTIFICATIONS)
-# ================================================================
 - id: espyrain_notify_runtime_changed
   alias: "ESPyRain: Station Runtime Changed (Notifications)"
-  description: "Handle Station Runtime Changed (Notifications)."
   mode: queued
   max: 20
   trigger:
@@ -322,12 +286,8 @@
           {{ trigger.to_state.attributes.friendly_name }}
           {{ trigger.from_state.state }} min -> {{ trigger.to_state.state }} min
 
-# ================================================================
-# CONTROLLER ONLINE (NOTIFICATIONS)
-# ================================================================
 - id: espyrain_notify_controller_online
   alias: "ESPyRain: Controller Online (Notifications)"
-  description: "Handle Controller Online (Notifications)."
   mode: single
   trigger:
     - platform: state
@@ -346,12 +306,8 @@
           🌍 Controller connected at {{ now().strftime('%H:%M:%S') }}
           IP: {{ states('sensor.espyrain_controller_ip_address') }}
 
-# ================================================================
-# CONTROLLER OFFLINE (NOTIFICATIONS)
-# ================================================================
 - id: espyrain_notify_controller_offline
   alias: "ESPyRain: Controller Offline (Notifications)"
-  description: "Handle Controller Offline (Notifications)."
   mode: single
   trigger:
     - platform: state
@@ -371,12 +327,8 @@
         message: >
           📵 Controller disconnected at {{ now().strftime('%H:%M:%S') }}.
 
-# ================================================================
-# WINTER MODE CHANGED (NOTIFICATIONS)
-# ================================================================
 - id: espyrain_notify_master_enable_changed
   alias: "ESPyRain: Winter Mode Changed (Notifications)"
-  description: "Handle Winter Mode Changed (Notifications)."
   mode: single
   trigger:
     - platform: state
@@ -408,12 +360,8 @@
           New state: {{ states('switch.espyrain_controller_winter_mode') }}
           🕔 Time: {{ now().strftime('%H:%M:%S') }}
 
-# ================================================================
-# RAIN DELAY CHANGED (NOTIFICATIONS)
-# ================================================================
 - id: espyrain_notify_rain_delay_changed
   alias: "ESPyRain: Rain Delay Changed (Notifications)"
-  description: "Handle Rain Delay Changed (Notifications)."
   mode: single
   trigger:
     - platform: state
@@ -446,12 +394,11 @@
           ✔ Automatic runs are enabled again.
           {% endif %}
 
-# ================================================================
-# ESP TIME DRIFT HIGH (NOTIFICATIONS)
-# ================================================================
+
+
+
 - id: espyrain_notify_esp_time_drift_high
   alias: "ESPyRain: ESP Time Drift High (Notifications)"
-  description: "Handle ESP Time Drift High (Notifications)."
   mode: single
   trigger:
     - platform: numeric_state
@@ -490,12 +437,8 @@
           ESP time: {{ states('sensor.espyrain_controller_esp_date_time') }}
           HA time: {{ now().strftime('%Y-%m-%d %H:%M:%S') }}
 
-# ================================================================
-# AUTO RECOVER ESP TIME DRIFT
-# ================================================================
 - id: espyrain_auto_recover_esp_time_drift
   alias: "ESPyRain: Auto Recover ESP Time Drift"
-  description: "Handle Auto Recover ESP Time Drift."
   mode: single
   trigger:
     - platform: numeric_state
@@ -559,12 +502,11 @@
                   Before: {{ drift_before | round(1) }}s
                   After: {{ states('sensor.espyrain_esp_time_drift_seconds') }}s
 
-# ================================================================
-# COUPLED STATIONS ACTIVATED
-# ================================================================
+# # ============================================================
+# # SPECIAL NOTIFICATIONS
+# # ============================================================
 - id: espyrain_coupling_active_generic
   alias: "ESPyRain: Coupled Stations Activated"
-  description: "Handle Coupled Stations Activated."
   mode: queued
   max: 20
   trigger:
@@ -628,12 +570,8 @@
 
           Coupled with: {{ coupled_station_list }}
 
-# ================================================================
-# SEASONAL ADJUSTMENT CHANGED
-# ================================================================
 - id: espyrain_seasonal_changed
   alias: "ESPyRain: Seasonal Adjustment Changed"
-  description: "Handle Seasonal Adjustment Changed."
   trigger:
     - platform: state
       entity_id:
@@ -645,12 +583,12 @@
         - input_number.espyrain_schedule_6_seasonal
         - input_number.espyrain_schedule_7_seasonal
         - input_number.espyrain_schedule_8_seasonal
-
+      
   condition:
     - condition: template
       value_template: >
         {{ trigger.to_state.state not in ['unknown', 'unavailable'] }}
-
+ 
   action:
     - service: script.espyrain_send_notification
       data:
@@ -661,3 +599,9 @@
           All station runtimes adjusted proportionally.
 
 #           
+
+
+
+
+
+

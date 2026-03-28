@@ -1,11 +1,16 @@
-# ════════════════════════════════════════════════════════════════
-# SYNC INTERVAL FROM HA TO ESP
-# Add to your automations
-# ════════════════════════════════════════════════════════════════
+# ================================================================
+#                                                                
+#                Interval Sync Automations                   
+#                                                                
+# ================================================================
+# Saved as: config/package_sources/espyrain_for_home_assistant/automations/automations_espyrain_sync_interval_to_esp.yaml
 
-# Sync Schedule 1 Interval to ESP
+# ================================================================
+# SYNC SCHEDULE 1 INTERVAL TO ESP
+# ================================================================
 - id: espyrain_sync_schedule_1_interval_to_esp
   alias: "ESPyRain: Sync Schedule 1 Interval to ESP"
+  description: "Handle Sync Schedule 1 Interval to ESP."
   trigger:
     - platform: state
       entity_id: input_number.espyrain_schedule_1_interval
@@ -20,9 +25,12 @@
       data:
         value: "{{ states('input_number.espyrain_schedule_1_interval') | int }}"
 
-# Sync Schedule 2 Interval to ESP
+# ================================================================
+# SYNC SCHEDULE 2 INTERVAL TO ESP
+# ================================================================
 - id: espyrain_sync_schedule_2_interval_to_esp
   alias: "ESPyRain: Sync Schedule 2 Interval to ESP"
+  description: "Handle Sync Schedule 2 Interval to ESP."
   trigger:
     - platform: state
       entity_id: input_number.espyrain_schedule_2_interval
@@ -37,9 +45,12 @@
       data:
         value: "{{ states('input_number.espyrain_schedule_2_interval') | int }}"
 
-# Sync Schedule 3 Interval to ESP
+# ================================================================
+# SYNC SCHEDULE 3 INTERVAL TO ESP
+# ================================================================
 - id: espyrain_sync_schedule_3_interval_to_esp
   alias: "ESPyRain: Sync Schedule 3 Interval to ESP"
+  description: "Handle Sync Schedule 3 Interval to ESP."
   trigger:
     - platform: state
       entity_id: input_number.espyrain_schedule_3_interval
@@ -54,9 +65,12 @@
       data:
         value: "{{ states('input_number.espyrain_schedule_3_interval') | int }}"
 
-# Sync Schedule 4 Interval to ESP
+# ================================================================
+# SYNC SCHEDULE 4 INTERVAL TO ESP
+# ================================================================
 - id: espyrain_sync_schedule_4_interval_to_esp
   alias: "ESPyRain: Sync Schedule 4 Interval to ESP"
+  description: "Handle Sync Schedule 4 Interval to ESP."
   trigger:
     - platform: state
       entity_id: input_number.espyrain_schedule_4_interval
@@ -71,7 +85,9 @@
       data:
         value: "{{ states('input_number.espyrain_schedule_4_interval') | int }}"
 
-# ESP heartbeat service
+# ================================================================
+# ESP HEARTBEAT
+# ================================================================
 - id: espyrain_esp_heartbeat
   alias: "ESPyRain: ESP Heartbeat"
   description: "Send heartbeat to ESP every 60 seconds to detect HA disconnection"

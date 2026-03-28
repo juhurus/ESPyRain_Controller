@@ -1,6 +1,5 @@
 globals:
-  # Schedules 1-8: enabled, name, hour, minute, days_bitmask, day_mode_type,
-  # interval, station_mask, soak, seasonal_adj, last_run, next_runs
+  # Schedule 1
   - id: schedule_1_enabled
     type: uint8_t
     restore_value: true
@@ -49,8 +48,6 @@ globals:
     type: std::vector<time_t>
     restore_value: false
     initial_value: 'std::vector<time_t>(7, 0)'
-
-  # Remaining schedules (2-8) same pattern in full implementation
 
   # Schedule 2
   - id: schedule_2_enabled
@@ -202,7 +199,7 @@ globals:
     restore_value: false
     initial_value: 'std::vector<time_t>(7, 0)'
 
-  # Schedules 5-8 default to disabled
+  # Schedules 5
   - id: schedule_5_enabled
     type: uint8_t
     restore_value: true
@@ -252,6 +249,7 @@ globals:
     restore_value: false
     initial_value: 'std::vector<time_t>(7, 0)'
 
+  # Schedule 6
   - id: schedule_6_enabled
     type: uint8_t
     restore_value: true
@@ -301,6 +299,7 @@ globals:
     restore_value: false
     initial_value: 'std::vector<time_t>(7, 0)'
 
+  # Schedule 7
   - id: schedule_7_enabled
     type: uint8_t
     restore_value: true
@@ -350,6 +349,7 @@ globals:
     restore_value: false
     initial_value: 'std::vector<time_t>(7, 0)'
 
+  # Schedule 8
   - id: schedule_8_enabled
     type: uint8_t
     restore_value: true

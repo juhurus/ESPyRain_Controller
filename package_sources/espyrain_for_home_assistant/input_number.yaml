@@ -1,9 +1,14 @@
-############################################################
-#                                                          #
-#        SPRINKLER SCHEDULE SEASONAL OVERRIDES             #
-#         Per-Schedule Runtime Adjustment                  #
-#                                                          #
-############################################################
+# ================================================================
+#                                                          
+#                INPUT NUMBER             
+#                                                          
+# ================================================================
+# Saved as: config/package_sources/espyrain_for_home_assistant/input_number.yaml
+
+# ================================================================
+# Schedules Seasonal adjustment %
+# ================================================================
+
 # Schedule 1 Seasonal 
 espyrain_schedule_1_seasonal:
   name: "Schedule 1 Seasonal %"
@@ -93,7 +98,9 @@ espyrain_rain_delay_days:
   icon: mdi:weather-rainy
   unit_of_measurement: "days"
   
+# ================================================================
 # Schedule Intervals (for "Every X Days" mode)
+# ================================================================
 espyrain_schedule_1_interval:
   name: "Schedule 1 Interval"
   min: 1
@@ -158,14 +165,20 @@ espyrain_schedule_8_interval:
   initial: 1
   icon: mdi:calendar-range
 
-espyrain_zone_original_time_locked:
-  name: "Zone Original Time Locked"
-  min: 0
-  max: 7200
-  step: 1
-  unit_of_measurement: 's'
-  mode: box
+# ==========================================================
+# not needed anymore, delete after next review
+# ==========================================================
+# espyrain_zone_original_time_locked:
+  # name: "Zone Original Time Locked"
+  # min: 0
+  # max: 7200
+  # step: 1
+  # unit_of_measurement: 's'
+  # mode: box
 
+# ==========================================================
+# Stores the elapsed runtime 
+# ==========================================================
 espyrain_zone_elapsed_at_pause:
   name: "Zone Elapsed at Pause"
   min: 0

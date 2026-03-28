@@ -1,27 +1,17 @@
-# ══════════════════════════════════════════════════════════════
-# Sprinkler Controller v2.0 - HA Template Sensors
-# ══════════════════════════════════════════════════════════════
-# Add to configuration.yaml:
-#   template: !include template_sensors.yaml
+# ================================================================
 #
-# Or if you already have a template: section, merge these entries.
+#                    Template Sensors
 #
-# ESP entity domains used:
-#   sensor.*  - schedule names, next-run data, status, active station, queue status
-#   sensor.*       - station_time_remaining, queue_progress
-#   switch.*       - espyrain_winter_mode
-#   number.*       - rain_delay_days
-#
-# Last updated: 2026-02-17
-# ══════════════════════════════════════════════════════════════
+# ================================================================
+# Saved as: config/package_sources/espyrain_for_home_assistant/templates/templates_espyrain_sensors.yaml
 
 - sensor:
-    # ──────────────────────────────────────────────────────────
-    # 1. Sprinkler 7-Day Forecast
+    # ==========================================================
+    #    Sprinkler 7-Day Forecast
     #    State: count of unblocked schedule runs in the next 7 days
     #    Attribute "days": list of dicts, one per day, each containing
     #      date, day_name, schedules list, and blocking status
-    # ──────────────────────────────────────────────────────────
+    # ==========================================================
     - name: "ESPyRain 7 Day Forecast"
       unique_id: espyrain_7_day_forecast
       icon: mdi:calendar-week
@@ -113,11 +103,11 @@
           {% endfor %}
           {{ ns.days }}
 
-    # ──────────────────────────────────────────────────────────
-    # 2. Sprinkler Today Remaining Schedules
+    # ==========================================================
+    #    Sprinkler Today Remaining Schedules
     #    Shows schedules still to run today (future times only).
     #    Format: "Schedule Name @ HH:MM, ..." or "None"
-    # ──────────────────────────────────────────────────────────
+    # ==========================================================
     - name: "ESPyRain Today Remaining Schedules"
       unique_id: espyrain_today_remaining_schedules
       icon: mdi:calendar-today
@@ -165,11 +155,11 @@
         {% endif %}
         {% endif %}
 
-    # ──────────────────────────────────────────────────────────
-    # 3. Sprinkler Tomorrow Schedules
+    # ==========================================================
+    #    Sprinkler Tomorrow Schedules
     #    Shows all scheduled runs for tomorrow.
     #    Format: "Schedule Name @ HH:MM, ..." or "None"
-    # ──────────────────────────────────────────────────────────
+    # ==========================================================
     - name: "ESPyRain Tomorrow Schedules"
       unique_id: espyrain_tomorrow_schedules
       icon: mdi:calendar-arrow-right
@@ -215,12 +205,12 @@
         {% endif %}
         {% endif %}
 
-    # ──────────────────────────────────────────────────────────
-    # 4. Sprinkler Next Scheduled Run
+    # ==========================================================
+    #    Sprinkler Next Scheduled Run
     #    Earliest upcoming run across all 8 schedules.
     #    Uses next_run_1 (the soonest) from each schedule.
     #    Format: "Schedule Name: YYYY-MM-DD HH:MM" or "No upcoming runs"
-    # ──────────────────────────────────────────────────────────
+    # ==========================================================
     - name: "ESPyRain Next Scheduled Run"
       unique_id: espyrain_next_scheduled_run
       icon: mdi:clock-fast
@@ -266,11 +256,11 @@
         {% endif %}
         {% endif %}
 
-    # ──────────────────────────────────────────────────────────
-    # 5. Sprinkler Active Summary
+    # ==========================================================
+    #    Sprinkler Active Summary
     #    Current watering status with station, time, and progress.
     #    Dynamic icon: water-off when idle, water when active.
-    # ──────────────────────────────────────────────────────────
+    # ==========================================================
     - name: "ESPyRain Active Summary"
       unique_id: espyrain_active_summary
       icon: >
@@ -313,13 +303,13 @@
         {% endfor %}
         {{ ns.count }}
 
-    # ──────────────────────────────────────────────────────────
-    # 6. Station Coupled To Sensors (1-16)
+    # ==========================================================
+    #    Station Coupled To Sensors (1-16)
     #    For each station N, checks whether any OTHER station H
     #    has station N in its coupling checkboxes. This identifies
     #    "dependent" stations (ones that run as followers).
     #    State: "Coupled to S3, S7" or "Independent"
-    # ──────────────────────────────────────────────────────────
+    # ==========================================================
 
     - name: "ESPyRain Station 1 Coupled To"
       unique_id: espyrain_station_1_coupled_to
@@ -513,7 +503,9 @@
         {% endfor %}
         {{ 'Coupled to ' ~ ns.heads | join(', ') if ns.heads else 'Independent' }}
 
-    # V2 formatted runtime sensors (display as Xh Ymin)
+    # ==========================================================
+    # formatted runtime sensors (display as Xh Ymin)
+    # ==========================================================
     - name: "S1 Runtime Today Formatted"
       unique_id: s1_runtime_today_formatted
       icon: mdi:timer-outline
@@ -814,9 +806,6 @@
         {% set m = (total_minutes % 60) | int(0) %}
         {{ h }}h {{ m }}min
 
-
-- sensor:
-    # V2 formatted runtime sensors extension (S11-S16)
     - name: "S11 Runtime Today Formatted"
       unique_id: s11_runtime_today_formatted
       icon: mdi:timer-outline
@@ -996,9 +985,11 @@
         {% set h = (total_minutes // 60) | int(0) %}
         {% set m = (total_minutes % 60) | int(0) %}
         {{ h }}h {{ m }}min
-# v2 station watering visual binary sensors (dynamic valve icon)
 
-- sensor:
+    # ==========================================================
+    # Last run schedule sensors
+    # ==========================================================
+
     - name: "ESPyRain Schedule 1 Last Run"
       unique_id: espyrain_schedule_1_last_run
       state: >
@@ -1294,7 +1285,10 @@
               {{ ts_num >= today_midnight }}
             {% endif %}
           {% endif %}
-          
+
+    # ==========================================================
+    # ESP Time Drift Seconds
+    # ==========================================================
     - name: "ESPyRain ESP Time Drift Seconds"
       unique_id: espyrain_esp_time_drift_seconds
       unit_of_measurement: s
@@ -1312,8 +1306,11 @@
           {% else %}
             {{ (esp_ts - ha_ts) | round(0) | int }}
           {% endif %}
-        {% endif %}          
-          
+        {% endif %} 
+        
+ # ==========================================================
+ # binary sensors
+ # ==========================================================
 - binary_sensor:
     - name: "ESPyRain Controller HA Link"
       unique_id: espyrain_controller_ha_link
@@ -1434,9 +1431,9 @@
       icon: >
         {% if is_state('binary_sensor.espyrain_controller_station_16_watering', 'on') %}mdi:valve-open{% else %}mdi:valve-closed{% endif %}
 
-
-
-# Interval-blocked warning on schedule cards
+    # ==========================================================
+    # Interval-blocked warning on schedule cards
+    # ==========================================================
     - name: "ESPyRain Schedule 1 Blocked By Interval Today"
       unique_id: espyrain_schedule_1_blocked_by_interval_today
       state: >
@@ -1534,23 +1531,6 @@
         {% endif %}
 
 
-# - sensor:
-    # - name: "ESPyRain ESP Time Drift Seconds"
-      # unique_id: espyrain_esp_time_drift_seconds
-      # icon: mdi:clock-alert-outline
-      # unit_of_measurement: "s"
-      # state: >
-        # {% set esp = states('sensor.espyrain_controller_esp_date_time') %}
-        # {% if esp in ['unknown', 'unavailable', '', 'None'] %}
-          # unknown
-        # {% else %}
-          # {% set esp_ts = as_timestamp(strptime(esp, '%Y-%m-%d %H:%M:%S'), none) %}
-          # {% if esp_ts is none %}
-            # unknown
-          # {% else %}
-            # {{ (as_timestamp(now()) - esp_ts) | round(1) }}
-          # {% endif %}
-        # {% endif %}
 
 
 

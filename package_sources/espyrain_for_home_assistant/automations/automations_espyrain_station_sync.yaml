@@ -1,22 +1,13 @@
-# ════════════════════════════════════════════════════════════════
-# STATION COUPLING SYNC AUTOMATIONS
-# Syncs Home Assistant coupling checkboxes to ESP 16-bit bitmasks
-# Add to: config/automations/automations_espyrain_station_sync.yaml
-# ════════════════════════════════════════════════════════════════
-#
-# Each station has 16 input_boolean coupling checkboxes that form
-# a 16-bit bitmask. When any checkbox changes, the full bitmask
-# is recomputed and sent to the ESP's number entity.
-#
-# Bitmask: bit 0 = station 1, bit 1 = station 2, ... bit 15 = station 16
-# Value = sum of 2^(b-1) for each coupled station b that is 'on'
-#
-# Last updated: 2026-02-17
-# ════════════════════════════════════════════════════════════════
+# ================================================================
+#                                                                
+#                Station Coupling Sync Automations           
+#                                                                
+# ================================================================
+# Saved as: config/package_sources/espyrain_for_home_assistant/automations/automations_espyrain_station_sync.yaml
 
-# ════════════════════════════════════════════════════════════════
-# STATION 1 - Coupling Sync
-# ════════════════════════════════════════════════════════════════
+# ================================================================
+# STATION 1 COUPLING SYNC
+# ================================================================
 - id: espyrain_station_1_coupling_sync
   alias: "ESPyRain - Station 1 Coupling Sync"
   description: "Sync station 1 coupling checkboxes to ESP bitmask"
@@ -54,9 +45,9 @@
           {% endfor %}
           {{ ns.mask }}
 
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 # STATION 2 - Coupling Sync
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_station_2_coupling_sync
   alias: "ESPyRain - Station 2 Coupling Sync"
   description: "Sync station 2 coupling checkboxes to ESP bitmask"
@@ -94,9 +85,9 @@
           {% endfor %}
           {{ ns.mask }}
 
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 # STATION 3 - Coupling Sync
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_station_3_coupling_sync
   alias: "ESPyRain - Station 3 Coupling Sync"
   description: "Sync station 3 coupling checkboxes to ESP bitmask"
@@ -134,9 +125,9 @@
           {% endfor %}
           {{ ns.mask }}
 
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 # STATION 4 - Coupling Sync
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_station_4_coupling_sync
   alias: "ESPyRain - Station 4 Coupling Sync"
   description: "Sync station 4 coupling checkboxes to ESP bitmask"
@@ -174,9 +165,9 @@
           {% endfor %}
           {{ ns.mask }}
 
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 # STATION 5 - Coupling Sync
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_station_5_coupling_sync
   alias: "ESPyRain - Station 5 Coupling Sync"
   description: "Sync station 5 coupling checkboxes to ESP bitmask"
@@ -214,9 +205,9 @@
           {% endfor %}
           {{ ns.mask }}
 
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 # STATION 6 - Coupling Sync
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_station_6_coupling_sync
   alias: "ESPyRain - Station 6 Coupling Sync"
   description: "Sync station 6 coupling checkboxes to ESP bitmask"
@@ -254,9 +245,9 @@
           {% endfor %}
           {{ ns.mask }}
 
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 # STATION 7 - Coupling Sync
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_station_7_coupling_sync
   alias: "ESPyRain - Station 7 Coupling Sync"
   description: "Sync station 7 coupling checkboxes to ESP bitmask"
@@ -294,9 +285,9 @@
           {% endfor %}
           {{ ns.mask }}
 
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 # STATION 8 - Coupling Sync
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_station_8_coupling_sync
   alias: "ESPyRain - Station 8 Coupling Sync"
   description: "Sync station 8 coupling checkboxes to ESP bitmask"
@@ -334,9 +325,9 @@
           {% endfor %}
           {{ ns.mask }}
 
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 # STATION 9 - Coupling Sync
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_station_9_coupling_sync
   alias: "ESPyRain - Station 9 Coupling Sync"
   description: "Sync station 9 coupling checkboxes to ESP bitmask"
@@ -374,9 +365,9 @@
           {% endfor %}
           {{ ns.mask }}
 
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 # STATION 10 - Coupling Sync
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_station_10_coupling_sync
   alias: "ESPyRain - Station 10 Coupling Sync"
   description: "Sync station 10 coupling checkboxes to ESP bitmask"
@@ -414,9 +405,9 @@
           {% endfor %}
           {{ ns.mask }}
 
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 # STATION 11 - Coupling Sync
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_station_11_coupling_sync
   alias: "ESPyRain - Station 11 Coupling Sync"
   description: "Sync station 11 coupling checkboxes to ESP bitmask"
@@ -454,9 +445,9 @@
           {% endfor %}
           {{ ns.mask }}
 
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 # STATION 12 - Coupling Sync
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_station_12_coupling_sync
   alias: "ESPyRain - Station 12 Coupling Sync"
   description: "Sync station 12 coupling checkboxes to ESP bitmask"
@@ -494,9 +485,9 @@
           {% endfor %}
           {{ ns.mask }}
 
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 # STATION 13 - Coupling Sync
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_station_13_coupling_sync
   alias: "ESPyRain - Station 13 Coupling Sync"
   description: "Sync station 13 coupling checkboxes to ESP bitmask"
@@ -534,9 +525,9 @@
           {% endfor %}
           {{ ns.mask }}
 
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 # STATION 14 - Coupling Sync
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_station_14_coupling_sync
   alias: "ESPyRain - Station 14 Coupling Sync"
   description: "Sync station 14 coupling checkboxes to ESP bitmask"
@@ -574,9 +565,9 @@
           {% endfor %}
           {{ ns.mask }}
 
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 # STATION 15 - Coupling Sync
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_station_15_coupling_sync
   alias: "ESPyRain - Station 15 Coupling Sync"
   description: "Sync station 15 coupling checkboxes to ESP bitmask"
@@ -614,9 +605,9 @@
           {% endfor %}
           {{ ns.mask }}
 
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 # STATION 16 - Coupling Sync
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_station_16_coupling_sync
   alias: "ESPyRain - Station 16 Coupling Sync"
   description: "Sync station 16 coupling checkboxes to ESP bitmask"
@@ -654,13 +645,17 @@
           {% endfor %}
           {{ ns.mask }}
 
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 # FULL SYNC ON HA START
 # Pushes all 16 station coupling bitmasks to ESP after HA restart.
 # 30-second delay ensures ESP API connection is established.
 # continue_on_error: true prevents one failed station from
 # blocking the rest of the sync.
-# ════════════════════════════════════════════════════════════════
+# ================================================================
+
+# ================================================================
+# STATION COUPLING FULL SYNC ON START
+# ================================================================
 - id: espyrain_station_coupling_full_sync
   alias: "ESPyRain - Station Coupling Full Sync on Start"
   description: "Sync all station coupling checkboxes to ESP on HA start"

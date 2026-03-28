@@ -1,17 +1,13 @@
-############################################################
-#                                                          #
-#                ESPHome Sprinkler System                  #
-#                      Automations                         #
-#                                                          #
-############################################################
-# Saved as: config/automation/Sprinkler_System.yaml
+# ================================================================
+#                                                                
+#                     System Automations                           
+#                                                               
+# ================================================================
+# Saved as: config/package_sources/espyrain_for_home_assistant/automations/automations_espyrain_system.yaml
 
-
-############################################################
-#                                                          #
-#         MASTER SWITCH - DISABLE ALL SCHEDULES            #
-#                                                          #
-############################################################
+# ================================================================
+# MASTER SWITCH - DISABLE ALL SCHEDULES            
+# ================================================================
 - id: espyrain_master_switch_disable
   alias: "ESPyRain: Winter Mode - Disable All Schedules"
   description: "When winter mode turned OFF, backup current schedule states and disable all schedules"
@@ -47,19 +43,16 @@
             target:
               entity_id: "{{ schedule_enabled }}"
     
-    # Send notification
+    # UPDATE RAIN DELAY END DATE
     - service: input_datetime.set_datetime
       target:
         entity_id: input_datetime.espyrain_winter_mode_since
       data:
         datetime: "{{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
         
-        
-############################################################
-#                                                          #
-#         MASTER SWITCH - RESTORE ALL SCHEDULES            #
-#                                                          #
-############################################################
+# ================================================================
+# MASTER SWITCH - RESTORE ALL SCHEDULES            
+# ================================================================
 - id: espyrain_master_switch_enable
   alias: "ESPyRain: Winter Mode - Restore All Schedules"
   description: "When winter mode turned ON, restore previously enabled schedules"
@@ -85,13 +78,17 @@
             target:
               entity_id: "{{ schedule_enabled }}"
     
-  # Send notification
+# ================================================================
+# UPDATE RAIN DELAY END DATE
+# ================================================================
 - id: espyrain_rain_delay_set_date
   alias: "ESPyRain: Set Rain Delay End Date"
+  description: "Keep the rain delay end date helper aligned with the configured delay length"
   trigger:
     - platform: state
       entity_id: input_number.espyrain_rain_delay_days
   action:
+    # Keep the displayed rain delay end date aligned with the day countdown
     - service: input_datetime.set_datetime
       target:
         entity_id: input_datetime.rain_delay_date
@@ -104,7 +101,9 @@
             {{ now().strftime('%Y-%m-%d') }}
           {% endif %}
           
+# ================================================================
 # RAIN DELAY TO SCHEDULE AUTOMATIONS 
+# ================================================================
 - id: espyrain_rain_delay_countdown
   alias: "ESPyRain: Rain Delay Countdown"
   description: "Decrease rain delay by 1 each day at midnight"
@@ -123,12 +122,12 @@
       target:
         entity_id: input_number.espyrain_rain_delay_days
     
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 # SYNC BYPASS SWITCH TO ESP
-# Add to your automations
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_bypass_interval_check
   alias: "ESPyRain: Sync Bypass Interval Check to ESP"
+  description: "Mirror the HA bypass interval helper to the ESP switch when sync lock is off"
   trigger:
     - platform: state
       entity_id: input_boolean.espyrain_bypass_interval_check
@@ -137,14 +136,14 @@
       entity_id: input_boolean.espyrain_sync_lock
       state: "off"
   action:
+    # Mirror the HA helper to the ESP switch unless a bulk sync is in progress
     - service: "switch.turn_{{ 'on' if is_state('input_boolean.espyrain_bypass_interval_check', 'on') else 'off' }}"
       target:
-        entity_id: switch.espyrain_controller_bypass_interval_check          
-          
-# ════════════════════════════════════════════════════════════
-# REVERSE SYNC: ESP → HA ON STARTUP
+        entity_id: switch.espyrain_controller_bypass_interval_check
+# ================================================================
+# REVERSE SYNC: ESP -> HA ON STARTUP
 # Syncs all schedule settings FROM ESP TO HA when HA restarts
-# ════════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_all_settings_from_esp_on_startup
   alias: "ESPyRain: Sync All Settings FROM ESP on Startup"
   description: "Restore HA input_numbers from ESP after HA restart"
@@ -158,13 +157,13 @@
       target:
         entity_id: input_boolean.espyrain_sync_lock
 
-    # Wait for ESP to be fully connected
+    # Wait for the ESP device entities to be available before restoring HA helpers
     - delay:
         seconds: 30
     
-    # ════════════════════════════════════════════════════════════
-    # SYNC SCHEDULE 1
-    # ════════════════════════════════════════════════════════════
+# ================================================================
+# SYNC SCHEDULE 1
+# ================================================================
     
     # Interval
     - service: input_number.set_value
@@ -176,9 +175,9 @@
     # Bitmask (sync to select for day mode reconstruction)
     # Note: This is read-only, ESP is source of truth
     
-    # ════════════════════════════════════════════════════════════
-    # SYNC SCHEDULE 2
-    # ════════════════════════════════════════════════════════════
+# ================================================================
+# SYNC SCHEDULE 2
+# ================================================================
     
     - service: input_number.set_value
       target:
@@ -186,9 +185,9 @@
       data:
         value: "{{ states('number.espyrain_controller_schedule_2_interval') | float }}"
     
-    # ════════════════════════════════════════════════════════════
-    # SYNC SCHEDULE 3
-    # ════════════════════════════════════════════════════════════
+# ================================================================
+# SYNC SCHEDULE 3
+# ================================================================
     
     - service: input_number.set_value
       target:
@@ -196,9 +195,9 @@
       data:
         value: "{{ states('number.espyrain_controller_schedule_3_interval') | float }}"
     
-    # ════════════════════════════════════════════════════════════
-    # SYNC SCHEDULE 4
-    # ════════════════════════════════════════════════════════════
+# ================================================================
+# SYNC SCHEDULE 4
+# ================================================================
     
     - service: input_number.set_value
       target:
@@ -206,17 +205,9 @@
       data:
         value: "{{ states('number.espyrain_controller_schedule_4_interval') | float }}"
     
-    # ════════════════════════════════════════════════════════════
-    # SYNC BYPASS SWITCH
-    # ════════════════════════════════════════════════════════════
-    
-    # bypass helper kept as source-of-truth (no ESP->HA overwrite)
-
-
-    
-    # ════════════════════════════════════════════════════════════
-    # LOG COMPLETION
-    # ════════════════════════════════════════════════════════════
+# ================================================================
+# LOG COMPLETION
+# ================================================================
     
     - service: system_log.write
       data:
@@ -228,15 +219,15 @@
           Schedule 4 interval: {{ states('number.espyrain_controller_schedule_4_interval') }}
           Bypass: {{ states('switch.espyrain_controller_bypass_interval_check') }}
         level: info
-    # Re-enable normal HA->ESP syncs
+    # Re-enable normal HA->ESP syncs once the restore is complete
     - service: input_boolean.turn_off
       target:
         entity_id: input_boolean.espyrain_sync_lock
   mode: single
 
-# ════════════════════════════════════════════════════════════
-# OPTIONAL: ALSO SYNC ON ESP RECONNECT
-# ════════════════════════════════════════════════════════════
+# ================================================================
+# SYNC ON ESP RECONNECT
+# ================================================================
 - id: espyrain_sync_all_settings_from_esp_on_reconnect
   alias: "ESPyRain: Sync All Settings FROM ESP on Reconnect"
   description: "Restore HA input_numbers when ESP reconnects"
@@ -283,22 +274,19 @@
       data:
         value: "{{ states('number.espyrain_controller_schedule_4_interval') | float }}"
     
-    # Sync bypass
-    # bypass helper kept as source-of-truth (no ESP->HA overwrite)
-
     - service: system_log.write
       data:
         message: "Sprinkler settings synced FROM ESP after reconnect"
         level: info
-    # Re-enable normal HA->ESP syncs
+    # Re-enable normal HA->ESP syncs once the restore is complete
     - service: input_boolean.turn_off
       target:
         entity_id: input_boolean.espyrain_sync_lock
   mode: single
 
-# ════════════════════════════════════════════════════════════
-# Automation to capture elapsed time when paused
-# ════════════════════════════════════════════════════════════
+# ================================================================
+# Capture elapsed time when paused
+# ================================================================
 - id: espyrain_store_zone_elapsed_on_pause
   alias: "ESPyRain: Store Zone Elapsed on Pause"
   trigger:
@@ -312,9 +300,9 @@
       data:
         value: "{{ states('sensor.espyrain_zone_elapsed_seconds') | float(0) }}"
 
-# ════════════════════════════════════════════════════════════
+# ================================================================
 # SYNC STATION NAMES FROM HA TO ESP
-# ════════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_sync_station_names_to_esp
   alias: "ESPyRain: Sync Station Names to ESP"
   description: "Push HA input_text station names to ESP text entities when the user changes them in HA"
@@ -338,6 +326,7 @@
         - input_text.espyrain_station_15_name
         - input_text.espyrain_station_16_name
   action:
+    # Push all station name helpers so HA and ESP stay aligned no matter which one changed last
     - service: text.set_value
       target:
         entity_id: text.espyrain_controller_station_1_name
@@ -420,6 +409,9 @@
         value: "{{ states('input_text.espyrain_station_16_name') }}"
   mode: single
 
+# ================================================================
+# SYNC STATION NAMES FROM ESP
+# ================================================================
 - id: espyrain_sync_station_names_from_esp
   alias: "ESPyRain: Sync Station Names from ESP"
   description: "Mirror ESP text entity station name changes back into the HA helpers"
@@ -449,12 +441,14 @@
       value_template: "{{ trigger.to_state.state not in ['unknown', 'unavailable', 'none', ''] }}"
   action:
     - variables:
+        # Map the ESP text entity back to its matching HA helper
         helper_entity: "{{ trigger.entity_id | replace('text.espyrain_controller_', 'input_text.espyrain_') }}"
         esp_value: "{{ trigger.to_state.state }}"
         helper_value: "{{ states(helper_entity) }}"
         entity_index: "{{ trigger.entity_id.split('_')[-2] }}"
         default_value: "{{ 'Station' ~ entity_index }}"
     - choose:
+        # Only write back when this improves the HA helper and does not replace a custom name with a default
         - conditions:
             - condition: template
               value_template: >
@@ -470,7 +464,10 @@
                 value: "{{ esp_value }}"
   mode: restart
 
-# Sync schedule names immediately on change, but keep a short startup delay so the ESP text entities are ready.
+# ================================================================
+# Sync schedule names immediately on change and keep
+# HA and ESP schedule labels aligned.
+# ================================================================
 - id: espyrain_sync_schedule_names_to_esp
   alias: "ESPyRain: Sync Schedule Names to ESP"
   description: "Push HA input_text schedule names to ESP text entities when the user changes them in HA"
@@ -486,6 +483,7 @@
         - input_text.espyrain_schedule_7_name
         - input_text.espyrain_schedule_8_name
   action:
+    # Push all schedule name helpers so HA and ESP stay aligned no matter which one changed last
     - service: text.set_value
       target:
         entity_id: text.espyrain_controller_schedule_1_name
@@ -528,6 +526,9 @@
         value: "{{ states('input_text.espyrain_schedule_8_name') }}"
   mode: single
 
+# ================================================================
+# SYNC SCHEDULE NAMES FROM ESP
+# ================================================================
 - id: espyrain_sync_schedule_names_from_esp
   alias: "ESPyRain: Sync Schedule Names from ESP"
   description: "Mirror ESP text entity schedule name changes back into the HA helpers"
@@ -549,12 +550,14 @@
       value_template: "{{ trigger.to_state.state not in ['unknown', 'unavailable', 'none', ''] }}"
   action:
     - variables:
+        # Map the ESP text entity back to its matching HA helper
         helper_entity: "{{ trigger.entity_id | replace('text.espyrain_controller_', 'input_text.espyrain_') }}"
         esp_value: "{{ trigger.to_state.state }}"
         helper_value: "{{ states(helper_entity) }}"
         entity_index: "{{ trigger.entity_id.split('_')[-2] }}"
         default_value: "{{ 'Schedule' ~ entity_index }}"
     - choose:
+        # Only write back when this improves the HA helper and does not replace a custom name with a default
         - conditions:
             - condition: template
               value_template: >
@@ -570,7 +573,10 @@
                 value: "{{ esp_value }}"
   mode: restart
 
-# This makes the dropdown show the Station names, and respects the active station count.
+# ================================================================
+# Show station names in the manual run dropdown and
+# respect the active station count.
+# ================================================================
 - id: espyrain_manual_station_options
   alias: "ESPyRain: Manual Station Options"
   trigger:
@@ -597,33 +603,6 @@
         - input_text.espyrain_station_15_name
         - input_text.espyrain_station_16_name
   action:
-    # - variables:
-        # station_count: "{{ states('number.espyrain_controller_number_of_stations') | int(0) }}"
-        # options: >
-          # {% set ns = namespace(opts=[]) %}
-          # {% for i in range(1, station_count + 1) %}
-            # {% set name = states('input_text.espyrain_station_' ~ i ~ '_name') %}
-            # {% set label = 'S' ~ i ~ ' ' ~ name %}
-            # {% set ns.opts = ns.opts + [label] %}
-          # {% endfor %}
-          # {{ ns.opts }}
-        # current: "{{ states('input_select.espyrain_manual_station') }}"
-    # - service: input_select.set_options
-      # target:
-        # entity_id: input_select.espyrain_manual_station
-      # data:
-        # options: "{{ options }}"
-    # - choose:
-        # - conditions:
-            # - condition: template
-              # value_template: "{{ current in options }}"
-          # sequence: []
-      # default:
-        # - service: input_select.select_option
-          # target:
-            # entity_id: input_select.espyrain_manual_station
-          # data:
-            # option: "{{ options[0] if options | length > 0 else '' }}"
     - variables:
         station_count_raw: "{{ states('number.espyrain_controller_number_of_stations') | int(0) }}"
         station_count: "{{ [station_count_raw, 1] | max }}"
@@ -677,7 +656,10 @@
             entity_id: input_select.espyrain_manual_station
           data:
             option: "{{ options[0] if options | length > 0 else '' }}"
-          
+            
+# ================================================================
+# WINTER MODE AUTO ENABLE BASED ON DATE INPUT
+# ================================================================
 - id: espyrain_winter_mode_auto_control
   alias: "ESPyRain: Winter Mode Auto Control"
   description: "Automatically toggle winter mode from configured start/end dates when enabled"
@@ -701,6 +683,7 @@
         today_md: "{{ now().strftime('%m-%d') }}"
         start_md: "{{ strptime(states('input_datetime.espyrain_winter_start'), '%Y-%m-%d').strftime('%m-%d') if states('input_datetime.espyrain_winter_start') not in ['unknown','unavailable',''] else '' }}"
         end_md: "{{ strptime(states('input_datetime.espyrain_winter_end'), '%Y-%m-%d').strftime('%m-%d') if states('input_datetime.espyrain_winter_end') not in ['unknown','unavailable',''] else '' }}"
+        # Support winter periods that either stay within one year or cross the year boundary
         in_winter: >
           {% if start_md == '' or end_md == '' %}
             false
@@ -713,4 +696,5 @@
       target:
         entity_id: input_boolean.espyrain_winter_mode
   mode: single
+
 

@@ -1,13 +1,13 @@
-############################################################
-#                                                          #
-#          SPRINKLER SCHEDULE HELPER SCRIPTS               #
-#                                                          #
-############################################################
-# Saved as: config/scripts/scripts_espyrain_controller.yaml
+# ================================================================
+#                                                          
+#             SCHEDULE HELPER SCRIPTS               
+#                                                          
+# =================================================================
+# Saved as: config/package_sources/espyrain_for_home_assistant/scripts/scripts_espyrain.yaml
 
-# ============================================================
-# 
-# ============================================================
+# ================================================================
+# Manual Run
+# ================================================================
 espyrain_manual_run:
   alias: "ESPyRain: Manual Run"
   sequence:
@@ -43,9 +43,9 @@ espyrain_manual_run:
               Manual run aborted. selected={{ selected }}, station_num={{ station_num }},
               runtime={{ time_str }}, controller={{ states('binary_sensor.espyrain_controller_ha_link') }}
 
-# ============================================================
-# 
-# ============================================================
+# ================================================================
+# Sync ESP Time Now
+# ================================================================
 espyrain_sync_esp_time_now:
   alias: "ESPyRain: Sync ESP Time Now"
   icon: mdi:clock-sync
@@ -89,9 +89,9 @@ espyrain_sync_esp_time_now:
                           Controller is not idle ({{ states('sensor.espyrain_controller_status') }}).
                           Time sync restart was not performed.
 
-# ============================================================
-# used to start stations from a button on an image
-# ============================================================
+# ================================================================
+# Start stations from an image button
+# ================================================================
 espyrain_manual_run_station:
   alias: "ESPyRain: Manual Run Station"
   mode: single
@@ -122,10 +122,10 @@ espyrain_manual_run_station:
         duration_sec: "{{ duration_sec | int }}"
 
 
-# ============================================================
+# ================================================================
 # Central notification wrapper. Blank service list falls back
 # to a built-in Home Assistant persistent notification.
-# ============================================================
+# ================================================================
 espyrain_send_notification:
   alias: "ESPyRain: Send Notification"
   mode: queued

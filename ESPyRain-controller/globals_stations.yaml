@@ -1,6 +1,7 @@
 globals:
   # Stations 1-16: name, runtime, enabled, pin, coupled_mask
-  # Only a subset shown here for brevity; Stage 1 includes all 16 similarly.
+  
+  # Station 1
   - id: station_1_name
     type: std::string
     restore_value: true
@@ -22,6 +23,7 @@ globals:
     restore_value: true
     initial_value: '0'
 
+  # Station 2
   - id: station_2_name
     type: std::string
     restore_value: true
@@ -43,6 +45,7 @@ globals:
     restore_value: true
     initial_value: '0'
 
+  # Station 3
   - id: station_3_name
     type: std::string
     restore_value: true
@@ -64,8 +67,7 @@ globals:
     restore_value: true
     initial_value: '72'
 
-  # Remaining stations (4-16) should follow the same pattern in full implementation
-  # Station 4 - Garden Beds
+  # Station 4
   - id: station_4_name
     type: std::string
     restore_value: true
@@ -87,7 +89,7 @@ globals:
     restore_value: true
     initial_value: '0'
 
-  # Station 5 - Rock Island
+  # Station 5
   - id: station_5_name
     type: std::string
     restore_value: true
@@ -109,7 +111,7 @@ globals:
     restore_value: true
     initial_value: '0'
 
-  # Station 6 - Backyard West
+  # Station 6
   - id: station_6_name
     type: std::string
     restore_value: true
@@ -131,7 +133,7 @@ globals:
     restore_value: true
     initial_value: '0'
 
-  # Station 7 - Arena
+  # Station 7
   - id: station_7_name
     type: std::string
     restore_value: true
@@ -153,7 +155,7 @@ globals:
     restore_value: true
     initial_value: '0'
 
-  # Station 8 - Gazebo
+  # Station 8
   - id: station_8_name
     type: std::string
     restore_value: true
@@ -175,7 +177,7 @@ globals:
     restore_value: true
     initial_value: '0'
 
-  # Station 9 - Backyard North
+  # Station 9
   - id: station_9_name
     type: std::string
     restore_value: true
@@ -197,7 +199,7 @@ globals:
     restore_value: true
     initial_value: '0'
 
-  # Station 10 - Backyard East
+  # Station 10
   - id: station_10_name
     type: std::string
     restore_value: true
@@ -219,7 +221,7 @@ globals:
     restore_value: true
     initial_value: '0'
 
-  # Stations 11-16 (unused by default)
+  # Station 11
   - id: station_11_name
     type: std::string
     restore_value: true
@@ -241,6 +243,7 @@ globals:
     restore_value: true
     initial_value: '0'
 
+  # Station 12
   - id: station_12_name
     type: std::string
     restore_value: true
@@ -262,6 +265,7 @@ globals:
     restore_value: true
     initial_value: '0'
 
+  # Station 13
   - id: station_13_name
     type: std::string
     restore_value: true
@@ -283,6 +287,7 @@ globals:
     restore_value: true
     initial_value: '0'
 
+  # Station 14
   - id: station_14_name
     type: std::string
     restore_value: true
@@ -304,6 +309,7 @@ globals:
     restore_value: true
     initial_value: '0'
 
+  # Station 15
   - id: station_15_name
     type: std::string
     restore_value: true
@@ -325,6 +331,7 @@ globals:
     restore_value: true
     initial_value: '0'
 
+  # Station 16
   - id: station_16_name
     type: std::string
     restore_value: true

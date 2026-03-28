@@ -1,22 +1,21 @@
-# ════════════════════════════════════════════════════════════════════════
+# ================================================================
 # File location: esphome/espyrain_controller_wrapper.yaml
 
-#      This is one of two yaml files you need to edit wiht your pesonalised details. 
-#      The other is your esphome/secrets.yaml
+#   IMOPRTANT!!  IMOPRTANT!!  IMOPRTANT!!  IMOPRTANT!! 
 #      
 #      CHANGE DETAILS BELOW TO SUIT YOUR SYSTEM:
 #
 #          - SECRETS
 #          - ESP BOARD
 #          - LOCATION
-#          - NETWORK
+#          - STATIC IP
 
-# ════════════════════════════════════════════════════════════
+# ================================================================
 # SECRETS - copy the secrets block below to your esphome/secrets.yaml
 # and then uncomment required lines and fill in your correct details. 
-# ESPHome will create the details when you setup a new device.
-# Leave the lines below commented.
-# ════════════════════════════════════════════════════════════
+# ESPHome will create some of the details when you setup a new device.
+# Leave the lines below commented in this file.
+# ================================================================
 # Your Wi-Fi SSID and password
 # ----------------------------
 # wifi_ssid: "your_wifi_ssid"
@@ -24,38 +23,38 @@
 
 # OTA password
 # ----------------------------
-# espyrain_ota_password: "your_espyrain_ota_password" # give it any password you want 
+# espyrain_ota_password: "your_espyrain_ota_password" 
 
 # API encryption key (ESPHome will generate this for you)
 # ----------------------------
-# espyrain_api_key: "ypur_espyrain_api_key"           # ESPHome will provide API key when you create your new device
+# espyrain_api_key: "your_espyrain_api_key"           # ESPHome will provide API key when you create your new device
     
 # Enable fallback hotspot (captive portal) in case wifi connection fails
 # ----------------------------
 # espyrain_ap_ssid: "your_espyrain_ap_ssid"           
-# espyrain_ap_password: "your_espyrain_ap_password"   # any password you want
+# espyrain_ap_password: "your_espyrain_ap_password"
 
-# ════════════════════════════════════════════════════════════
+# ================================================================
 # ESP32 board details
-# ════════════════════════════════════════════════════════════
+# ================================================================
 # insert the correct type of your ESP board
 esp32:
   board: esp32-s3-devkitc-1
   framework:
     type: esp-idf
     
-# ════════════════════════════════════════════════════════════
+# ================================================================
 # USER SUBSTITUTIONS
-# ════════════════════════════════════════════════════════════
+# ================================================================
 substitutions:
   # Set your timezone for correct ESP clock
-  # If you don't know your timezone look it up here: https://gist.github.com/Skipants/788819
-  user_timezone: Australia/Perth #America/Denver  # Australia/Perth   Asia/Dubai   europe/amsterdam
+  # Look up your timzone details at: https://gist.github.com/Skipants/788819
+  user_timezone: America/Denver  # Australia/Perth   Asia/Dubai   europe/amsterdam
 
-# ════════════════════════════════════════════════════════════
+# ================================================================
 # Wi-Fi
-# ════════════════════════════════════════════════════════════
-# uncomment the lines below if you need a static IP address for your ESP.
+# ================================================================
+# uncomment the lines below if you want a static IP address for your ESP.
 #wifi:
 #  manual_ip: 
 #    static_ip: 192.168.1.88
@@ -64,11 +63,11 @@ substitutions:
 #    dns1: 192.168.1.50
 #    dns2: 8.8.8.8
     
-# ════════════════════════════════════════════════════════════
-# ════════════════════════════════════════════════════════════
+# ================================================================
+# ================================================================
 # PACKAGES (NO NEED TO CHANGE ANYTHING BELOW)
-# ════════════════════════════════════════════════════════════
-# ════════════════════════════════════════════════════════════
+# ================================================================
+# ================================================================
 packages:
   espyrain_controller: !include ESPyRain-controller/package.yaml
   

@@ -1,3 +1,17 @@
+# ================================================================
+# 
+#            ESPyRain PACKAGE INCLUDES
+#
+# ----------------------------------------------------------------
+# This file is part of ESPyRain package and needs to be located in the config/packages/
+# folder. Unless you already have config/packages/ folder create it and add
+# the following to your configuration.yaml
+#
+# homeassistant:
+#  packages: !include_dir_named packages
+#
+# More information about packages go to https://www.home-assistant.io/docs/configuration/packages
+# ================================================================
 input_boolean: !include ../package_sources/espyrain_for_home_assistant/input_booleans.yaml
 input_datetime: !include ../package_sources/espyrain_for_home_assistant/input_datetime.yaml
 input_number: !include ../package_sources/espyrain_for_home_assistant/input_number.yaml
@@ -7,3 +21,4 @@ automation: !include_dir_merge_list ../package_sources/espyrain_for_home_assista
 script: !include_dir_merge_named ../package_sources/espyrain_for_home_assistant/scripts
 sensor: !include_dir_merge_list ../package_sources/espyrain_for_home_assistant/sensors
 template: !include_dir_merge_list ../package_sources/espyrain_for_home_assistant/templates
+

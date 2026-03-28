@@ -1,32 +1,16 @@
-# ════════════════════════════════════════════════════════════════
-# DAYS BITMASK SYNC AUTOMATIONS - COMPLETE
-# Syncs Home Assistant day selections to ESP days bitmask
-# Add to: config/automations/sprinkler_days_bitmask_sync.yaml
-# ════════════════════════════════════════════════════════════════
-#
-# BITMASK VALUES REFERENCE:
-# Monday    = 1   (0b00000001)
-# Tuesday   = 2   (0b00000010)
-# Wednesday = 4   (0b00000100)
-# Thursday  = 8   (0b00001000)
-# Friday    = 16  (0b00010000)
-# Saturday  = 32  (0b00100000)
-# Sunday    = 64  (0b01000000)
-#
-# SPECIAL VALUES:
-# Daily          = 127  (0b11111111) - all days
-# Weekdays       = 31   (0b00011111) - Mon-Fri (1+2+4+8+16)
-# Weekends       = 96   (0b01100000) - Sat+Sun (32+64)
-# Odd Days       = 127  (treat as Daily for bitmask, ESP handles day-of-month)
-# Even Days      = 127  (treat as Daily for bitmask, ESP handles day-of-month)
-# Interval modes = 0    (no specific days, ESP uses interval logic)
-# ════════════════════════════════════════════════════════════════
+# ================================================================
+#                                                                
+#                Days Bitmask Sync Automations               
+#                                                                
+# ================================================================
+# Saved as: config/package_sources/espyrain_for_home_assistant/automations/automations_espyrain_days_bitmask_sync.yaml
 
-# ════════════════════════════════════════════════════════════════
-# SCHEDULE 1 - Days Bitmask Sync
-# ════════════════════════════════════════════════════════════════
+# ================================================================
+# SYNC SCHEDULE 1 DAYS BITMASK
+# ================================================================
 - id: espyrain_schedule_1_sync_days_bitmask
   alias: "ESPyRain: Sync Schedule 1 Days Bitmask"
+  description: "Handle Sync Schedule 1 Days Bitmask."
   trigger:
     # Trigger when day mode changes
     - platform: state
@@ -78,11 +62,12 @@
             0
           {% endif %}
 
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 2 - Days Bitmask Sync
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_schedule_2_sync_days_bitmask
   alias: "ESPyRain: Sync Schedule 2 Days Bitmask"
+  description: "Handle Sync Schedule 2 Days Bitmask."
   trigger:
     - platform: state
       entity_id: input_select.espyrain_schedule_2_days
@@ -132,11 +117,12 @@
             0
           {% endif %}
 
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 3 - Days Bitmask Sync
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_schedule_3_sync_days_bitmask
   alias: "ESPyRain: Sync Schedule 3 Days Bitmask"
+  description: "Handle Sync Schedule 3 Days Bitmask."
   trigger:
     - platform: state
       entity_id: input_select.espyrain_schedule_3_days
@@ -186,11 +172,12 @@
             0
           {% endif %}
 
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 # SCHEDULE 4 - Days Bitmask Sync
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 - id: espyrain_schedule_4_sync_days_bitmask
   alias: "ESPyRain: Sync Schedule 4 Days Bitmask"
+  description: "Handle Sync Schedule 4 Days Bitmask."
   trigger:
     - platform: state
       entity_id: input_select.espyrain_schedule_4_days
@@ -240,7 +227,7 @@
             0
           {% endif %}
 
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 # NOTES:
 #
 # 1. For "Odd Days" and "Even Days":
@@ -263,5 +250,4 @@
 #
 # 5. For "Daily":
 #    - Bitmask is 127 (all 7 bits set)
-# ════════════════════════════════════════════════════════════════
-
+# ================================================================

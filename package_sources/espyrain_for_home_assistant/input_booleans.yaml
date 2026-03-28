@@ -1,354 +1,310 @@
-############################################################
-#                                                          #
-#          SPRINKLER SCHEDULE ENABLE/DISABLE               #
-#                   8 Schedules Total                      #
-#                                                          #
-############################################################
+# ================================================================
+# 
+#             INPUT BOOLEANS      
+#
+# ================================================================
+# Saved as: config/package_sources/espyrain_for_home_assistant/input_booleans.yaml
+
+# ================================================================
+# SCHEDULE Enable Switches                    
+# ================================================================
 
 # Schedule 1 Enable Switch
 espyrain_schedule_1_enabled:
   name: "Schedule 1 Enabled"
-  # initial: false
   icon: mdi:toggle-switch
 
 # Schedule 2 Enable Switch
 espyrain_schedule_2_enabled:
   name: "Schedule 2 Enabled"
-  # initial: false
   icon: mdi:toggle-switch
 
 # Schedule 3 Enable Switch
 espyrain_schedule_3_enabled:
   name: "Schedule 3 Enabled"
-  # initial: false
   icon: mdi:toggle-switch
 
 # Schedule 4 Enable Switch
 espyrain_schedule_4_enabled:
   name: "Schedule 4 Enabled"
-  # initial: false
   icon: mdi:toggle-switch
 
 # Schedule 5 Enable Switch
 espyrain_schedule_5_enabled:
   name: "Schedule 5 Enabled"
-  # initial: false
   icon: mdi:toggle-switch
 
 # Schedule 6 Enable Switch
 espyrain_schedule_6_enabled:
   name: "Schedule 6 Enabled"
-  # initial: false
   icon: mdi:toggle-switch
 
 # Schedule 7 Enable Switch
 espyrain_schedule_7_enabled:
   name: "Schedule 7 Enabled"
-  # initial: false
   icon: mdi:toggle-switch
 
 # Schedule 8 Enable Switch
 espyrain_schedule_8_enabled:
   name: "Schedule 8 Enabled"
-  # initial: false
   icon: mdi:toggle-switch
 
+# ================================================================
 # Schedule 1 - Individual Day Selection
+# ================================================================
 espyrain_schedule_1_monday:
   name: "Schedule 1 Monday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_1_tuesday:
   name: "Schedule 1 Tuesday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_1_wednesday:
   name: "Schedule 1 Wednesday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_1_thursday:
   name: "Schedule 1 Thursday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_1_friday:
   name: "Schedule 1 Friday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_1_saturday:
   name: "Schedule 1 Saturday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_1_sunday:
   name: "Schedule 1 Sunday"
-  # initial: false
   icon: mdi:calendar
 
+# ================================================================
 # Schedule 2 - Individual Day Selection
+# ================================================================
 espyrain_schedule_2_monday:
   name: "Schedule 2 Monday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_2_tuesday:
   name: "Schedule 2 Tuesday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_2_wednesday:
   name: "Schedule 2 Wednesday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_2_thursday:
   name: "Schedule 2 Thursday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_2_friday:
   name: "Schedule 2 Friday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_2_saturday:
   name: "Schedule 2 Saturday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_2_sunday:
   name: "Schedule 2 Sunday"
-  # initial: false
   icon: mdi:calendar
 
+# ================================================================
 # Schedule 3 - Individual Day Selection
+# ================================================================
 espyrain_schedule_3_monday:
   name: "Schedule 3 Monday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_3_tuesday:
   name: "Schedule 3 Tuesday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_3_wednesday:
   name: "Schedule 3 Wednesday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_3_thursday:
   name: "Schedule 3 Thursday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_3_friday:
   name: "Schedule 3 Friday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_3_saturday:
   name: "Schedule 3 Saturday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_3_sunday:
   name: "Schedule 3 Sunday"
-  # initial: false
   icon: mdi:calendar
 
+# ================================================================
 # Schedule 4 - Individual Day Selection
+# ================================================================
 espyrain_schedule_4_monday:
   name: "Schedule 4 Monday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_4_tuesday:
   name: "Schedule 4 Tuesday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_4_wednesday:
   name: "Schedule 4 Wednesday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_4_thursday:
   name: "Schedule 4 Thursday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_4_friday:
   name: "Schedule 4 Friday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_4_saturday:
   name: "Schedule 4 Saturday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_4_sunday:
   name: "Schedule 4 Sunday"
-  # initial: false
   icon: mdi:calendar
   
-  # Schedule 5 - Individual Day Selection
+# ================================================================
+# Schedule 5 - Individual Day Selection
+# ================================================================
 espyrain_schedule_5_monday:
   name: "Schedule 5 Monday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_5_tuesday:
   name: "Schedule 5 Tuesday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_5_wednesday:
   name: "Schedule 5 Wednesday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_5_thursday:
   name: "Schedule 5 Thursday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_5_friday:
   name: "Schedule 5 Friday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_5_saturday:
   name: "Schedule 5 Saturday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_5_sunday:
   name: "Schedule 5 Sunday"
-  # initial: false
   icon: mdi:calendar
   
-  # Schedule 6 - Individual Day Selection
+# ================================================================
+# Schedule 6 - Individual Day Selection
+# ================================================================
 espyrain_schedule_6_monday:
   name: "Schedule 6 Monday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_6_tuesday:
   name: "Schedule 6 Tuesday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_6_wednesday:
   name: "Schedule 6 Wednesday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_6_thursday:
   name: "Schedule 6 Thursday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_6_friday:
   name: "Schedule 6 Friday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_6_saturday:
   name: "Schedule 6 Saturday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_6_sunday:
   name: "Schedule 6 Sunday"
-  # initial: false
   icon: mdi:calendar
   
-  # Schedule 7 - Individual Day Selection
+# ================================================================
+# Schedule 7 - Individual Day Selection
+# ================================================================
 espyrain_schedule_7_monday:
   name: "Schedule 7 Monday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_7_tuesday:
   name: "Schedule 7 Tuesday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_7_wednesday:
   name: "Schedule 7 Wednesday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_7_thursday:
   name: "Schedule 7 Thursday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_7_friday:
   name: "Schedule 7 Friday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_7_saturday:
   name: "Schedule 7 Saturday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_7_sunday:
   name: "Schedule 7 Sunday"
-  # initial: false
   icon: mdi:calendar
   
-  # Schedule 8 - Individual Day Selection
+# ================================================================
+# Schedule 8 - Individual Day Selection
+# ================================================================
 espyrain_schedule_8_monday:
   name: "Schedule 8 Monday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_8_tuesday:
   name: "Schedule 8 Tuesday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_8_wednesday:
   name: "Schedule 8 Wednesday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_8_thursday:
   name: "Schedule 8 Thursday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_8_friday:
   name: "Schedule 8 Friday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_8_saturday:
   name: "Schedule 8 Saturday"
-  # initial: false
   icon: mdi:calendar
 
 espyrain_schedule_8_sunday:
   name: "Schedule 8 Sunday"
-  # initial: false
   icon: mdi:calendar
 
-############################################################
-#                                                          #
-#       SCHEDULE STATION SELECTION (8 x 16 = 128)          #
-#  Which stations each schedule should run when triggered  #
-#                                                          #
-############################################################
+# ================================================================
+#  SCHEDULE STATION SELECTION
+#  Which stations each schedule should run when triggered 
+# ================================================================
 
+# ================================================================
 # Schedule 1 - Station Selection
+# ================================================================
 espyrain_schedule_1_station_1:
   name: "Schedule 1 Station 1"
   icon: mdi:sprinkler-variant
@@ -413,7 +369,9 @@ espyrain_schedule_1_station_16:
   name: "Schedule 1 Station 16"
   icon: mdi:sprinkler-variant
 
+# ================================================================
 # Schedule 2 - Station Selection
+# ================================================================
 espyrain_schedule_2_station_1:
   name: "Schedule 2 Station 1"
   icon: mdi:sprinkler-variant
@@ -478,7 +436,9 @@ espyrain_schedule_2_station_16:
   name: "Schedule 2 Station 16"
   icon: mdi:sprinkler-variant
 
+# ================================================================
 # Schedule 3 - Station Selection
+# ================================================================
 espyrain_schedule_3_station_1:
   name: "Schedule 3 Station 1"
   icon: mdi:sprinkler-variant
@@ -543,7 +503,9 @@ espyrain_schedule_3_station_16:
   name: "Schedule 3 Station 16"
   icon: mdi:sprinkler-variant
 
+# ================================================================
 # Schedule 4 - Station Selection
+# ================================================================
 espyrain_schedule_4_station_1:
   name: "Schedule 4 Station 1"
   icon: mdi:sprinkler-variant
@@ -608,7 +570,9 @@ espyrain_schedule_4_station_16:
   name: "Schedule 4 Station 16"
   icon: mdi:sprinkler-variant
 
+# ================================================================
 # Schedule 5 - Station Selection
+# ================================================================
 espyrain_schedule_5_station_1:
   name: "Schedule 5 Station 1"
   icon: mdi:sprinkler-variant
@@ -673,7 +637,9 @@ espyrain_schedule_5_station_16:
   name: "Schedule 5 Station 16"
   icon: mdi:sprinkler-variant
 
+# ================================================================
 # Schedule 6 - Station Selection
+# ================================================================
 espyrain_schedule_6_station_1:
   name: "Schedule 6 Station 1"
   icon: mdi:sprinkler-variant
@@ -738,7 +704,9 @@ espyrain_schedule_6_station_16:
   name: "Schedule 6 Station 16"
   icon: mdi:sprinkler-variant
 
+# ================================================================
 # Schedule 7 - Station Selection
+# ================================================================
 espyrain_schedule_7_station_1:
   name: "Schedule 7 Station 1"
   icon: mdi:sprinkler-variant
@@ -803,7 +771,9 @@ espyrain_schedule_7_station_16:
   name: "Schedule 7 Station 16"
   icon: mdi:sprinkler-variant
 
+# ================================================================
 # Schedule 8 - Station Selection
+# ================================================================
 espyrain_schedule_8_station_1:
   name: "Schedule 8 Station 1"
   icon: mdi:sprinkler-variant
@@ -868,12 +838,9 @@ espyrain_schedule_8_station_16:
   name: "Schedule 8 Station 16"
   icon: mdi:sprinkler-variant
 
-############################################################
-#                                                          #
-#          SPRINKLER STATION ENABLED/DISABLED              #
-#                  16 Stations Total                       #
-#                                                          #
-############################################################
+# ================================================================
+# SPRINKLER STATION ENABLED/DISABLED
+# ================================================================
 # These input_booleans persist across ESP reboots.
 # On ESP boot, an automation restores the ESP switches from these values.
 
@@ -962,18 +929,18 @@ espyrain_manual_run_active:
   initial: false
   icon: mdi:play-circle
 
+# ================================================================
 # Sync lock to prevent circular HA <-> ESP updates
+# ================================================================
 espyrain_sync_lock:
   name: "Sync Lock"
   initial: false
   icon: mdi:lock
 
-############################################################
-#                                                          #
-#           SPRINKLER SYSTEM MASTER ENABLE                 #
-#              Winter/Rain Shutdown Switch                 #
-#                                                          #
-############################################################
+# ================================================================
+# SPRINKLER SYSTEM MASTER ENABLE
+# Winter/Rain Shutdown Switch
+# ================================================================
 
 espyrain_winter_mode:
   name: "Winter Mode"
@@ -983,8 +950,10 @@ espyrain_winter_auto_enable:
   name: "Winter Auto Enable"
   icon: mdi:calendar-sync
 
+# ================================================================
 # Backup of which schedules were enabled before shutdown
 # to restore enabled schedules after shutdown
+# ================================================================
 espyrain_schedule_1_backup:
   name: "Schedule 1 Backup State"
   icon: mdi:backup-restore
@@ -1017,22 +986,22 @@ espyrain_schedule_8_backup:
   name: "Schedule 8 Backup State"
   icon: mdi:backup-restore
   
-# ════════════════════════════════════════════════════════════════
+# ================================================================
 # INTERVAL CHECK BYPASS SWITCH
-# ════════════════════════════════════════════════════════════════ 
+# ================================================================
 espyrain_bypass_interval_check:
   name: "Bypass Interval Check"
   icon: mdi:repeat-off
-  # initial removed to preserve last HA state across restarts
 
-############################################################
-#                                                          #
-#           STATION COUPLING CHECKBOXES                    #
-#    16 Stations x 16 Coupling Options = 256 Booleans      #
-#                                                          #
-############################################################
+# ================================================================
+#
+# STATION COUPLING CHECKBOXES
+#
+# ================================================================
 
+# ================================================================
 # Station 1 Coupling
+# ================================================================
 espyrain_station_1_coupled_1:
   name: "S1 Coupled to S1"
   icon: mdi:link-variant
@@ -1082,7 +1051,9 @@ espyrain_station_1_coupled_16:
   name: "S1 Coupled to S16"
   icon: mdi:link-variant
 
+# ================================================================
 # Station 2 Coupling
+# ================================================================
 espyrain_station_2_coupled_1:
   name: "S2 Coupled to S1"
   icon: mdi:link-variant
@@ -1132,7 +1103,9 @@ espyrain_station_2_coupled_16:
   name: "S2 Coupled to S16"
   icon: mdi:link-variant
 
+# ================================================================
 # Station 3 Coupling
+# ================================================================
 espyrain_station_3_coupled_1:
   name: "S3 Coupled to S1"
   icon: mdi:link-variant
@@ -1182,7 +1155,9 @@ espyrain_station_3_coupled_16:
   name: "S3 Coupled to S16"
   icon: mdi:link-variant
 
+# ================================================================
 # Station 4 Coupling
+# ================================================================
 espyrain_station_4_coupled_1:
   name: "S4 Coupled to S1"
   icon: mdi:link-variant
@@ -1232,7 +1207,9 @@ espyrain_station_4_coupled_16:
   name: "S4 Coupled to S16"
   icon: mdi:link-variant
 
+# ================================================================
 # Station 5 Coupling
+# ================================================================
 espyrain_station_5_coupled_1:
   name: "S5 Coupled to S1"
   icon: mdi:link-variant
@@ -1282,7 +1259,9 @@ espyrain_station_5_coupled_16:
   name: "S5 Coupled to S16"
   icon: mdi:link-variant
 
+# ================================================================
 # Station 6 Coupling
+# ================================================================
 espyrain_station_6_coupled_1:
   name: "S6 Coupled to S1"
   icon: mdi:link-variant
@@ -1332,7 +1311,9 @@ espyrain_station_6_coupled_16:
   name: "S6 Coupled to S16"
   icon: mdi:link-variant
 
+# ================================================================
 # Station 7 Coupling
+# ================================================================
 espyrain_station_7_coupled_1:
   name: "S7 Coupled to S1"
   icon: mdi:link-variant
@@ -1382,7 +1363,9 @@ espyrain_station_7_coupled_16:
   name: "S7 Coupled to S16"
   icon: mdi:link-variant
 
+# ================================================================
 # Station 8 Coupling
+# ================================================================
 espyrain_station_8_coupled_1:
   name: "S8 Coupled to S1"
   icon: mdi:link-variant
@@ -1432,7 +1415,9 @@ espyrain_station_8_coupled_16:
   name: "S8 Coupled to S16"
   icon: mdi:link-variant
 
+# ================================================================
 # Station 9 Coupling
+# ================================================================
 espyrain_station_9_coupled_1:
   name: "S9 Coupled to S1"
   icon: mdi:link-variant
@@ -1481,8 +1466,10 @@ espyrain_station_9_coupled_15:
 espyrain_station_9_coupled_16:
   name: "S9 Coupled to S16"
   icon: mdi:link-variant
-
+  
+# ================================================================
 # Station 10 Coupling
+# ================================================================
 espyrain_station_10_coupled_1:
   name: "S10 Coupled to S1"
   icon: mdi:link-variant
@@ -1532,7 +1519,9 @@ espyrain_station_10_coupled_16:
   name: "S10 Coupled to S16"
   icon: mdi:link-variant
 
+# ================================================================
 # Station 11 Coupling
+# ================================================================
 espyrain_station_11_coupled_1:
   name: "S11 Coupled to S1"
   icon: mdi:link-variant
@@ -1582,7 +1571,9 @@ espyrain_station_11_coupled_16:
   name: "S11 Coupled to S16"
   icon: mdi:link-variant
 
+# ================================================================
 # Station 12 Coupling
+# ================================================================
 espyrain_station_12_coupled_1:
   name: "S12 Coupled to S1"
   icon: mdi:link-variant
@@ -1632,7 +1623,9 @@ espyrain_station_12_coupled_16:
   name: "S12 Coupled to S16"
   icon: mdi:link-variant
 
+# ================================================================
 # Station 13 Coupling
+# ================================================================
 espyrain_station_13_coupled_1:
   name: "S13 Coupled to S1"
   icon: mdi:link-variant
@@ -1682,7 +1675,9 @@ espyrain_station_13_coupled_16:
   name: "S13 Coupled to S16"
   icon: mdi:link-variant
 
+# ================================================================
 # Station 14 Coupling
+# ================================================================
 espyrain_station_14_coupled_1:
   name: "S14 Coupled to S1"
   icon: mdi:link-variant
@@ -1732,7 +1727,9 @@ espyrain_station_14_coupled_16:
   name: "S14 Coupled to S16"
   icon: mdi:link-variant
 
+# ================================================================
 # Station 15 Coupling
+# ================================================================
 espyrain_station_15_coupled_1:
   name: "S15 Coupled to S1"
   icon: mdi:link-variant
@@ -1782,7 +1779,9 @@ espyrain_station_15_coupled_16:
   name: "S15 Coupled to S16"
   icon: mdi:link-variant
 
+# ================================================================
 # Station 16 Coupling
+# ================================================================
 espyrain_station_16_coupled_1:
   name: "S16 Coupled to S1"
   icon: mdi:link-variant
@@ -1832,7 +1831,9 @@ espyrain_station_16_coupled_16:
   name: "S16 Coupled to S16"
   icon: mdi:link-variant
 
+# ================================================================
 # Sprinkler v2 notifications master switch
+# ================================================================
 espyrain_notifications:
   name: "ESPyRain Notifications"
   icon: mdi:bell-badge

@@ -218,6 +218,7 @@
           Schedule 3 interval: {{ states('number.espyrain_controller_schedule_3_interval') }}
           Schedule 4 interval: {{ states('number.espyrain_controller_schedule_4_interval') }}
           Bypass: {{ states('switch.espyrain_controller_bypass_interval_check') }}
+          Auto resume after: {{ states('number.espyrain_controller_auto_resume_after_minutes') }} min
         level: info
     # Re-enable normal HA->ESP syncs once the restore is complete
     - service: input_boolean.turn_off
@@ -696,5 +697,10 @@
       target:
         entity_id: input_boolean.espyrain_winter_mode
   mode: single
+
+
+
+
+
 
 

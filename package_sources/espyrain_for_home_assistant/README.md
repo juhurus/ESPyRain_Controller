@@ -10,3 +10,6 @@ The actual HA package file loaded by Home Assistant is:
 ## Notes
 - This package does not include dashboard assets.
 - Dashboard YAML files remain separate under `HA_dashboards/`.
+
+## Installation
+For step-by-step installation see [[INSTALL_CHECKLIST]]

@@ -48,6 +48,15 @@ globals:
     type: uint8_t
     restore_value: true
     initial_value: '1'
+  - id: auto_resume_after_minutes
+    type: uint16_t
+    restore_value: true
+    initial_value: '60'
+
+  - id: max_queue_items
+    type: uint16_t
+    restore_value: false
+    initial_value: '100'
 
   # ══════════════════════════════════════════════════════════════
   # QUEUE MANAGEMENT STATE (Stage 3)
@@ -168,6 +177,30 @@ globals:
     type: uint32_t
     restore_value: false
     initial_value: '0'
+  - id: controller_event_counter
+    type: uint32_t
+    restore_value: false
+    initial_value: '0'
+
+  - id: controller_event_type
+    type: std::string
+    restore_value: false
+    initial_value: '"none"'
+
+  - id: controller_event_message
+    type: std::string
+    restore_value: false
+    initial_value: '"Idle"'
+
+  - id: publish_controller_event
+    type: std::function<void(std::string, std::string)>
+    initial_value: |-
+      [](std::string event_type, std::string message) -> void {
+        id(controller_event_type) = event_type;
+        id(controller_event_message) = message;
+        id(controller_event_counter) = id(controller_event_counter) + 1;
+        ESP_LOGI("event", "%s", message.c_str());
+      }
 
 
   # ══════════════════════════════════════════════════════════════
@@ -435,6 +468,19 @@ globals:
     type: std::function<void(int, uint32_t)>
     initial_value: |-
       [](int station_num, uint32_t duration_sec) -> void {
+        int max_items = (int)id(max_queue_items);
+        int current_items = (int)id(queue_tracker).size();
+
+        if (id(is_running) && current_items >= max_items) {
+          std::string station_name = id(get_station_name)(station_num);
+          char msg[180];
+          snprintf(msg, sizeof(msg), "Queue limit reached (%d items). Manual run for S%d (%s) was not queued.",
+                   max_items, station_num, station_name.c_str());
+          ESP_LOGW("queue", "%s", msg);
+          id(publish_controller_event)("queue_limit_reached", std::string(msg));
+          return;
+        }
+
         if (!id(is_running)) {
           id(queue_tracker).clear();
           id(queue_durations).clear();
@@ -447,6 +493,7 @@ globals:
           id(queue_cycle_breaks).push_back(false);
           id(is_running) = true;
           id(is_paused) = false;
+          id(paused_timestamp) = 0;
           id(soak_resting) = false;
           id(soak_rest_remaining) = 0;
           id(master_reprime_pending) = false;
@@ -490,7 +537,7 @@ globals:
       }
 
   # ══════════════════════════════════════════════════════════════
-  # SCHEDULE HELPER FUNCTIONS (Stage 4)
+  # SCHEDULE HELPER FUNCTIONS
   # ══════════════════════════════════════════════════════════════
 
   - id: get_schedule_enabled
@@ -753,6 +800,21 @@ globals:
           return false;
         }
 
+        int rest_seconds = (soak > 0) ? ((int)id(soak_rest_minutes) * 60) : 0;
+        int repeat_count = (int)soak + 1;
+        int items_to_add = (int)(cycle_stations.size() * repeat_count);
+        int existing_items = id(is_running) ? (int)id(queue_tracker).size() : 0;
+        int max_items = (int)id(max_queue_items);
+
+        if ((existing_items + items_to_add) > max_items) {
+          char msg[220];
+          snprintf(msg, sizeof(msg), "Queue limit reached (%d items). Schedule %d (%s) would add %d item(s), so it was not queued.",
+                   max_items, sched_num, sched_name.c_str(), items_to_add);
+          ESP_LOGW("schedule", "%s", msg);
+          id(publish_controller_event)("queue_limit_reached", std::string(msg));
+          return false;
+        }
+
         if (!id(is_running)) {
           id(queue_tracker).clear();
           id(queue_durations).clear();
@@ -766,14 +828,13 @@ globals:
           id(total_queue_time_remaining) = 0;
           id(is_running) = true;
           id(is_paused) = false;
+          id(paused_timestamp) = 0;
           id(soak_resting) = false;
           id(soak_rest_remaining) = 0;
           id(master_reprime_pending) = false;
         }
 
         uint32_t added_time = 0;
-        int rest_seconds = (soak > 0) ? ((int)id(soak_rest_minutes) * 60) : 0;
-        int repeat_count = (int)soak + 1;
 
         for (int cycle = 0; cycle < repeat_count; cycle++) {
           for (size_t j = 0; j < cycle_stations.size(); j++) {
@@ -958,3 +1019,5 @@ globals:
     type: uint32_t
     restore_value: no
     initial_value: '0'    
+
+

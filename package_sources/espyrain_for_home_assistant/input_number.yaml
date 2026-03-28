@@ -97,7 +97,7 @@ espyrain_rain_delay_days:
   mode: box
   icon: mdi:weather-rainy
   unit_of_measurement: "days"
-  
+
 # ================================================================
 # Schedule Intervals (for "Every X Days" mode)
 # ================================================================
@@ -187,3 +187,5 @@ espyrain_zone_elapsed_at_pause:
   unit_of_measurement: 's'
   mode: box
   
+
+

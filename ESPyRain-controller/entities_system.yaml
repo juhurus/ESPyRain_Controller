@@ -98,6 +98,25 @@ number:
       - lambda: |-
           id(soak_rest_minutes_number).publish_state(x);
 
+  - platform: template
+    name: "Auto Resume After Minutes"
+    id: auto_resume_after_minutes_number
+    mode: box
+    min_value: 0
+    max_value: 1440
+    step: 1
+    icon: mdi:timer-play-outline
+    update_interval: 1s
+    lambda: |-
+      return (int)id(auto_resume_after_minutes);
+    set_action:
+      - lambda: |-
+          int clamped = (int)x;
+          if (clamped < 0) clamped = 0;
+          if (clamped > 1440) clamped = 1440;
+          id(auto_resume_after_minutes) = (uint16_t)clamped;
+          id(auto_resume_after_minutes_number).publish_state(clamped);
+
 switch:
   - platform: template
     name: "Master Valve Enabled"
@@ -259,6 +278,40 @@ script:
                      mv_pin, abs_delay);
           }
 
+  - id: resume_current_run
+    mode: restart
+    then:
+      - lambda: |-
+          if (!id(is_running)) {
+            ESP_LOGW("control", "Resume: nothing is running");
+            return;
+          }
+          if (!id(is_paused)) {
+            ESP_LOGW("control", "Resume: not paused");
+            return;
+          }
+
+          uint32_t paused_duration = millis() - id(paused_timestamp);
+          ESP_LOGI("control", "Resuming after %d ms pause", paused_duration);
+
+          id(is_paused) = false;
+          id(paused_timestamp) = 0;
+
+          if (id(master_valve_enabled) != 0) {
+            int mv_pin = (int)id(master_valve_pin);
+            if (mv_pin > 0) {
+              gpio_set_direction((gpio_num_t)(int)mv_pin, GPIO_MODE_OUTPUT);
+              gpio_set_level((gpio_num_t)(int)mv_pin, 0);
+            }
+          }
+
+          if (id(current_station) > 0) {
+            id(turn_on_station)(id(current_station));
+          }
+
+          ESP_LOGI("control", "RESUMED - S%d with %d sec remaining",
+                   id(current_station), id(time_remaining));
+
 button:
   - platform: template
     name: "Pause"
@@ -297,35 +350,7 @@ button:
     id: resume_button
     icon: mdi:play
     on_press:
-      - lambda: |-
-          if (!id(is_running)) {
-            ESP_LOGW("control", "Resume: nothing is running");
-            return;
-          }
-          if (!id(is_paused)) {
-            ESP_LOGW("control", "Resume: not paused");
-            return;
-          }
-
-          uint32_t paused_duration = millis() - id(paused_timestamp);
-          ESP_LOGI("control", "Resuming after %d ms pause", paused_duration);
-
-          id(is_paused) = false;
-
-          if (id(master_valve_enabled) != 0) {
-            int mv_pin = (int)id(master_valve_pin);
-            if (mv_pin > 0) {
-              gpio_set_direction((gpio_num_t)(int)mv_pin, GPIO_MODE_OUTPUT);
-              gpio_set_level((gpio_num_t)(int)mv_pin, 0);
-            }
-          }
-
-          if (id(current_station) > 0) {
-            id(turn_on_station)(id(current_station));
-          }
-
-          ESP_LOGI("control", "RESUMED - S%d with %d sec remaining",
-                   id(current_station), id(time_remaining));
+      - script.execute: resume_current_run
 
   - platform: template
     name: "Stop"
@@ -351,6 +376,7 @@ button:
           id(current_valve_runtime) = 0;
           id(is_running) = false;
           id(is_paused) = false;
+          id(paused_timestamp) = 0;
           id(soak_resting) = false;
           id(soak_rest_remaining) = 0;
           id(soak_cycles_remaining) = 0;
@@ -407,6 +433,7 @@ button:
     name: "Restart ESP"
     id: restart_esp
     icon: mdi:restart
+
 
 
 

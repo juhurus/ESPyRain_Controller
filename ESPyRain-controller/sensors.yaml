@@ -157,6 +157,24 @@ text_sensor:
       return std::string("Running");
 
   - platform: template
+    name: "Last Controller Event Type"
+    id: controller_event_type_sensor
+    icon: mdi:tag-outline
+    entity_category: diagnostic
+    update_interval: 1s
+    lambda: |-
+      return id(controller_event_type);
+
+  - platform: template
+    name: "Last Controller Event Message"
+    id: controller_event_message_sensor
+    icon: mdi:message-text-outline
+    entity_category: diagnostic
+    update_interval: 1s
+    lambda: |-
+      return id(controller_event_message);
+
+  - platform: template
     name: "Station Time Remaining Formatted"
     id: station_time_remaining_formatted
     icon: mdi:timer-outline
@@ -1434,7 +1452,24 @@ interval:
           }
 
           // ── PAUSED ──
-          if (id(is_paused)) return;
+          if (id(is_paused)) {
+            if (id(auto_resume_after_minutes) > 0 && id(paused_timestamp) > 0) {
+              uint32_t paused_ms = millis() - id(paused_timestamp);
+              uint32_t threshold_ms = (uint32_t)id(auto_resume_after_minutes) * 60000UL;
+              if (paused_ms >= threshold_ms) {
+                int paused_minutes = (int)(paused_ms / 60000UL);
+                std::string station_name = (id(current_station) > 0)
+                  ? id(get_station_name)(id(current_station))
+                  : std::string("No active station");
+                char msg[220];
+                snprintf(msg, sizeof(msg), "Paused run auto-resumed after %d minute(s). Current station: %s.",
+                         paused_minutes, station_name.c_str());
+                id(publish_controller_event)("auto_resume", std::string(msg));
+                id(resume_current_run).execute();
+              }
+            }
+            return;
+          }
 
           // ── NORMAL COUNTDOWN ──
           if (id(time_remaining) > 0) {
@@ -1674,6 +1709,35 @@ sensor:
       return 0;
     update_interval: 1s
 
+  - platform: template
+    name: "Auto Resume Minutes Remaining"
+    id: auto_resume_minutes_remaining
+    icon: mdi:timer-play-outline
+    unit_of_measurement: "min"
+    accuracy_decimals: 0
+    lambda: |-
+      if (id(auto_resume_after_minutes) == 0) {
+        return 0;
+      }
+      if (!id(is_paused) || id(paused_timestamp) == 0) {
+        return 0;
+      }
+      uint32_t elapsed_ms = millis() - id(paused_timestamp);
+      int remaining = (int)id(auto_resume_after_minutes) - (int)(elapsed_ms / 60000UL);
+      if (remaining < 0) remaining = 0;
+      return remaining;
+    update_interval: 1s
+
+  - platform: template
+    name: "Controller Event Counter"
+    id: controller_event_counter_sensor
+    icon: mdi:counter
+    entity_category: diagnostic
+    accuracy_decimals: 0
+    lambda: |-
+      return (float)id(controller_event_counter);
+    update_interval: 1s
+
   # NEW: Show heartbeat age
   - platform: template
     name: "Heartbeat Age"
@@ -1712,4 +1776,6 @@ sensor:
     
 
     
+
+
 

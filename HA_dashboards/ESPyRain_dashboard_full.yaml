@@ -273,6 +273,8 @@ views:
                     is_state('binary_sensor.espyrain_controller_paused', 'on')
                     %}  {% set paused_min =
                     states('sensor.espyrain_controller_paused_minutes') | int(0)
+                    %}  {% set auto_resume_min =
+                    states('sensor.espyrain_controller_auto_resume_minutes_remaining') | int(0)
                     %}  {% set active_station =
                     states('sensor.espyrain_controller_active_station') %}  {%
                     set station_rem =
@@ -334,7 +336,8 @@ views:
                     Sprinklers Paused. Resuming after {{ queue_state |
                     replace('Soak Rest ', '') }} soak.</ha-alert> {% elif paused
                     %} <ha-alert alert-type="warning">⌛ Sprinklers Paused for {{
-                    paused_min }} minutes.</ha-alert> {% endif %}
+                    paused_min }} minutes.{% if auto_resume_min > 0 %} Auto resume in {{
+                    auto_resume_min }} minute{% if auto_resume_min != 1 %}s{% endif %}.{% endif %}</ha-alert> {% endif %}
 
 
                     {% set run_type =
@@ -911,7 +914,7 @@ views:
             cards:
               - type: markdown
                 content: >
-                  ## 💧 Sprinkler Schedules
+                  ## 💧 Upcoming Watering
 
 
                   ### Active Schedules: ***{{
@@ -3193,6 +3196,8 @@ views:
                     is_state('binary_sensor.espyrain_controller_paused', 'on')
                     %}  {% set paused_min =
                     states('sensor.espyrain_controller_paused_minutes') | int(0)
+                    %}  {% set auto_resume_min =
+                    states('sensor.espyrain_controller_auto_resume_minutes_remaining') | int(0)
                     %}  {% set active_station =
                     states('sensor.espyrain_controller_active_station') %}  {%
                     set station_rem =
@@ -3254,7 +3259,8 @@ views:
                     Sprinklers Paused. Resuming after {{ queue_state |
                     replace('Soak Rest ', '') }} soak.</ha-alert> {% elif paused
                     %} <ha-alert alert-type="warning">⌛ Sprinklers Paused for {{
-                    paused_min }} minutes.</ha-alert> {% endif %}
+                    paused_min }} minutes.{% if auto_resume_min > 0 %} Auto resume in {{
+                    auto_resume_min }} minute{% if auto_resume_min != 1 %}s{% endif %}.{% endif %}</ha-alert> {% endif %}
 
 
                     {% set run_type =
@@ -7218,6 +7224,44 @@ views:
               - type: custom:fold-entity-row
                 head:
                   type: section
+                  label: ⏲ Max Pause Time
+                open: false
+                entities:
+                  - type: custom:hui-markdown-card
+                    content: >
+                      Set the time when the system should auto resume a pause
+
+
+                      Auto Resume After Minutes
+
+                      - 0 = disabled
+
+                      - if paused longer than the configured time, ESPyRain
+                      resumes automatically
+
+                      - queued runs are preserved
+
+                      - queue cap is 100 total station items
+
+                      - if queue is full, new additions are rejected and
+                      notified
+                    card_mod:
+                      style: |
+                        ha-card {
+                          background: rgba(39, 66, 77, 0.5);
+                          border-left: 3px solid #FFA500;
+                          font-size: 0.95em;
+                          padding: 12px;
+                        }
+                        ha-markdown {
+                          padding: 0 !important;
+                        } 
+              - entity: number.espyrain_controller_auto_resume_after_minutes
+                name: Auto resume after (minutes)
+                icon: mdi:timer-play-outline
+              - type: custom:fold-entity-row
+                head:
+                  type: section
                   label: 💬 Notifications On/Off
                 open: false
                 entities:
@@ -7630,3 +7674,4 @@ views:
     icon: mdi:cog
     show_icon_and_title: true
     cards: []
+

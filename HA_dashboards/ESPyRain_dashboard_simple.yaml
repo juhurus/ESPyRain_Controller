@@ -100,6 +100,8 @@ views:
             name: Soak rest minutes
           - entity: number.espyrain_controller_rain_delay_days
             name: Rain delay days
+          - entity: number.espyrain_controller_auto_resume_after_minutes
+            name: Auto resume after (minutes)
           - entity: switch.espyrain_controller_bypass_interval_check
             name: Bypass interval check
           - entity: input_boolean.espyrain_notifications
@@ -1350,3 +1352,5 @@ views:
                 name: S15
               - entity: input_boolean.espyrain_station_16_coupled_16
                 name: S16
+
+

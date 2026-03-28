@@ -291,9 +291,14 @@ Where to find the schedule station-selection toggles:
 ## 11. Notification check
 Turn ESPyRain notifications on if you want to be notified by the many events that trigger messages. Notifications are especially useful during setup because they show what is supposed to run and when.
 
+Notifications can also report:
+- automatic resume after a pause timeout
+- queue limit reached when a new run cannot be added
+
 1. Leave **Notification Service(s)** blank to get persistent notifications in HA.
 2. If you want push notifications to your phone or another supported service, enter one or more comma-separated `notify.*` targets that already work in Home Assistant.
 
 Examples:
 - `notify.mobile_app_my_phone`
 - `notify.telegram_bot_xxx_xxx, notify.mobile_app_my_phone`
+

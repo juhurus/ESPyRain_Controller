@@ -1,4 +1,4 @@
-![Sprinkler Header](images/screenshots/espyrain_controller_head.png)
+﻿![Sprinkler Header](images/screenshots/espyrain_controller_head.png)
 # ESPyRain Sprinkler Controller for Home Assistant
 
 An ESP32-based sprinkler controller with Home Assistant integration, designed to keep scheduled irrigation running autonomously even if Home Assistant or Wi-Fi is temporarily unavailable.
@@ -30,6 +30,7 @@ The key design goals are reliability and usability:
 - the queue runs on a first-in, first-out basis
 - Home Assistant enhances the system, but is not required for scheduled watering once the initial setup is complete
 
+![[stations_dashboard.png]]
 ## Key Features
 
 ### Configuration
@@ -90,6 +91,8 @@ Note: using the day mode `Every 2x Days` has the advantage that your sprinklers 
 - rain delay
 - winter mode
 - optional automatic winter mode using start and end dates
+- optional automatic resume after pause with `0` = disabled
+- hard queue cap of `100` total station items to prevent uncontrolled queue growth
 
 ![Rain delay and winter mode](images/screenshots/controller_config_rain_delay_and_winter_mode.png)
 
@@ -175,23 +178,27 @@ Home Assistant is the management and visibility layer, but not the only thing ke
 
 This system includes a real pause function for active watering. The pause feature removes the need to cancel and restart a schedule later just to finish watering.
 
-Examples where pausing can be useful useful:
-
-- you need to quickly stop watering without losing the run state
+Pausing can be useful when you quickly need to stop watering without losing the run state.
+Examples are:
 - sprinkler maintenance while you replace or adjust a sprinkler head
 - your kids want to play on the lawn
 - you have visitors over for a BBQ
 - the lawn maintenance person arrives
-- a car is parked on the front lawn
+- you need to divert pump pressure to fill up your water tank
+- a car is parked on the front lawn which you need to move
 - you want to finish gardening without getting wet
 
 The goal is to pause cleanly and resume properly, instead of cancelling a run. This can save water because you do not need to restart the whole schedule from the beginning.
+
+ESPyRain also supports an optional automatic resume timer. If a run stays paused longer than the configured value, the controller resumes automatically. Setting `0` disables automatic resume and lets the system stay paused indefinitely.
 
 ### Queueing Instead of Cancelling or Skipping
 
 If one schedule is already active and another schedule becomes due, the new run is added to the end of the queue. This can happen when two schedules were originally programmed to run one after another, but seasonal adjust causes them to overlap.
 
 This is an important reliability feature. The system is designed so irrigation runs are not silently cancelled or skipped just because something else is already watering.
+
+To stop the queue from growing without limit during long pauses or heavy overlap, ESPyRain enforces a hard cap of 100 total queued station items. Manual additions and scheduled runs that would exceed that limit are rejected, and users can be notified when that happens.
 
 ### Coupled Stations
 
@@ -230,6 +237,7 @@ You can control the system through:
 - the built-in webserver when Home Assistant is down
 - Home Assistant automations
 - ESPHome buttons and services exposed to Home Assistant
+- Since everything is controlled through HA there is no need to add the complexity of a monitor and buttons.
 
 Manual watering can be started either from standard controls or from a mapped image-based station selection card.
 
@@ -279,7 +287,7 @@ It is packaged to be easier to install, but it is still designed for advanced Ho
 
 Detailed setup steps are documented in:
 
-- `INSTALL_CHECKLIST.md`
+-  [[INSTALL_CHECKLIST]]
 
 At a high level, installation looks like this:
 
@@ -411,3 +419,14 @@ This project is licensed under the Apache License 2.0. See `LICENSE`.
 ## Branding
 
 The code is licensed under Apache 2.0, but the `ESPyRain` name, branding, and presentation assets are not granted for reuse beyond what the license and applicable law allow. If you create a derivative project, please use your own name and branding.
+
+## Thank you
+Special thanks to Robert, the creator of Irrigation Unlimited where I pinched a few ideas from and also ESPHome Sprinkler.
+
+## Installation
+For step-by-step installation see [[INSTALL_CHECKLIST]]
+
+
+
+
+

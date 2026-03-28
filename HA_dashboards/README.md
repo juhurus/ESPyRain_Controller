@@ -6,9 +6,12 @@ Two HA dashboards are supplied in this folder.
 It's a simple dashboard to get you started quickly without dependencies or styling.
 - `HA_dashboard/ESPyRain_dashboard_simple.yaml`
 
+![[simple_dashboard.png]]
 ### 2. Full custom-card dashboard:
 Full featured dashboard for a better user experience but requires HACS and custom cards.
 - `HA_dashboard/ESPyRain_dashboard_full.yaml`
+
+![[full_dashboard.png]]
 ## Starter dashboard notes
 - No HACS or custom cards required.
 - No image assets required.
@@ -56,4 +59,5 @@ If those assets are missing, either:
 - add files with those exact paths, or
 - edit `HA_dashboard/ESPyRain_dashboard_full.yaml` to point to your own images
 
-
+## Installation
+For step-by-step installation see [[INSTALL_CHECKLIST]]

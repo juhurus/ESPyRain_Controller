@@ -661,3 +661,61 @@
           All station runtimes adjusted proportionally.
 
 #           
+
+# ================================================================
+# AUTO RESUME (NOTIFICATIONS)
+# ================================================================
+- id: espyrain_notify_auto_resumed
+  alias: "ESPyRain: Auto Resumed (Notifications)"
+  description: "Notify when ESPyRain resumes automatically after the configured pause timeout."
+  mode: queued
+  max: 10
+  trigger:
+    - platform: state
+      entity_id: sensor.espyrain_controller_controller_event_counter
+  condition:
+    - condition: template
+      value_template: >
+        {{
+          trigger.to_state is not none and
+          trigger.to_state.state not in ['unknown', 'unavailable'] and
+          states('sensor.espyrain_controller_last_controller_event_type') == 'auto_resume'
+        }}
+    - condition: state
+      entity_id: input_boolean.espyrain_notifications
+      state: "on"
+  action:
+    - service: script.espyrain_send_notification
+      data:
+        title: "*Sprinkler Auto Resumed*"
+        message: >
+          {{ states('sensor.espyrain_controller_last_controller_event_message') }}
+
+# ================================================================
+# QUEUE LIMIT REACHED (NOTIFICATIONS)
+# ================================================================
+- id: espyrain_notify_queue_limit_reached
+  alias: "ESPyRain: Queue Limit Reached (Notifications)"
+  description: "Notify when the ESP queue rejects a manual run or schedule because the queue limit was reached."
+  mode: queued
+  max: 10
+  trigger:
+    - platform: state
+      entity_id: sensor.espyrain_controller_controller_event_counter
+  condition:
+    - condition: template
+      value_template: >
+        {{
+          trigger.to_state is not none and
+          trigger.to_state.state not in ['unknown', 'unavailable'] and
+          states('sensor.espyrain_controller_last_controller_event_type') == 'queue_limit_reached'
+        }}
+    - condition: state
+      entity_id: input_boolean.espyrain_notifications
+      state: "on"
+  action:
+    - service: script.espyrain_send_notification
+      data:
+        title: "*Queue Limit Reached*"
+        message: >
+          {{ states('sensor.espyrain_controller_last_controller_event_message') }}

@@ -55,3 +55,6 @@ At minimum, check:
 
 ## Important note
 The `VERSION` file must remain in this folder because the ESPHome configuration reads the version from it.
+
+## Installation
+For step-by-step installation see [[INSTALL_CHECKLIST]]

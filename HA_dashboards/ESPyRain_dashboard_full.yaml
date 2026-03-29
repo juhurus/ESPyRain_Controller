@@ -274,8 +274,8 @@ views:
                     %}  {% set paused_min =
                     states('sensor.espyrain_controller_paused_minutes') | int(0)
                     %}  {% set auto_resume_min =
-                    states('sensor.espyrain_controller_auto_resume_minutes_remaining') | int(0)
-                    %}  {% set active_station =
+                    states('sensor.espyrain_controller_auto_resume_minutes_remaining')
+                    | int(0) %}  {% set active_station =
                     states('sensor.espyrain_controller_active_station') %}  {%
                     set station_rem =
                     states('sensor.espyrain_controller_station_time_remaining_formatted')
@@ -336,8 +336,9 @@ views:
                     Sprinklers Paused. Resuming after {{ queue_state |
                     replace('Soak Rest ', '') }} soak.</ha-alert> {% elif paused
                     %} <ha-alert alert-type="warning">⌛ Sprinklers Paused for {{
-                    paused_min }} minutes.{% if auto_resume_min > 0 %} Auto resume in {{
-                    auto_resume_min }} minute{% if auto_resume_min != 1 %}s{% endif %}.{% endif %}</ha-alert> {% endif %}
+                    paused_min }} minutes.{% if auto_resume_min > 0 %} Auto
+                    resume in {{ auto_resume_min }} minute{% if auto_resume_min
+                    != 1 %}s{% endif %}.{% endif %}</ha-alert> {% endif %}
 
 
                     {% set run_type =
@@ -3197,8 +3198,8 @@ views:
                     %}  {% set paused_min =
                     states('sensor.espyrain_controller_paused_minutes') | int(0)
                     %}  {% set auto_resume_min =
-                    states('sensor.espyrain_controller_auto_resume_minutes_remaining') | int(0)
-                    %}  {% set active_station =
+                    states('sensor.espyrain_controller_auto_resume_minutes_remaining')
+                    | int(0) %}  {% set active_station =
                     states('sensor.espyrain_controller_active_station') %}  {%
                     set station_rem =
                     states('sensor.espyrain_controller_station_time_remaining_formatted')
@@ -3259,8 +3260,9 @@ views:
                     Sprinklers Paused. Resuming after {{ queue_state |
                     replace('Soak Rest ', '') }} soak.</ha-alert> {% elif paused
                     %} <ha-alert alert-type="warning">⌛ Sprinklers Paused for {{
-                    paused_min }} minutes.{% if auto_resume_min > 0 %} Auto resume in {{
-                    auto_resume_min }} minute{% if auto_resume_min != 1 %}s{% endif %}.{% endif %}</ha-alert> {% endif %}
+                    paused_min }} minutes.{% if auto_resume_min > 0 %} Auto
+                    resume in {{ auto_resume_min }} minute{% if auto_resume_min
+                    != 1 %}s{% endif %}.{% endif %}</ha-alert> {% endif %}
 
 
                     {% set run_type =
@@ -7064,7 +7066,7 @@ views:
                 entities:
                   - type: custom:hui-markdown-card
                     content: >
-                      ### When enabled schedules will not run automatically.
+                      When enabled schedules will not run automatically.
 
 
                       **NOTE:**  Schedules and Stations can still be started
@@ -7153,9 +7155,11 @@ views:
                 open: false
                 entities:
                   - type: custom:hui-markdown-card
-                    content: |
-                      Set the number of stations in your system. 
-                      This is the number of valves you have.
+                    content: >
+                      Enable up to 16 stations 
+
+                      This is the number of valves you have excluding the master
+                      valve/pump.
                     card_mod:
                       style: |
                         ha-card {
@@ -7176,10 +7180,11 @@ views:
                 open: false
                 entities:
                   - type: custom:hui-markdown-card
-                    content: |
-                      Set the number of schedules you need.
-                      A schedule is what starts your stations
-                      at a certain day and time.
+                    content: >
+                      Enable up to 8 schedules
+
+                      A schedule is what starts your stations at a set day and
+                      time.
                     card_mod:
                       style: |
                         ha-card {
@@ -7200,13 +7205,15 @@ views:
                 open: false
                 entities:
                   - type: custom:hui-markdown-card
-                    content: |
+                    content: >
                       The delay between soak cycles (0 to 120min).
 
-                      - 0 = no delay, once the last scheduled station is 
+
+                      - 0 = no delay, once the last scheduled station is
                       finished it'll go straight back to the first station.
 
-                      - 1 to 120 = delay between last scheduled station and 
+
+                      - 1 to 120 = delay between last scheduled station and
                       restarting the first station.
                     card_mod:
                       style: |
@@ -7220,7 +7227,7 @@ views:
                           padding: 0 !important;
                         }  
               - entity: number.espyrain_controller_soak_rest_minutes
-                name: Soak Cycle Delay (minutes)
+                name: Soak Cycle Delay (min)
               - type: custom:fold-entity-row
                 head:
                   type: section
@@ -7229,10 +7236,8 @@ views:
                 entities:
                   - type: custom:hui-markdown-card
                     content: >
-                      Set the time when the system should auto resume a pause
+                      Minutes to auto resume a pause
 
-
-                      Auto Resume After Minutes
 
                       - 0 = disabled
 
@@ -7257,7 +7262,7 @@ views:
                           padding: 0 !important;
                         } 
               - entity: number.espyrain_controller_auto_resume_after_minutes
-                name: Auto resume after (minutes)
+                name: Auto resume after (min)
                 icon: mdi:timer-play-outline
               - type: custom:fold-entity-row
                 head:
@@ -7276,7 +7281,7 @@ views:
                       - Rain Delay on/off
                       - Station runtime changes
                       - Lost Wifi connection to ESP32
-                      - 
+                      - queue limit exeeded
                     card_mod:
                       style: |
                         ha-card {
@@ -7337,8 +7342,6 @@ views:
 
                       - Example: Daily schedule runs at 6am, cannot run again
                       until tomorrow
-
-                      - Use "Reset Last Run" button to allow re-running same day
 
 
                       When **ON**:
@@ -7596,6 +7599,18 @@ views:
 
                       | 9 | S10 | 512 |
 
+                      | 10 | S11 | 1024 |
+
+                      | 11 | S12 | 2048 |
+
+                      | 12 | S13 | 4096 |
+
+                      | 13 | S14 | 8192 |
+
+                      | 14 | S15 | 16384 |
+
+                      | 15 | S16 | 32768 |
+
 
                       Common: **S1+S2+S3 = 7** | **All 10 = 1023**
                     card_mod:
@@ -7674,4 +7689,3 @@ views:
     icon: mdi:cog
     show_icon_and_title: true
     cards: []
-

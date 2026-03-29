@@ -7,7 +7,7 @@ An ESP32-based sprinkler controller with Home Assistant integration. It was desi
 
 ESPyRain is built for users who want a powerful, transparent, highly configurable irrigation system without depending on a cloud service or a closed commercial controller.
 
-There is already a wide selection of ESP-based sprinkler systems available. More common solutions like ESPHome Sprinkler Controller and Irrigation Unlimited are both capable and reliable, but they usually require recompiling and reflashing the ESP32 when you want to make changes to the controller itself.
+There is already a wide selection of ESP-based sprinkler systems available. More common solutions like [ESPHome Sprinkler Controller](https://esphome.io/components/sprinkler/#sprinkler-controller-sprinkler_controller_queue) and [Irrigation Unlimited](https://github.com/rgc99/irrigation_unlimited) are both capable and reliable, but they usually require recompiling and reflashing the ESP32 when you want to make changes to the controller itself.
 
 The aim of ESPyRain is different. The goal is to avoid reflashing or reloading YAML files for everyday changes. Users should be able to set and control everything through Home Assistant, so even a partner or family member can change a schedule start time or a station runtime without editing YAML files, reloading Home Assistant, or recompiling and reflashing the ESP.
 
@@ -405,6 +405,7 @@ This gives flexibility without forcing unreliable forecast assumptions on every 
 Potential future improvements include:
 
 - optional weather/rain-based skip logic
+- notification selection option
 - further public package polish
 - installation simplification
 - additional diagnostics and onboarding improvements
@@ -425,10 +426,11 @@ This project is licensed under the Apache License 2.0. See [`LICENSE`](LICENSE).
 The code is licensed under Apache 2.0, but the `ESPyRain` name, branding, and presentation assets are not granted for reuse beyond what the license and applicable law allow. If you create a derivative project, please use your own name and branding.
 
 ## Thank you
-Special thanks to Robert, the creator of Irrigation Unlimited where I pinched a few ideas from and also ESPHome Sprinkler.
+Special thanks to Robert, the creator of [Irrigation Unlimited](https://github.com/rgc99/irrigation_unlimited), where I pinched a few ideas from, and also [ESPHome Sprinkler](https://esphome.io/components/sprinkler/#sprinkler-controller-sprinkler_controller_queue).
 
 ## Installation
 For step-by-step installation see [INSTALL_CHECKLIST.md](INSTALL_CHECKLIST.md).
+
 
 
 

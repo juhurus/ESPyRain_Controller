@@ -356,7 +356,7 @@ After installation, the first things most users will want to configure are:
 - [`INSTALL_CHECKLIST.md`](INSTALL_CHECKLIST.md)
   - detailed installation and setup checklist
 
-- [`VERSION`](VERSION)
+- [`VERSION`](ESPyRain-controller/VERSION)
   - canonical project version
 
 ## Dashboard and Companion App

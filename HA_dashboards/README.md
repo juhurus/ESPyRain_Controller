@@ -4,14 +4,14 @@ Two HA dashboards are supplied in this folder.
 
 ### 1. Starter dashboard with only built-in Home Assistant cards:
 It's a simple dashboard to get you started quickly without dependencies or styling.
-- `HA_dashboard/ESPyRain_dashboard_simple.yaml`
+- [`HA_dashboards/ESPyRain_dashboard_simple.yaml`](ESPyRain_dashboard_simple.yaml)
 
-![[simple_dashboard.png]]
+![Simple Dashboard](../images/screenshots/simple_dashboard.png)
 ### 2. Full custom-card dashboard:
 Full featured dashboard for a better user experience but requires HACS and custom cards.
-- `HA_dashboard/ESPyRain_dashboard_full.yaml`
+- [`HA_dashboards/ESPyRain_dashboard_full.yaml`](ESPyRain_dashboard_full.yaml)
 
-![[full_dashboard.png]]
+![Full Dashboard](../images/screenshots/full_dashboard.png)
 ## Starter dashboard notes
 - No HACS or custom cards required.
 - No image assets required.
@@ -45,9 +45,9 @@ The full dashboard currently expects these files under HA `www/espyrain/`:
         `-- your_property_overhead.jpg
 ```
 
-For best result use the supplied ESPyRain Theme. Make sure you copied ESPyRain Theme into your themes folder and restarted HA.
+For best result use the supplied ESPyRain Theme. Make sure you copy ESPyRain Theme into your themes folder and restarted HA.
 
-Replace your_property_overhead.jpg with your image and move the buttons in the dashboard card by adjusting top and left %:
+Replace your_property_overhead.jpg with your own image and move the buttons in the dashboard card to match your valve layout by adjusting top and left %:
 
 ```
 style:
@@ -57,7 +57,9 @@ style:
 
 If those assets are missing, either:
 - add files with those exact paths, or
-- edit `HA_dashboard/ESPyRain_dashboard_full.yaml` to point to your own images
+- edit [`HA_dashboards/ESPyRain_dashboard_full.yaml`](ESPyRain_dashboard_full.yaml) to point to your own images
 
 ## Installation
-For step-by-step installation see [[INSTALL_CHECKLIST]]
+For step-by-step installation see [INSTALL_CHECKLIST.md](../INSTALL_CHECKLIST.md).
+
+

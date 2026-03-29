@@ -3,12 +3,12 @@ This guide assumes you already have Home Assistant and ESPHome installed, and th
 
 ## 1. Copy the project files into Home Assistant
 Download the ZIP from:
-- `https://github.com/juhurus/ESPyRain_Controller`
+- [ESPyRain_Controller on GitHub](https://github.com/juhurus/ESPyRain_Controller)
 
 Unpack it, then treat your Home Assistant config folder as the root, usually:
 - `/config/`
 
-Note that there are two different `secrets.yaml` files:
+Note that there might be two different `secrets.yaml` files:
 - one for Home Assistant
 - one for ESPHome
 
@@ -33,6 +33,7 @@ Your final layout should look like this:
 |   `-- espyrain_for_home_assistant.yaml
 |-- esphome/
 |   |-- secrets.yaml
+|   |-- espyrain_controller_wrapper.yaml
 |   `-- ESPyRain-controller/
 |       |-- VERSION
 |       |-- base.yaml
@@ -42,8 +43,9 @@ Your final layout should look like this:
 |       |-- entities_system.yaml
 |       |-- globals_schedules.yaml
 |       |-- globals_stations.yaml
-|       |-- network_static_ip.example.yaml
+|       |-- globals_system.yaml
 |       |-- schedule_interval.yaml
+|       |-- secrets_example.yaml
 |       `-- ...other ESPyRain controller YAML files
 |-- themes/
 |   `-- espyrain_theme.yaml
@@ -207,7 +209,7 @@ You have two dashboard options.
 Use this first if you want the easiest install path.
 
 File:
-- `HA_dashboards/ESPyRain_dashboard_simple.yaml`
+- [`HA_dashboards/ESPyRain_dashboard_simple.yaml`](HA_dashboards/ESPyRain_dashboard_simple.yaml)
 
 This dashboard:
 - uses only built-in Home Assistant cards
@@ -222,7 +224,7 @@ To install:
 Use this if you want the richer ESPyRain dashboard.
 
 File:
-- `HA_dashboards/ESPyRain_dashboard_full.yaml`
+- [`HA_dashboards/ESPyRain_dashboard_full.yaml`](HA_dashboards/ESPyRain_dashboard_full.yaml)
 
 This dashboard:
 - uses custom cards
@@ -239,7 +241,7 @@ Required custom cards for the full dashboard:
 - `time-picker-card`
 
 For more detail, see:
-- `HA_dashboards/README.md`
+- [`HA_dashboards/README.md`](HA_dashboards/README.md)
 
 ## 9. Import or create the dashboard
 Once Home Assistant and the ESP are both up:
@@ -301,4 +303,5 @@ Notifications can also report:
 Examples:
 - `notify.mobile_app_my_phone`
 - `notify.telegram_bot_xxx_xxx, notify.mobile_app_my_phone`
+
 

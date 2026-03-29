@@ -3433,7 +3433,7 @@ views:
       - type: grid
         cards:
           - type: picture-elements
-            image: /local/sprinklers/backyard_overhead_vert.jpg
+            image: /local/espyrain/your_property_overhead.jpg
             elements:
               - type: state-label
                 entity: input_datetime.espyrain_manual_runtime

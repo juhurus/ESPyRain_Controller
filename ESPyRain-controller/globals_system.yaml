@@ -1,7 +1,7 @@
 globals:
-  # ══════════════════════════════════════════════════════════════
+  # ================================================================
   # SYSTEM CONFIGURATION
-  # ══════════════════════════════════════════════════════════════
+  # ================================================================
   - id: num_stations
     type: uint8_t
     restore_value: true
@@ -58,9 +58,9 @@ globals:
     restore_value: false
     initial_value: '100'
 
-  # ══════════════════════════════════════════════════════════════
+  # ================================================================
   # QUEUE MANAGEMENT STATE (Stage 3)
-  # ══════════════════════════════════════════════════════════════
+  # ================================================================
   - id: queue_tracker
     type: std::vector<int>
     restore_value: false
@@ -203,9 +203,9 @@ globals:
       }
 
 
-  # ══════════════════════════════════════════════════════════════
+  # ================================================================
   # HELPER FUNCTION: GET STATION PIN
-  # ══════════════════════════════════════════════════════════════
+  # ================================================================
   - id: get_station_pin
     type: std::function<int(int)>
     initial_value: |-
@@ -232,9 +232,9 @@ globals:
         }
       }
 
-  # ══════════════════════════════════════════════════════════════
+  # ================================================================
   # HELPER FUNCTION: GET STATION NAME
-  # ══════════════════════════════════════════════════════════════
+  # ================================================================
   - id: get_station_name
     type: std::function<std::string(int)>
     initial_value: |-
@@ -261,9 +261,9 @@ globals:
         }
       }
 
-  # ══════════════════════════════════════════════════════════════
+  # ================================================================
   # HELPER FUNCTION: GET STATION COUPLED MASK
-  # ══════════════════════════════════════════════════════════════
+  # ================================================================
   - id: get_station_coupled_mask
     type: std::function<uint16_t(int)>
     initial_value: |-
@@ -290,11 +290,11 @@ globals:
         }
       }
 
-  # ══════════════════════════════════════════════════════════════
+  # ================================================================
   # HELPER FUNCTION: IS STATION COUPLED TO ANOTHER
   # Returns true if station_num appears in any OTHER station's
   # coupled_mask (i.e. it is a secondary/slave station).
-  # ══════════════════════════════════════════════════════════════
+  # ================================================================
   - id: is_station_coupled_to_another
     type: std::function<bool(int)>
     initial_value: |-
@@ -308,11 +308,11 @@ globals:
         return false;
       }
 
-  # ══════════════════════════════════════════════════════════════
+  # ================================================================
   # HELPER FUNCTION: RESOLVE MANUAL RUN HEAD STATION
   # If a coupled/slave station is selected manually, resolve it to the
   # head station that owns the coupled group so the whole linked set runs.
-  # ══════════════════════════════════════════════════════════════
+  # ================================================================
   - id: resolve_station_run_head
     type: std::function<int(int)>
     initial_value: |-
@@ -326,9 +326,9 @@ globals:
         return station_num;
       }
   
-  # ══════════════════════════════════════════════════════════════
+  # ================================================================
   # HELPER FUNCTION: GET STATION ENABLED
-  # ══════════════════════════════════════════════════════════════
+  # ================================================================
   - id: get_station_enabled
     type: std::function<bool(int)>
     initial_value: |-
@@ -355,9 +355,9 @@ globals:
         }
       }
 
-  # ══════════════════════════════════════════════════════════════
+  # ================================================================
   # HELPER FUNCTION: GET STATION RUNTIME
-  # ══════════════════════════════════════════════════════════════
+  # ================================================================
   - id: get_station_runtime
     type: std::function<uint8_t(int)>
     initial_value: |-
@@ -384,9 +384,9 @@ globals:
         }
       }
 
-  # ══════════════════════════════════════════════════════════════
+  # ================================================================
   # HELPER FUNCTION: TURN ON STATION (with coupling)
-  # ══════════════════════════════════════════════════════════════
+  # ================================================================
   - id: turn_on_station
     type: std::function<void(int)>
     initial_value: |-
@@ -425,9 +425,9 @@ globals:
         }
       }
 
-  # ══════════════════════════════════════════════════════════════
+  # ================================================================
   # HELPER FUNCTION: TURN OFF STATION (with coupling)
-  # ══════════════════════════════════════════════════════════════
+  # ================================================================
   - id: turn_off_station
     type: std::function<void(int)>
     initial_value: |-
@@ -512,9 +512,9 @@ globals:
         }
       }
 
-  # ══════════════════════════════════════════════════════════════
+  # ================================================================
   # HELPER FUNCTION: TURN OFF ALL STATIONS
-  # ══════════════════════════════════════════════════════════════
+  # ================================================================
   - id: turn_off_all_stations
     type: std::function<void()>
     initial_value: |-
@@ -536,9 +536,9 @@ globals:
         }
       }
 
-  # ══════════════════════════════════════════════════════════════
+  # ================================================================
   # SCHEDULE HELPER FUNCTIONS
-  # ══════════════════════════════════════════════════════════════
+  # ================================================================
 
   - id: get_schedule_enabled
     type: std::function<bool(int)>
@@ -743,6 +743,128 @@ globals:
         }
       }
 
+  - id: get_local_midnight
+    type: std::function<time_t(time_t)>
+    initial_value: |-
+      [](time_t ts) -> time_t {
+        if (ts <= 0) return 0;
+        auto local_time = ESPTime::from_epoch_local(ts);
+        if (!local_time.is_valid()) return 0;
+        return ts - (local_time.hour * 3600 + local_time.minute * 60 + local_time.second);
+      }
+
+  - id: is_schedule_temporarily_blocked_for_time
+    type: std::function<bool(time_t)>
+    initial_value: |-
+      [](time_t target_ts) -> bool {
+        auto now = id(esp_time).now();
+        auto target_time = ESPTime::from_epoch_local(target_ts);
+        if (!now.is_valid() || !target_time.is_valid()) return false;
+
+        if (id(system_master_enable) == 0) return true;
+
+        int rain_delay = (int)id(rain_delay_days);
+        if (rain_delay <= 0) return false;
+
+        time_t now_midnight = id(get_local_midnight)(now.timestamp);
+        time_t target_midnight = id(get_local_midnight)(target_ts);
+        if (now_midnight == 0 || target_midnight == 0) return false;
+
+        int64_t day_offset = (int64_t)(target_midnight - now_midnight) / 86400;
+        if (day_offset < 0) return true;
+
+        return day_offset < rain_delay;
+      }
+
+  - id: schedule_matches_candidate
+    type: std::function<bool(int, time_t, time_t, bool, bool)>
+    initial_value: |-
+      [](int sched_num, time_t candidate_ts, time_t reference_last_run, bool allow_interval_same_day_bypass, bool apply_temporary_blocks) -> bool {
+        if (sched_num < 1 || sched_num > (int)id(num_schedules)) return false;
+        if (!id(get_schedule_enabled)(sched_num)) return false;
+
+        auto candidate_time = ESPTime::from_epoch_local(candidate_ts);
+        if (!candidate_time.is_valid()) return false;
+
+        uint8_t sched_hour = id(get_schedule_hour)(sched_num);
+        uint8_t sched_minute = id(get_schedule_minute)(sched_num);
+        if (candidate_time.hour != sched_hour || candidate_time.minute != sched_minute) return false;
+
+        if (apply_temporary_blocks && id(is_schedule_temporarily_blocked_for_time)(candidate_ts)) return false;
+
+        uint8_t day_mode = id(get_schedule_day_mode_type)(sched_num);
+        uint8_t days_bitmask = id(get_schedule_days_bitmask)(sched_num);
+        uint8_t interval_val = id(get_schedule_interval)(sched_num);
+        if (interval_val < 1) interval_val = 1;
+
+        time_t candidate_midnight = id(get_local_midnight)(candidate_ts);
+        if (candidate_midnight == 0) return false;
+
+        bool day_matches = false;
+
+        switch (day_mode) {
+          case 0:
+            day_matches = true;
+            break;
+
+          case 1:
+          case 5:
+          {
+            uint8_t weekday = candidate_time.day_of_week;
+            uint8_t bitmask_bit = (weekday == 1) ? 6 : (weekday - 2);
+            day_matches = (days_bitmask & (1 << bitmask_bit)) != 0;
+            break;
+          }
+
+          case 2:
+          {
+            if (reference_last_run == 0) {
+              day_matches = true;
+            } else {
+              time_t last_midnight = id(get_local_midnight)(reference_last_run);
+              if (last_midnight == 0) {
+                day_matches = true;
+              } else {
+                int64_t days_since = (int64_t)(candidate_midnight - last_midnight) / 86400;
+                day_matches = (days_since >= interval_val);
+              }
+            }
+            break;
+          }
+
+          case 3:
+            day_matches = (candidate_time.day_of_month % 2 == 1);
+            break;
+
+          case 4:
+            day_matches = (candidate_time.day_of_month % 2 == 0);
+            break;
+
+          default:
+            ESP_LOGW("schedule_logic", "Unknown day_mode %d for schedule %d", day_mode, sched_num);
+            break;
+        }
+
+        if (!day_matches) {
+          if (day_mode == 2 && allow_interval_same_day_bypass && (id(bypass_interval_check) != 0) && reference_last_run > 0) {
+            time_t last_midnight = id(get_local_midnight)(reference_last_run);
+            if (last_midnight == candidate_midnight) {
+              day_matches = true;
+              ESP_LOGI("schedule_logic", "Bypass: allowing same-day rerun for schedule %d", sched_num);
+            }
+          }
+          if (!day_matches) return false;
+        }
+
+        if (reference_last_run > 0) {
+          time_t last_midnight = id(get_local_midnight)(reference_last_run);
+          if (last_midnight == candidate_midnight && (id(bypass_interval_check) == 0) && day_mode != 2) {
+            return false;
+          }
+        }
+
+        return true;
+      }
   - id: queue_schedule_run
     type: std::function<bool(int)>
     initial_value: |-
@@ -869,11 +991,13 @@ globals:
         return true;
       }
 
-  # ══════════════════════════════════════════════════════════════
-  # calculate_next_7_runs -- Finds next 7 future timestamps
-  # when a schedule WOULD run, based on day mode and time.
-  # Does NOT consider temporary blocks (rain delay, master disable).
-  # ══════════════════════════════════════════════════════════════
+  # ================================================================
+  # ================================================================
+  # calculate_next_7_runs -- Finds the next 7 future timestamps
+  # using the same scheduling rules as the live controller.
+  # Includes temporary schedule blocks such as rain delay and
+  # winter mode so HA forecast sensors match actual ESP behavior.
+  # ================================================================
   - id: calculate_next_7_runs
     type: std::function<void(int)>
     initial_value: |-
@@ -897,22 +1021,16 @@ globals:
         next_runs->clear();
         next_runs->resize(7, 0);
 
-        bool enabled = id(get_schedule_enabled)(sched_num);
-        if (!enabled) {
+        if (!id(get_schedule_enabled)(sched_num)) {
           ESP_LOGD("next_runs", "Schedule %d disabled, no runs calculated", sched_num);
           return;
         }
 
         uint8_t sched_hour = id(get_schedule_hour)(sched_num);
         uint8_t sched_minute = id(get_schedule_minute)(sched_num);
-        uint8_t day_mode = id(get_schedule_day_mode_type)(sched_num);
-        uint8_t days_bitmask = id(get_schedule_days_bitmask)(sched_num);
-        uint8_t interval_val = id(get_schedule_interval)(sched_num);
-        time_t last_run = id(get_schedule_last_run)(sched_num);
-
         time_t now_ts = now.timestamp;
-        time_t now_midnight = now_ts - (now.hour * 3600 + now.minute * 60 + now.second);
-
+        time_t now_midnight = id(get_local_midnight)(now_ts);
+        time_t simulated_last_run = id(get_schedule_last_run)(sched_num);
         int found = 0;
 
         for (int days_ahead = 0; days_ahead < 365 && found < 7; days_ahead++) {
@@ -921,62 +1039,13 @@ globals:
 
           if (target_ts <= now_ts) continue;
 
-          auto target_time = ESPTime::from_epoch_local(target_ts);
-          if (!target_time.is_valid()) continue;
-
-          bool matches = false;
-
-          switch (day_mode) {
-            case 0:  // Daily
-              matches = true;
-              break;
-
-            case 1:  // Selected Days
-            {
-              uint8_t weekday = target_time.day_of_week;
-              uint8_t bit = (weekday == 1) ? 6 : (weekday - 2);
-              matches = (days_bitmask & (1 << bit)) != 0;
-              break;
-            }
-
-            case 2:  // Every X Days (interval mode)
-            {
-              if (last_run == 0) {
-                matches = true;
-              } else {
-                auto last_time = ESPTime::from_epoch_local(last_run);
-                time_t last_midnight = last_run - (last_time.hour * 3600 + last_time.minute * 60 + last_time.second);
-                int64_t days_since_last = (int64_t)(target_midnight - last_midnight) / 86400;
-                matches = (days_since_last > 0 && days_since_last % interval_val == 0);
-              }
-              break;
-            }
-
-            case 3:  // Odd Days
-              matches = (target_time.day_of_month % 2 == 1);
-              break;
-
-            case 4:  // Even Days
-              matches = (target_time.day_of_month % 2 == 0);
-              break;
-
-            case 5:  // Weekdays/Weekends (uses bitmask)
-            {
-              uint8_t weekday = target_time.day_of_week;
-              uint8_t bit = (weekday == 1) ? 6 : (weekday - 2);
-              matches = (days_bitmask & (1 << bit)) != 0;
-              break;
-            }
-
-            default:
-              ESP_LOGW("next_runs", "Unknown day_mode %d for schedule %d", day_mode, sched_num);
-              break;
+          if (!id(schedule_matches_candidate)(sched_num, target_ts, simulated_last_run, false, true)) {
+            continue;
           }
 
-          if (matches) {
-            (*next_runs)[found] = target_ts;
-            found++;
-          }
+          (*next_runs)[found] = target_ts;
+          simulated_last_run = target_ts;
+          found++;
         }
 
         if (found > 0) {
@@ -1019,5 +1088,8 @@ globals:
     type: uint32_t
     restore_value: no
     initial_value: '0'    
+
+
+
 
 

@@ -80,6 +80,9 @@ number:
           value: !lambda 'return (uint8_t)x;'
       - lambda: |-
           id(rain_delay_days_number).publish_state(x);
+          for (int i = 1; i <= (int)id(num_schedules); i++) {
+            id(calculate_next_7_runs)(i);
+          }
 
   - platform: template
     name: "Soak Rest Minutes"
@@ -159,10 +162,18 @@ switch:
       - globals.set:
           id: system_master_enable
           value: '0'
+      - lambda: |-
+          for (int i = 1; i <= (int)id(num_schedules); i++) {
+            id(calculate_next_7_runs)(i);
+          }
     turn_off_action:
       - globals.set:
           id: system_master_enable
           value: '1'
+      - lambda: |-
+          for (int i = 1; i <= (int)id(num_schedules); i++) {
+            id(calculate_next_7_runs)(i);
+          }
     icon: mdi:snowflake
 
 script:
@@ -433,6 +444,7 @@ button:
     name: "Restart ESP"
     id: restart_esp
     icon: mdi:restart
+
 
 
 

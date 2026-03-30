@@ -1,0 +1,96 @@
+############################################################
+#                                                          #
+#                 SCHEDULE DEBUG SENSOR (v2)               #
+#                                                          #
+############################################################
+
+- sensor:
+    - name: "Debug 7 Day Sensors"
+      unique_id: debug_7_day_sensors
+      icon: mdi:bug
+      state: "{{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+      attributes:
+        link: "{{ states('binary_sensor.espyrain_controller_ha_link') }}"
+        controller_status: "{{ states('sensor.espyrain_controller_status') }}"
+        queue: "{{ states('sensor.espyrain_controller_queue') }}"
+        queue_state: "{{ states('sensor.espyrain_controller_queue_state') }}"
+        rain_delay_days: "{{ states('input_number.espyrain_rain_delay_days') | int(0) }}"
+        winter_mode_helper: "{{ states('input_boolean.espyrain_winter_mode') }}"
+        winter_mode_esp: "{{ states('switch.espyrain_controller_winter_mode') }}"
+        bypass_helper: "{{ states('input_boolean.espyrain_bypass_interval_check') }}"
+        bypass_esp: "{{ states('switch.espyrain_controller_bypass_interval_check') }}"
+
+        schedule_config: >
+          {% set ns = namespace(items=[]) %}
+          {% for i in range(1, 9) %}
+            {% set ns.items = ns.items + [{
+              'schedule': i,
+              'name': states('input_text.espyrain_schedule_' ~ i ~ '_name'),
+              'enabled_helper': states('input_boolean.espyrain_schedule_' ~ i ~ '_enabled'),
+              'enabled_esp': states('switch.espyrain_controller_schedule_' ~ i ~ '_enabled'),
+              'days_mode': states('input_select.espyrain_schedule_' ~ i ~ '_days'),
+              'day_mode_esp': states('number.espyrain_controller_schedule_' ~ i ~ '_day_mode'),
+              'days_bitmask_esp': states('number.espyrain_controller_schedule_' ~ i ~ '_days_bitmask'),
+              'interval_helper': states('input_number.espyrain_schedule_' ~ i ~ '_interval'),
+              'interval_esp': states('number.espyrain_controller_schedule_' ~ i ~ '_interval'),
+              'station_mask_esp': states('number.espyrain_controller_schedule_' ~ i ~ '_station_mask'),
+              'soak_helper': states('input_select.espyrain_schedule_' ~ i ~ '_soak_cycles'),
+              'soak_esp': states('number.espyrain_controller_schedule_' ~ i ~ '_soak_cycles'),
+              'seasonal_helper': states('input_number.espyrain_schedule_' ~ i ~ '_seasonal'),
+              'seasonal_esp': states('number.espyrain_controller_schedule_' ~ i ~ '_seasonal_adjust'),
+              'last_run_raw': states('sensor.espyrain_controller_schedule_' ~ i ~ '_last_run_raw')
+            }] %}
+          {% endfor %}
+          {{ ns.items }}
+
+        schedule_next_runs: >
+          {% set ns = namespace(items=[]) %}
+          {% for i in range(1, 9) %}
+            {% set runs = namespace(list=[]) %}
+            {% for n in range(1, 8) %}
+              {% set runs.list = runs.list + [states('sensor.espyrain_controller_schedule_' ~ i ~ '_next_run_' ~ n)] %}
+            {% endfor %}
+            {% set ns.items = ns.items + [{
+              'schedule': i,
+              'next_run': states('sensor.espyrain_controller_schedule_' ~ i ~ '_next_run'),
+              'next_run_1_7': runs.list
+            }] %}
+          {% endfor %}
+          {{ ns.items }}
+
+        forecast_by_day: >
+          {% set today = now().date() %}
+          {% set out = namespace(days=[]) %}
+          {% for d in range(0, 7) %}
+            {% set target = today + timedelta(days=d) %}
+            {% set entries = namespace(list=[]) %}
+            {% for i in range(1, 9) %}
+              {% for n in range(1, 8) %}
+                {% set raw = states('sensor.espyrain_controller_schedule_' ~ i ~ '_next_run_' ~ n) %}
+                {# Guard parsing to avoid template failure on values like Disabled/None #}
+                {% if raw not in ['none', 'None', 'unknown', 'unavailable', 'disabled', 'Disabled', ''] and raw | length >= 16 %}
+                  {% set dt = as_datetime(raw) %}
+                  {% if dt is not none and dt.date() == target %}
+                    {% set entries.list = entries.list + ['S' ~ i ~ ' @ ' ~ dt.strftime('%H:%M')] %}
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
+            {% set label = 'Today' if d == 0 else ('Tomorrow' if d == 1 else target.strftime('%a %Y-%m-%d')) %}
+            {% set out.days = out.days + [{
+              'label': label,
+              'entries': entries.list
+            }] %}
+          {% endfor %}
+          {{ out.days }}
+
+        sensors_summary: >
+          {{
+            {
+              'next_scheduled_run': states('sensor.espyrain_next_scheduled_run'),
+              'today_remaining': states('sensor.espyrain_today_remaining_schedules'),
+              'tomorrow_schedules': states('sensor.espyrain_tomorrow_schedules'),
+              'seven_day_forecast': states('sensor.espyrain_7_day_forecast')
+            }
+          }}
+

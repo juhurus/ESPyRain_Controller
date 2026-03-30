@@ -142,7 +142,7 @@ views:
             conditions:
               - condition: numeric_state
                 entity: input_number.espyrain_rain_delay_days
-                above: 0
+                above: 1
             card:
               type: markdown
               content: >
@@ -184,6 +184,24 @@ views:
                       border-color: #FF9999;
                       box-shadow: 0 0 20px rgba(255, 107, 107, 0.8);
                     }
+                  }
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: input_number.espyrain_rain_delay_days
+                state: '1.0'
+            card:
+              type: markdown
+              content: |
+                ## ⚠️ RAIN DELAY ACTIVE
+                Automatic watering is paused.
+
+                Rain delay will reset automatically at **midnight**.
+              card_mod:
+                style: |
+                  ha-card {
+                    background: rgba(255, 152, 0, 0.2);
+                    border-left: 5px solid #FF9800;
                   }
           - type: conditional
             conditions:
@@ -601,8 +619,8 @@ views:
               %}
 
               ## _Rain delay for next {{
-              states('input_number.espyrain_rain_delay_days') }} day(s)_ {%
-              endif %}
+              states('input_number.espyrain_rain_delay_days') | int(0) }}
+              day(s)_ {% endif %}
 
               {% set forecast = state_attr('sensor.espyrain_7_day_forecast',
               'days') %} {%
@@ -6791,10 +6809,10 @@ views:
               - entity: number.espyrain_controller_master_valve_pin
                 name: GPIO Pin
               - entity: number.espyrain_controller_master_valve_delay_ms
-                name: Delay (ms)
+                name: Delay Timer (ms)
               - type: custom:hui-markdown-card
                 content: >
-                  **What does Delay(ms) do?**
+                  **What does Delay(ms) start timer do?**
 
 
                   Allows to set a positive or negative value in milli seconds
@@ -7037,18 +7055,18 @@ views:
                 }
           - type: conditional
             conditions:
-              - condition: numeric_state
+              - condition: state
                 entity: input_number.espyrain_rain_delay_days
-                above: 0
+                state: '1'
             card:
               type: markdown
               content: >
                 ## ⚠️ RAIN DELAY ACTIVE
 
+                Automatic watering is paused.
 
-                All automatic watering paused for **{{
-                states('input_number.espyrain_rain_delay_days') | int }}**
-                day(s).
+                Rain delay is set to **1 day** and will reset automatically at
+                **midnight**.
               card_mod:
                 style: |
                   ha-card {
@@ -7066,7 +7084,7 @@ views:
                 entities:
                   - type: custom:hui-markdown-card
                     content: >
-                      When enabled schedules will not run automatically.
+                      ### When enabled schedules will not run automatically.
 
 
                       **NOTE:**  Schedules and Stations can still be started
@@ -7155,11 +7173,9 @@ views:
                 open: false
                 entities:
                   - type: custom:hui-markdown-card
-                    content: >
-                      Enable up to 16 stations 
-
-                      This is the number of valves you have excluding the master
-                      valve/pump.
+                    content: |
+                      Set the number of stations in your system. 
+                      This is the number of valves you have.
                     card_mod:
                       style: |
                         ha-card {
@@ -7180,11 +7196,10 @@ views:
                 open: false
                 entities:
                   - type: custom:hui-markdown-card
-                    content: >
-                      Enable up to 8 schedules
-
-                      A schedule is what starts your stations at a set day and
-                      time.
+                    content: |
+                      Set the number of schedules you need.
+                      A schedule is what starts your stations
+                      at a certain day and time.
                     card_mod:
                       style: |
                         ha-card {
@@ -7205,15 +7220,13 @@ views:
                 open: false
                 entities:
                   - type: custom:hui-markdown-card
-                    content: >
+                    content: |
                       The delay between soak cycles (0 to 120min).
 
-
-                      - 0 = no delay, once the last scheduled station is
+                      - 0 = no delay, once the last scheduled station is 
                       finished it'll go straight back to the first station.
 
-
-                      - 1 to 120 = delay between last scheduled station and
+                      - 1 to 120 = delay between last scheduled station and 
                       restarting the first station.
                     card_mod:
                       style: |
@@ -7236,8 +7249,10 @@ views:
                 entities:
                   - type: custom:hui-markdown-card
                     content: >
-                      Minutes to auto resume a pause
+                      Set the time when the system should auto resume a pause
 
+
+                      Auto Resume After Minutes
 
                       - 0 = disabled
 
@@ -7281,7 +7296,7 @@ views:
                       - Rain Delay on/off
                       - Station runtime changes
                       - Lost Wifi connection to ESP32
-                      - queue limit exeeded
+                      - 
                     card_mod:
                       style: |
                         ha-card {
@@ -7342,6 +7357,8 @@ views:
 
                       - Example: Daily schedule runs at 6am, cannot run again
                       until tomorrow
+
+                      - Use "Reset Last Run" button to allow re-running same day
 
 
                       When **ON**:
@@ -7599,18 +7616,6 @@ views:
 
                       | 9 | S10 | 512 |
 
-                      | 10 | S11 | 1024 |
-
-                      | 11 | S12 | 2048 |
-
-                      | 12 | S13 | 4096 |
-
-                      | 13 | S14 | 8192 |
-
-                      | 14 | S15 | 16384 |
-
-                      | 15 | S16 | 32768 |
-
 
                       Common: **S1+S2+S3 = 7** | **All 10 = 1023**
                     card_mod:
@@ -7631,7 +7636,7 @@ views:
                     content: |
                       ## 🧪 ESP GPIO pins and wire colours
 
-                      `SSD 4-Port Board`
+                      `SSR 4-Port Board`
                       - `GPIO 7` S1 front paddock street side, 
                         (Relay 1, out->red, from D7->blue->CH1)
 
@@ -7647,7 +7652,7 @@ views:
                         (Relay 4, out->red, from D5->orange->CH4)    
 
 
-                      `SSD 8-Port Board`
+                      `SSR 8-Port Board`
                       - `GPIO 4` S4 garden beds front of house, 
                         (Relay 1, out->purple, from D4->black->CH1)
 

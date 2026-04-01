@@ -302,6 +302,123 @@
         value: "{{ states('sensor.espyrain_zone_elapsed_seconds') | float(0) }}"
 
 # ================================================================
+# SEED DEFAULT SCHEDULE AND STATION NAMES
+# ================================================================
+- id: espyrain_seed_default_names
+  alias: "ESPyRain: Seed Default Schedule and Station Names"
+  description: "Seed default schedule and station names only when the HA helper is blank, unknown, or unavailable"
+  trigger:
+    - platform: homeassistant
+      event: start
+    - platform: state
+      entity_id:
+        - input_text.espyrain_schedule_1_name
+        - input_text.espyrain_schedule_2_name
+        - input_text.espyrain_schedule_3_name
+        - input_text.espyrain_schedule_4_name
+        - input_text.espyrain_schedule_5_name
+        - input_text.espyrain_schedule_6_name
+        - input_text.espyrain_schedule_7_name
+        - input_text.espyrain_schedule_8_name
+        - input_text.espyrain_station_1_name
+        - input_text.espyrain_station_2_name
+        - input_text.espyrain_station_3_name
+        - input_text.espyrain_station_4_name
+        - input_text.espyrain_station_5_name
+        - input_text.espyrain_station_6_name
+        - input_text.espyrain_station_7_name
+        - input_text.espyrain_station_8_name
+        - input_text.espyrain_station_9_name
+        - input_text.espyrain_station_10_name
+        - input_text.espyrain_station_11_name
+        - input_text.espyrain_station_12_name
+        - input_text.espyrain_station_13_name
+        - input_text.espyrain_station_14_name
+        - input_text.espyrain_station_15_name
+        - input_text.espyrain_station_16_name
+  condition: []
+  action:
+    # Give helpers and restored states a moment to settle after HA startup
+    - choose:
+        - conditions:
+            - condition: template
+              value_template: "{{ trigger.platform == 'homeassistant' }}"
+          sequence:
+            - delay:
+                seconds: 5
+
+    # Fill only missing names so first-boot defaults appear without overwriting custom user values
+    - variables:
+        mappings:
+          - entity: input_text.espyrain_schedule_1_name
+            default_value: Schedule1
+          - entity: input_text.espyrain_schedule_2_name
+            default_value: Schedule2
+          - entity: input_text.espyrain_schedule_3_name
+            default_value: Schedule3
+          - entity: input_text.espyrain_schedule_4_name
+            default_value: Schedule4
+          - entity: input_text.espyrain_schedule_5_name
+            default_value: Schedule5
+          - entity: input_text.espyrain_schedule_6_name
+            default_value: Schedule6
+          - entity: input_text.espyrain_schedule_7_name
+            default_value: Schedule7
+          - entity: input_text.espyrain_schedule_8_name
+            default_value: Schedule8
+          - entity: input_text.espyrain_station_1_name
+            default_value: Station1
+          - entity: input_text.espyrain_station_2_name
+            default_value: Station2
+          - entity: input_text.espyrain_station_3_name
+            default_value: Station3
+          - entity: input_text.espyrain_station_4_name
+            default_value: Station4
+          - entity: input_text.espyrain_station_5_name
+            default_value: Station5
+          - entity: input_text.espyrain_station_6_name
+            default_value: Station6
+          - entity: input_text.espyrain_station_7_name
+            default_value: Station7
+          - entity: input_text.espyrain_station_8_name
+            default_value: Station8
+          - entity: input_text.espyrain_station_9_name
+            default_value: Station9
+          - entity: input_text.espyrain_station_10_name
+            default_value: Station10
+          - entity: input_text.espyrain_station_11_name
+            default_value: Station11
+          - entity: input_text.espyrain_station_12_name
+            default_value: Station12
+          - entity: input_text.espyrain_station_13_name
+            default_value: Station13
+          - entity: input_text.espyrain_station_14_name
+            default_value: Station14
+          - entity: input_text.espyrain_station_15_name
+            default_value: Station15
+          - entity: input_text.espyrain_station_16_name
+            default_value: Station16
+    - repeat:
+        for_each: "{{ mappings }}"
+        sequence:
+          - choose:
+              - conditions:
+                  - condition: template
+                    value_template: >
+                      {{ trigger.platform == 'homeassistant' or trigger.entity_id == repeat.item.entity }}
+                  - condition: template
+                    value_template: >
+                      {{ states(repeat.item.entity) in ['unknown', 'unavailable', 'none', ''] }}
+                sequence:
+                  # Restore the default label when a name is missing, including after a user clears the field
+                  - service: input_text.set_value
+                    target:
+                      entity_id: "{{ repeat.item.entity }}"
+                    data:
+                      value: "{{ repeat.item.default_value }}"
+  mode: restart
+
+# ================================================================
 # SYNC STATION NAMES FROM HA TO ESP
 # ================================================================
 - id: espyrain_sync_station_names_to_esp

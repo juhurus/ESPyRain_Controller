@@ -11,56 +11,48 @@
 # Schedule 1 Name
 espyrain_schedule_1_name:
   name: "Schedule 1 Name"
-  initial: "Schedule1"
   max: 50
   icon: mdi:rename-box
 
 # Schedule 2 Name
 espyrain_schedule_2_name:
   name: "Schedule 2 Name"
-  initial: "Schedule2"
   max: 50
   icon: mdi:rename-box
 
 # Schedule 3 Name
 espyrain_schedule_3_name:
   name: "Schedule 3 Name"
-  initial: "Schedule3"
   max: 50
   icon: mdi:rename-box
 
 # Schedule 4 Name
 espyrain_schedule_4_name:
   name: "Schedule 4 Name"
-  initial: "Schedule4"
   max: 50
   icon: mdi:rename-box
 
 # Schedule 5 Name
 espyrain_schedule_5_name:
   name: "Schedule 5 Name"
-  initial: "Schedule5"
   max: 50
   icon: mdi:rename-box
 
 # Schedule 6 Name
 espyrain_schedule_6_name:
   name: "Schedule 6 Name"
-  initial: "Schedule6"
   max: 50
   icon: mdi:rename-box
 
 # Schedule 7 Name
 espyrain_schedule_7_name:
   name: "Schedule 7 Name"
-  initial: "Schedule7"
   max: 50
   icon: mdi:rename-box
 
 # Schedule 8 Name
 espyrain_schedule_8_name:
   name: "Schedule 8 Name"
-  initial: "Schedule8"
   max: 50
   icon: mdi:rename-box
 
@@ -71,112 +63,96 @@ espyrain_schedule_8_name:
 # Station 1 Name
 espyrain_station_1_name:
   name: "Station 1 Name"
-  initial: "Station1"
   max: 50
   icon: mdi:label-outline
 
 # Station 2 Name
 espyrain_station_2_name:
   name: "Station 2 Name"
-  initial: "Station2"
   max: 50
   icon: mdi:label-outline
 
 # Station 3 Name
 espyrain_station_3_name:
   name: "Station 3 Name"
-  initial: "Station3"
   max: 50
   icon: mdi:label-outline
 
 # Station 4 Name
 espyrain_station_4_name:
   name: "Station 4 Name"
-  initial: "Station4"
   max: 50
   icon: mdi:label-outline
 
 # Station 5 Name
 espyrain_station_5_name:
   name: "Station 5 Name"
-  initial: "Station5"
   max: 50
   icon: mdi:label-outline
 
 # Station 6 Name
 espyrain_station_6_name:
   name: "Station 6 Name"
-  initial: "Station6"
   max: 50
   icon: mdi:label-outline
 
 # Station 7 Name
 espyrain_station_7_name:
   name: "Station 7 Name"
-  initial: "Station7"
   max: 50
   icon: mdi:label-outline
 
 # Station 8 Name
 espyrain_station_8_name:
   name: "Station 8 Name"
-  initial: "Station8"
   max: 50
   icon: mdi:label-outline
 
 # Station 9 Name
 espyrain_station_9_name:
   name: "Station 9 Name"
-  initial: "Station9"
   max: 50
   icon: mdi:label-outline
 
 # Station 10 Name
 espyrain_station_10_name:
   name: "Station 10 Name"
-  initial: "Station10"
   max: 50
   icon: mdi:label-outline
 
 # Station 11 Name
 espyrain_station_11_name:
   name: "Station 11 Name"
-  initial: "Station11"
   max: 50
   icon: mdi:label-outline
 
 # Station 12 Name
 espyrain_station_12_name:
   name: "Station 12 Name"
-  initial: "Station12"
   max: 50
   icon: mdi:label-outline
 
 # Station 13 Name
 espyrain_station_13_name:
   name: "Station 13 Name"
-  initial: "Station13"
   max: 50
   icon: mdi:label-outline
 
 # Station 14 Name
 espyrain_station_14_name:
   name: "Station 14 Name"
-  initial: "Station14"
   max: 50
   icon: mdi:label-outline
 
 # Station 15 Name
 espyrain_station_15_name:
   name: "Station 15 Name"
-  initial: "Station15"
   max: 50
   icon: mdi:label-outline
 
 # Station 16 Name
 espyrain_station_16_name:
   name: "Station 16 Name"
-  initial: "Station16"
   max: 50
   icon: mdi:label-outline
 
@@ -185,7 +161,6 @@ espyrain_station_16_name:
 # ================================================================
 espyrain_notify_service:
   name: "Notification Service(s)"
-  initial: ""
   max: 255
   icon: mdi:message-badge-outline
 

@@ -623,13 +623,16 @@ views:
               day(s)_ {% endif %}
 
               {% set forecast = state_attr('sensor.espyrain_7_day_forecast',
-              'days') %} {%
+              'days') %} {% set today = now().strftime('%Y-%m-%d') %} {% set
+              today_remaining =
+              states('sensor.espyrain_today_remaining_schedules') %}
 
-              if forecast %}
+              {% if forecast %}
                 {% for day in forecast %}
                   {% if day.blocked %}
                   
-               ### 📅 ***{{ day.day_name }}*** ({{ day.date }}):  
+                ### 📅 ***{{ day.day_name }} {{ as_timestamp(day.date) | timestamp_custom('%d %b', true) }}.***
+
                 📛 Watering Blocked - _{{ day.block_reason }}_
 
                   {% elif day.schedules | length > 0 %}
@@ -639,22 +642,44 @@ views:
                         {% set ns.times = ns.times + [t ~ ' ' ~ sched.name] %}
                       {% endfor %}
                     {% endfor %}
+
+                    {% if day.date == today %}
+                      {% if today_remaining == 'No more runs today' %}
+               ---       
+               ### 📅 ***{{ day.day_name }} {{ as_timestamp(day.date) | timestamp_custom('%d %b', true) }}.***
+
+
+               🛑 _No more runs scheduled_
+
+                      {% else %}
                --- 
-                ### 📅 ***{{ day.day_name }}*** ({{ day.date }})
+               ### 📅 ***{{ day.day_name }} {{ as_timestamp(day.date) | timestamp_custom('%d %b', true) }}.***
+
+              ▶ {{ today_remaining | replace('\n', '\n\n▶ ') }}
+                      {% endif %}
+                    {% else %}
+               --- 
+               ### 📅 ***{{ day.day_name }} {{ as_timestamp(day.date) | timestamp_custom('%d %b', true) }}.***
+
               ▶ {{ ns.times | sort | join('
 
               ▶ ') }}
-
-
+                    {% endif %}
 
                   {% else %}
+                    {% if day.date == today and today_remaining == 'No more runs today' %}
                ---       
-              ### 📅 ***{{ day.day_name }}*** ({{ day.date }}):  
+               ### 📅 ***{{ day.day_name }} {{ as_timestamp(day.date) | timestamp_custom('%d %b', true) }}.***
+
+
+               🛑 _No more runs scheduled_
+                    {% else %}
+               ---       
+               ### 📅 ***{{ day.day_name }} {{ as_timestamp(day.date) | timestamp_custom('%d %b', true) }}.***
+
 
                🛑 _No runs scheduled_
-
-
-
+                    {% endif %}
                   {% endif %}
                 {% endfor %}
               {% else %} 

@@ -846,82 +846,66 @@ espyrain_schedule_8_station_16:
 
 espyrain_station_1_enabled:
   name: "Station 1 Enabled"
-  initial: true
   icon: mdi:toggle-switch
 
 espyrain_station_2_enabled:
   name: "Station 2 Enabled"
-  initial: true
   icon: mdi:toggle-switch
 
 espyrain_station_3_enabled:
   name: "Station 3 Enabled"
-  initial: true
   icon: mdi:toggle-switch
 
 espyrain_station_4_enabled:
   name: "Station 4 Enabled"
-  initial: true
   icon: mdi:toggle-switch
 
 espyrain_station_5_enabled:
   name: "Station 5 Enabled"
-  initial: true
   icon: mdi:toggle-switch
 
 espyrain_station_6_enabled:
   name: "Station 6 Enabled"
-  initial: true
   icon: mdi:toggle-switch
 
 espyrain_station_7_enabled:
   name: "Station 7 Enabled"
-  initial: true
   icon: mdi:toggle-switch
 
 espyrain_station_8_enabled:
   name: "Station 8 Enabled"
-  initial: true
   icon: mdi:toggle-switch
 
 espyrain_station_9_enabled:
   name: "Station 9 Enabled"
-  initial: true
   icon: mdi:toggle-switch
 
 espyrain_station_10_enabled:
   name: "Station 10 Enabled"
-  initial: true
   icon: mdi:toggle-switch
 
 espyrain_station_11_enabled:
   name: "Station 11 Enabled"
-  initial: false
   icon: mdi:toggle-switch
 
 espyrain_station_12_enabled:
   name: "Station 12 Enabled"
-  initial: false
   icon: mdi:toggle-switch
 
 espyrain_station_13_enabled:
   name: "Station 13 Enabled"
-  initial: false
   icon: mdi:toggle-switch
 
 espyrain_station_14_enabled:
   name: "Station 14 Enabled"
-  initial: false
   icon: mdi:toggle-switch
 
 espyrain_station_15_enabled:
   name: "Station 15 Enabled"
-  initial: false
   icon: mdi:toggle-switch
 
 espyrain_station_16_enabled:
   name: "Station 16 Enabled"
-  initial: false
   icon: mdi:toggle-switch
 
 espyrain_manual_run_active:
@@ -1837,7 +1821,6 @@ espyrain_station_16_coupled_16:
 espyrain_notifications:
   name: "ESPyRain Notifications"
   icon: mdi:bell-badge
-  initial: true
 
 
 

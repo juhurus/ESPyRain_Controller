@@ -1792,6 +1792,9 @@
     - platform: state
       entity_id: input_number.espyrain_rain_delay_days
   condition:
+    - condition: state
+      entity_id: input_boolean.espyrain_sync_lock
+      state: 'off'
     - condition: template
       value_template: >
         {{ states('input_number.espyrain_rain_delay_days') not in ['unknown', 'unavailable'] }}
@@ -1823,22 +1826,14 @@
     - delay:
         seconds: 30
 
-    # â”€â”€ SYSTEM SETTINGS â”€â”€
+    # SYSTEM SETTINGS
     # Master enable
     - service: "switch.turn_{{ 'on' if is_state('input_boolean.espyrain_winter_mode', 'on') else 'off' }}"
       target:
         entity_id: switch.espyrain_controller_winter_mode
       continue_on_error: true
 
-    # Rain delay days
-    - service: number.set_value
-      target:
-        entity_id: number.espyrain_controller_rain_delay_days
-      data:
-        value: "{{ states('input_number.espyrain_rain_delay_days') | int(0) }}"
-      continue_on_error: true
-
-    # â”€â”€ SCHEDULE 1 â”€â”€
+    # SCHEDULE 1
     # Time
     - service: number.set_value
       target:
@@ -1937,7 +1932,7 @@
         entity_id: switch.espyrain_controller_schedule_1_enabled
       continue_on_error: true
 
-    # â”€â”€ SCHEDULE 2 â”€â”€
+    # SCHEDULE 2
     # Time
     - service: number.set_value
       target:
@@ -2036,7 +2031,7 @@
         entity_id: switch.espyrain_controller_schedule_2_enabled
       continue_on_error: true
 
-    # â”€â”€ SCHEDULE 3 â”€â”€
+    # SCHEDULE 3
     # Time
     - service: number.set_value
       target:
@@ -2135,7 +2130,7 @@
         entity_id: switch.espyrain_controller_schedule_3_enabled
       continue_on_error: true
 
-    # â”€â”€ SCHEDULE 4 â”€â”€
+    # SCHEDULE 4
     # Time
     - service: number.set_value
       target:
@@ -2234,7 +2229,7 @@
         entity_id: switch.espyrain_controller_schedule_4_enabled
       continue_on_error: true
 
-    # â”€â”€ SCHEDULE 5 â”€â”€
+    # SCHEDULE 5
     # Time
     - service: number.set_value
       target:
@@ -2333,7 +2328,7 @@
         entity_id: switch.espyrain_controller_schedule_5_enabled
       continue_on_error: true
 
-    # â”€â”€ SCHEDULE 6 â”€â”€
+    # SCHEDULE 6
     # Time
     - service: number.set_value
       target:
@@ -2432,7 +2427,7 @@
         entity_id: switch.espyrain_controller_schedule_6_enabled
       continue_on_error: true
 
-    # â”€â”€ SCHEDULE 7 â”€â”€
+    # SCHEDULE 7
     # Time
     - service: number.set_value
       target:
@@ -2531,7 +2526,7 @@
         entity_id: switch.espyrain_controller_schedule_7_enabled
       continue_on_error: true
 
-    # â”€â”€ SCHEDULE 8 â”€â”€
+    # SCHEDULE 8 
     # Time
     - service: number.set_value
       target:

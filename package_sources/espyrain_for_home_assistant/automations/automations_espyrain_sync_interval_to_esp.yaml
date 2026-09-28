@@ -86,6 +86,86 @@
         value: "{{ states('input_number.espyrain_schedule_4_interval') | int }}"
 
 # ================================================================
+# SYNC SCHEDULE 5 INTERVAL TO ESP
+# ================================================================
+- id: espyrain_sync_schedule_5_interval_to_esp
+  alias: "ESPyRain: Sync Schedule 5 Interval to ESP"
+  description: "Handle Sync Schedule 5 Interval to ESP."
+  trigger:
+    - platform: state
+      entity_id: input_number.espyrain_schedule_5_interval
+  condition:
+    - condition: state
+      entity_id: input_boolean.espyrain_sync_lock
+      state: "off"
+  action:
+    - service: number.set_value
+      target:
+        entity_id: number.espyrain_controller_schedule_5_interval
+      data:
+        value: "{{ states('input_number.espyrain_schedule_5_interval') | int }}"
+
+# ================================================================
+# SYNC SCHEDULE 6 INTERVAL TO ESP
+# ================================================================
+- id: espyrain_sync_schedule_6_interval_to_esp
+  alias: "ESPyRain: Sync Schedule 6 Interval to ESP"
+  description: "Handle Sync Schedule 6 Interval to ESP."
+  trigger:
+    - platform: state
+      entity_id: input_number.espyrain_schedule_6_interval
+  condition:
+    - condition: state
+      entity_id: input_boolean.espyrain_sync_lock
+      state: "off"
+  action:
+    - service: number.set_value
+      target:
+        entity_id: number.espyrain_controller_schedule_6_interval
+      data:
+        value: "{{ states('input_number.espyrain_schedule_6_interval') | int }}"
+
+# ================================================================
+# SYNC SCHEDULE 7 INTERVAL TO ESP
+# ================================================================
+- id: espyrain_sync_schedule_7_interval_to_esp
+  alias: "ESPyRain: Sync Schedule 7 Interval to ESP"
+  description: "Handle Sync Schedule 7 Interval to ESP."
+  trigger:
+    - platform: state
+      entity_id: input_number.espyrain_schedule_7_interval
+  condition:
+    - condition: state
+      entity_id: input_boolean.espyrain_sync_lock
+      state: "off"
+  action:
+    - service: number.set_value
+      target:
+        entity_id: number.espyrain_controller_schedule_7_interval
+      data:
+        value: "{{ states('input_number.espyrain_schedule_7_interval') | int }}"
+
+# ================================================================
+# SYNC SCHEDULE 8 INTERVAL TO ESP
+# ================================================================
+- id: espyrain_sync_schedule_8_interval_to_esp
+  alias: "ESPyRain: Sync Schedule 8 Interval to ESP"
+  description: "Handle Sync Schedule 8 Interval to ESP."
+  trigger:
+    - platform: state
+      entity_id: input_number.espyrain_schedule_8_interval
+  condition:
+    - condition: state
+      entity_id: input_boolean.espyrain_sync_lock
+      state: "off"
+  action:
+    - service: number.set_value
+      target:
+        entity_id: number.espyrain_controller_schedule_8_interval
+      data:
+        value: "{{ states('input_number.espyrain_schedule_8_interval') | int }}"
+
+# ================================================================
 # ESP HEARTBEAT
 # ================================================================
 - id: espyrain_esp_heartbeat

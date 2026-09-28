@@ -16,34 +16,76 @@
       unique_id: espyrain_7_day_forecast
       icon: mdi:calendar-week
       state: >
+        {% set winter_mode = is_state('switch.espyrain_controller_winter_mode', 'on') %}
+        {% set rain_delay = states('number.espyrain_controller_rain_delay_days') | int(0) %}
+        {% set auto_winter = is_state('input_boolean.espyrain_winter_auto_enable', 'on') %}
+        {% set start_raw = states('input_datetime.espyrain_winter_start') %}
+        {% set end_raw = states('input_datetime.espyrain_winter_end') %}
+        {% set start_md = strptime(start_raw, '%Y-%m-%d').strftime('%m-%d') if start_raw not in ['unknown', 'unavailable', ''] else '' %}
+        {% set end_md = strptime(end_raw, '%Y-%m-%d').strftime('%m-%d') if end_raw not in ['unknown', 'unavailable', ''] else '' %}
         {% set ns = namespace(total=0) %}
-        {% for sched in range(1, 9) %}
-          {% for run in range(1, 8) %}
-            {% set entity = 'sensor.espyrain_controller_schedule_' ~ sched ~ '_next_run_' ~ run %}
-            {% set run_time = states(entity) %}
-            {% if run_time not in ['None', 'none', 'unknown', 'unavailable', 'Disabled', ''] %}
-              {% if run_time | regex_match('^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$') %}
-                {% set run_date = run_time[:10] %}
-                {% for day_offset in range(7) %}
-                  {% set check_date = (now() + timedelta(days=day_offset)).strftime('%Y-%m-%d') %}
-                  {% if run_date == check_date %}
-                    {% set ns.total = ns.total + 1 %}
-                  {% endif %}
-                {% endfor %}
-              {% endif %}
+        {% for day_offset in range(7) %}
+          {% set target_date = (now() + timedelta(days=day_offset)) %}
+          {% set target_str = target_date.strftime('%Y-%m-%d') %}
+          {% set target_md = target_date.strftime('%m-%d') %}
+          {% set auto_winter_block = false %}
+          {% if auto_winter and start_md != '' and end_md != '' %}
+            {% if start_md <= end_md %}
+              {% set auto_winter_block = start_md <= target_md <= end_md %}
+            {% else %}
+              {% set auto_winter_block = target_md >= start_md or target_md <= end_md %}
             {% endif %}
-          {% endfor %}
+          {% endif %}
+          {% set blocked = winter_mode or auto_winter_block or (day_offset < rain_delay) %}
+          {% if not blocked %}
+            {% for sched in range(1, 9) %}
+              {% for run in range(1, 8) %}
+                {% set entity = 'sensor.espyrain_controller_schedule_' ~ sched ~ '_next_run_' ~ run %}
+                {% set run_time = states(entity) %}
+                {% if run_time not in ['None', 'none', 'unknown', 'unavailable', 'Disabled', ''] and run_time[:10] == target_str %}
+                  {% set ns.total = ns.total + 1 %}
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
+          {% endif %}
         {% endfor %}
         {{ ns.total }} runs in 7 days
       attributes:
         days: >
+          {% set winter_mode = is_state('switch.espyrain_controller_winter_mode', 'on') %}
+          {% set rain_delay = states('number.espyrain_controller_rain_delay_days') | int(0) %}
+          {% set auto_winter = is_state('input_boolean.espyrain_winter_auto_enable', 'on') %}
+          {% set start_raw = states('input_datetime.espyrain_winter_start') %}
+          {% set end_raw = states('input_datetime.espyrain_winter_end') %}
+          {% set start_md = strptime(start_raw, '%Y-%m-%d').strftime('%m-%d') if start_raw not in ['unknown', 'unavailable', ''] else '' %}
+          {% set end_md = strptime(end_raw, '%Y-%m-%d').strftime('%m-%d') if end_raw not in ['unknown', 'unavailable', ''] else '' %}
           {% set ns = namespace(days=[]) %}
           {% for day_offset in range(7) %}
             {% set target_date = (now() + timedelta(days=day_offset)) %}
             {% set target_str = target_date.strftime('%Y-%m-%d') %}
             {% set target_day_name = target_date.strftime('%A') %}
-            {% set blocked = false %}
-            {% set block_reason = '' %}
+            {% set target_md = target_date.strftime('%m-%d') %}
+            {% set auto_winter_block = false %}
+            {% if auto_winter and start_md != '' and end_md != '' %}
+              {% if start_md <= end_md %}
+                {% set auto_winter_block = start_md <= target_md <= end_md %}
+              {% else %}
+                {% set auto_winter_block = target_md >= start_md or target_md <= end_md %}
+              {% endif %}
+            {% endif %}
+            {% if winter_mode %}
+              {% set blocked = true %}
+              {% set block_reason = 'Winter mode active' %}
+            {% elif auto_winter_block %}
+              {% set blocked = true %}
+              {% set block_reason = 'Auto winter mode' %}
+            {% elif day_offset < rain_delay %}
+              {% set blocked = true %}
+              {% set block_reason = 'Rain delay (' ~ rain_delay ~ ' day' ~ ('' if rain_delay == 1 else 's') ~ ')' %}
+            {% else %}
+              {% set blocked = false %}
+              {% set block_reason = '' %}
+            {% endif %}
             {% set sched_ns = namespace(schedules=[]) %}
             {% for sched in range(1, 9) %}
               {% set name_entity = 'input_text.espyrain_schedule_' ~ sched ~ '_name' %}
@@ -96,6 +138,21 @@
       state: >
         {% set today = now().strftime('%Y-%m-%d') %}
         {% set current_time = now().strftime('%H:%M') %}
+        {% set winter_mode = is_state('switch.espyrain_controller_winter_mode', 'on') %}
+        {% set auto_winter = is_state('input_boolean.espyrain_winter_auto_enable', 'on') %}
+        {% set start_raw = states('input_datetime.espyrain_winter_start') %}
+        {% set end_raw = states('input_datetime.espyrain_winter_end') %}
+        {% set start_md = strptime(start_raw, '%Y-%m-%d').strftime('%m-%d') if start_raw not in ['unknown', 'unavailable', ''] else '' %}
+        {% set end_md = strptime(end_raw, '%Y-%m-%d').strftime('%m-%d') if end_raw not in ['unknown', 'unavailable', ''] else '' %}
+        {% set today_md = now().strftime('%m-%d') %}
+        {% set auto_winter_today = false %}
+        {% if auto_winter and start_md != '' and end_md != '' %}
+          {% if start_md <= end_md %}
+            {% set auto_winter_today = start_md <= today_md <= end_md %}
+          {% else %}
+            {% set auto_winter_today = today_md >= start_md or today_md <= end_md %}
+          {% endif %}
+        {% endif %}
         {% set ns = namespace(remaining=[]) %}
         {% for sched in range(1, 9) %}
           {% set name_entity = 'input_text.espyrain_schedule_' ~ sched ~ '_name' %}
@@ -113,7 +170,9 @@
             {% endif %}
           {% endfor %}
         {% endfor %}
-        {% if ns.remaining | length == 0 %}
+        {% if winter_mode or auto_winter_today %}
+          Winter mode
+        {% elif ns.remaining | length == 0 %}
           No more runs today
         {% else %}
           {% set sorted_runs = ns.remaining | sort %}
@@ -134,7 +193,23 @@
       unique_id: espyrain_tomorrow_schedules
       icon: mdi:calendar-arrow-right
       state: >
-        {% set tomorrow = (now() + timedelta(days=1)).strftime('%Y-%m-%d') %}
+        {% set tomorrow_dt = now() + timedelta(days=1) %}
+        {% set tomorrow = tomorrow_dt.strftime('%Y-%m-%d') %}
+        {% set winter_mode = is_state('switch.espyrain_controller_winter_mode', 'on') %}
+        {% set auto_winter = is_state('input_boolean.espyrain_winter_auto_enable', 'on') %}
+        {% set start_raw = states('input_datetime.espyrain_winter_start') %}
+        {% set end_raw = states('input_datetime.espyrain_winter_end') %}
+        {% set start_md = strptime(start_raw, '%Y-%m-%d').strftime('%m-%d') if start_raw not in ['unknown', 'unavailable', ''] else '' %}
+        {% set end_md = strptime(end_raw, '%Y-%m-%d').strftime('%m-%d') if end_raw not in ['unknown', 'unavailable', ''] else '' %}
+        {% set tomorrow_md = tomorrow_dt.strftime('%m-%d') %}
+        {% set auto_winter_tomorrow = false %}
+        {% if auto_winter and start_md != '' and end_md != '' %}
+          {% if start_md <= end_md %}
+            {% set auto_winter_tomorrow = start_md <= tomorrow_md <= end_md %}
+          {% else %}
+            {% set auto_winter_tomorrow = tomorrow_md >= start_md or tomorrow_md <= end_md %}
+          {% endif %}
+        {% endif %}
         {% set ns = namespace(runs=[]) %}
         {% for sched in range(1, 9) %}
           {% set name_entity = 'input_text.espyrain_schedule_' ~ sched ~ '_name' %}
@@ -152,7 +227,9 @@
             {% endif %}
           {% endfor %}
         {% endfor %}
-        {% if ns.runs | length == 0 %}
+        {% if winter_mode or auto_winter_tomorrow %}
+          Winter mode
+        {% elif ns.runs | length == 0 %}
           No runs scheduled
         {% else %}
           {% set sorted_runs = ns.runs | sort %}
@@ -174,6 +251,17 @@
       unique_id: espyrain_next_scheduled_run
       icon: mdi:clock-fast
       state: >
+        {% set winter_mode = is_state('switch.espyrain_controller_winter_mode', 'on') %}
+        {% set rain_delay = states('number.espyrain_controller_rain_delay_days') | int(0) %}
+        {% set auto_winter = is_state('input_boolean.espyrain_winter_auto_enable', 'on') %}
+        {% set start_raw = states('input_datetime.espyrain_winter_start') %}
+        {% set end_raw = states('input_datetime.espyrain_winter_end') %}
+        {% set start_md = strptime(start_raw, '%Y-%m-%d').strftime('%m-%d') if start_raw not in ['unknown', 'unavailable', ''] else '' %}
+        {% set end_md = strptime(end_raw, '%Y-%m-%d').strftime('%m-%d') if end_raw not in ['unknown', 'unavailable', ''] else '' %}
+        {% set blocked_dates = namespace(items=[]) %}
+        {% for day_offset in range(rain_delay) %}
+          {% set blocked_dates.items = blocked_dates.items + [(now() + timedelta(days=day_offset)).strftime('%Y-%m-%d')] %}
+        {% endfor %}
         {% set ns = namespace(earliest='', earliest_name='') %}
         {% for sched in range(1, 9) %}
           {% set name_entity = 'input_text.espyrain_schedule_' ~ sched ~ '_name' %}
@@ -185,7 +273,18 @@
             {% set entity = 'sensor.espyrain_controller_schedule_' ~ sched ~ '_next_run_' ~ run %}
             {% set run_time = states(entity) %}
             {% if run_time not in ['None', 'none', 'unknown', 'unavailable', 'Disabled', ''] %}
-              {% if ns.earliest == '' or run_time < ns.earliest %}
+              {% set run_date = run_time[:10] %}
+              {% set run_md = run_date[5:10] %}
+              {% set auto_winter_run = false %}
+              {% if auto_winter and start_md != '' and end_md != '' %}
+                {% if start_md <= end_md %}
+                  {% set auto_winter_run = start_md <= run_md <= end_md %}
+                {% else %}
+                  {% set auto_winter_run = run_md >= start_md or run_md <= end_md %}
+                {% endif %}
+              {% endif %}
+              {% set blocked = winter_mode or (run_date in blocked_dates.items) or auto_winter_run %}
+              {% if not blocked and (ns.earliest == '' or run_time < ns.earliest) %}
                 {% set ns.earliest = run_time %}
                 {% set ns.earliest_name = sched_name %}
               {% endif %}

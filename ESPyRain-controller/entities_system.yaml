@@ -323,6 +323,71 @@ script:
           ESP_LOGI("control", "RESUMED - S%d with %d sec remaining",
                    id(current_station), id(time_remaining));
 
+  - id: advance_to_next_station
+    mode: restart
+    then:
+      - lambda: |-
+          if (!id(is_running)) {
+            ESP_LOGW("control", "Next: nothing is running");
+            return;
+          }
+
+          int queue_size = (int)id(queue_tracker).size();
+          int next_idx = id(queue_index) + 1;
+          bool has_next = next_idx < queue_size;
+          bool reprime_master = id(is_paused) || id(soak_resting) || id(pending_master_after_station);
+
+          ESP_LOGI("control", "NEXT requested - current S%d, next queue index %d of %d%s",
+                   id(current_station), next_idx, queue_size,
+                   has_next ? "" : " (will end run)");
+
+          int skipped_seconds = 0;
+          if (id(soak_resting) && id(soak_rest_remaining) > 0) {
+            skipped_seconds += id(soak_rest_remaining);
+          }
+          if (id(current_station) > 0 && id(time_remaining) > 0) {
+            skipped_seconds += id(time_remaining);
+          } else if (id(current_station) == 0 && id(pending_station_start) && id(pending_station_duration_sec) > 0) {
+            skipped_seconds += (int)id(pending_station_duration_sec);
+          }
+
+          if (skipped_seconds > 0) {
+            if (id(total_queue_time_remaining) > skipped_seconds) {
+              id(total_queue_time_remaining) -= skipped_seconds;
+            } else {
+              id(total_queue_time_remaining) = 0;
+            }
+            if (id(queue_total_time_initial) > skipped_seconds) {
+              id(queue_total_time_initial) -= skipped_seconds;
+            } else {
+              id(queue_total_time_initial) = id(total_queue_time_remaining);
+            }
+          }
+
+          id(is_paused) = false;
+          id(paused_timestamp) = 0;
+
+          if (id(soak_resting)) {
+            id(soak_resting) = false;
+            id(soak_rest_remaining) = 0;
+          }
+
+          if (id(current_station) > 0) {
+            id(turn_off_station)(id(current_station));
+            id(current_station) = 0;
+          }
+
+          id(current_valve_runtime) = 0;
+          id(time_remaining) = 0;
+          id(pending_station_start) = false;
+          id(pending_station_number) = 0;
+          id(pending_station_duration_sec) = 0;
+          id(pending_station_start_ms) = 0;
+          id(pending_master_after_station) = false;
+          id(master_reprime_pending) = reprime_master;
+
+          id(run_next_station).execute();
+
 button:
   - platform: template
     name: "Pause"
@@ -362,6 +427,13 @@ button:
     icon: mdi:play
     on_press:
       - script.execute: resume_current_run
+
+  - platform: template
+    name: "Next Station"
+    id: next_station_button
+    icon: mdi:skip-next-circle
+    on_press:
+      - script.execute: advance_to_next_station
 
   - platform: template
     name: "Stop"

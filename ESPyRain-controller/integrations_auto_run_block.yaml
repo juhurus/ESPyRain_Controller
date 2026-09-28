@@ -1,0 +1,17 @@
+# ================================================================
+#
+#              Auto Run Block Bridge From HA
+#
+# ================================================================
+
+binary_sensor:
+  - platform: homeassistant
+    id: auto_run_block_active_from_ha
+    entity_id: binary_sensor.espyrain_auto_run_block_active
+    internal: true
+
+text_sensor:
+  - platform: homeassistant
+    id: auto_run_block_reason_from_ha
+    entity_id: sensor.espyrain_auto_run_block_reason
+    internal: true

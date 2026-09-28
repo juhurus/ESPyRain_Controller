@@ -1,16 +1,18 @@
 # ================================================================
-#                                                                
-#                ESP Boot Restore Automations                
-#                                                                
+#
+#                ESP Boot Restore Automations
+#
 # ================================================================
 # Saved as: config/package_sources/espyrain_for_home_assistant/automations/automations_espyrain_restore_on_esp_boot.yaml
 
 # ================================================================
-# RESTORE BOOLEAN STATE ON ESP BOOT
+# SYNC STATION ENABLED FROM ESP ON RECONNECT
+# Pull the live ESP station enabled state into HA helpers first so
+# reconnect restore logic preserves direct user changes made on the ESP.
 # ================================================================
-- id: espyrain_restore_on_esp_boot
-  alias: "ESPyRain: Restore Boolean State on ESP Boot"
-  description: "When ESP comes online, restore station_enabled and bypass_interval_check from HA helpers"
+- id: espyrain_sync_station_enabled_from_esp_on_reconnect
+  alias: "ESPyRain: Sync Station Enabled from ESP on Reconnect"
+  description: "When ESP comes online, copy live ESP station enabled states into HA helpers before restore actions run"
   trigger:
     - platform: state
       entity_id: binary_sensor.espyrain_controller_ha_link
@@ -22,13 +24,107 @@
       value_template: >
         {{ trigger.from_state.state in ['off', 'unknown', 'unavailable'] or trigger.from_state is none }}
   action:
-    # Allow 5 seconds for ESP to fully initialize and sync_lock to be set
+    - delay:
+        seconds: 1
+    - service: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.espyrain_sync_lock
+    - service: "input_boolean.turn_{{ states('switch.espyrain_controller_station_1_enabled') }}"
+      target:
+        entity_id: input_boolean.espyrain_station_1_enabled
+      continue_on_error: true
+    - service: "input_boolean.turn_{{ states('switch.espyrain_controller_station_2_enabled') }}"
+      target:
+        entity_id: input_boolean.espyrain_station_2_enabled
+      continue_on_error: true
+    - service: "input_boolean.turn_{{ states('switch.espyrain_controller_station_3_enabled') }}"
+      target:
+        entity_id: input_boolean.espyrain_station_3_enabled
+      continue_on_error: true
+    - service: "input_boolean.turn_{{ states('switch.espyrain_controller_station_4_enabled') }}"
+      target:
+        entity_id: input_boolean.espyrain_station_4_enabled
+      continue_on_error: true
+    - service: "input_boolean.turn_{{ states('switch.espyrain_controller_station_5_enabled') }}"
+      target:
+        entity_id: input_boolean.espyrain_station_5_enabled
+      continue_on_error: true
+    - service: "input_boolean.turn_{{ states('switch.espyrain_controller_station_6_enabled') }}"
+      target:
+        entity_id: input_boolean.espyrain_station_6_enabled
+      continue_on_error: true
+    - service: "input_boolean.turn_{{ states('switch.espyrain_controller_station_7_enabled') }}"
+      target:
+        entity_id: input_boolean.espyrain_station_7_enabled
+      continue_on_error: true
+    - service: "input_boolean.turn_{{ states('switch.espyrain_controller_station_8_enabled') }}"
+      target:
+        entity_id: input_boolean.espyrain_station_8_enabled
+      continue_on_error: true
+    - service: "input_boolean.turn_{{ states('switch.espyrain_controller_station_9_enabled') }}"
+      target:
+        entity_id: input_boolean.espyrain_station_9_enabled
+      continue_on_error: true
+    - service: "input_boolean.turn_{{ states('switch.espyrain_controller_station_10_enabled') }}"
+      target:
+        entity_id: input_boolean.espyrain_station_10_enabled
+      continue_on_error: true
+    - service: "input_boolean.turn_{{ states('switch.espyrain_controller_station_11_enabled') }}"
+      target:
+        entity_id: input_boolean.espyrain_station_11_enabled
+      continue_on_error: true
+    - service: "input_boolean.turn_{{ states('switch.espyrain_controller_station_12_enabled') }}"
+      target:
+        entity_id: input_boolean.espyrain_station_12_enabled
+      continue_on_error: true
+    - service: "input_boolean.turn_{{ states('switch.espyrain_controller_station_13_enabled') }}"
+      target:
+        entity_id: input_boolean.espyrain_station_13_enabled
+      continue_on_error: true
+    - service: "input_boolean.turn_{{ states('switch.espyrain_controller_station_14_enabled') }}"
+      target:
+        entity_id: input_boolean.espyrain_station_14_enabled
+      continue_on_error: true
+    - service: "input_boolean.turn_{{ states('switch.espyrain_controller_station_15_enabled') }}"
+      target:
+        entity_id: input_boolean.espyrain_station_15_enabled
+      continue_on_error: true
+    - service: "input_boolean.turn_{{ states('switch.espyrain_controller_station_16_enabled') }}"
+      target:
+        entity_id: input_boolean.espyrain_station_16_enabled
+      continue_on_error: true
+    - service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.espyrain_sync_lock
+    - service: system_log.write
+      data:
+        level: info
+        message: "ESPyRain: Synced 16 station enabled states from ESP to HA helpers after reconnect."
+
+# ================================================================
+# RESTORE BOOLEAN STATE ON ESP BOOT
+# ================================================================
+- id: espyrain_restore_on_esp_boot
+  alias: "ESPyRain: Restore Boolean State on ESP Boot"
+  description: "When ESP comes online, restore station_enabled helper states to the ESP station switches"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.espyrain_controller_ha_link
+      to: 'on'
+      for:
+        seconds: 2
+  condition:
+    - condition: template
+      value_template: >
+        {{ trigger.from_state.state in ['off', 'unknown', 'unavailable'] or trigger.from_state is none }}
+  action:
+    # Allow ESP state sync above to complete first, then restore helpers back to ESP.
     - delay:
         seconds: 5
 
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ================================================================
     # Restore all 16 station enabled states
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ================================================================
 
     # Station 1
     - service: "switch.turn_{{ states('input_boolean.espyrain_station_1_enabled') }}"
@@ -126,24 +222,10 @@
         entity_id: switch.espyrain_controller_station_16_enabled
       continue_on_error: true
 
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    # Restore bypass_interval_check
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    - service: "switch.turn_{{ states('input_boolean.espyrain_bypass_interval_check') }}"
-      target:
-        entity_id: switch.espyrain_controller_bypass_interval_check
-      continue_on_error: true
-
-    # # - service: system_log.write
-      # # data:
-        # # level: info
-        # # message: >
-          # # ESPyRain: Restored 16 station enabled states + bypass_interval_check
-          # # from HA helpers after ESP boot.
     - service: system_log.write
       data:
         level: info
-        message: "ESPyRain: Restored 16 station enabled states + bypass_interval_check from HA helpers after ESP boot."
+        message: "ESPyRain: Restored 16 station enabled states from HA helpers after ESP boot."
 
 # ================================================================
 # KEEP HELPERS IN SYNC WITH ESP (HA -> ESP on change)
@@ -187,49 +269,57 @@
         entity_id: "switch.espyrain_controller_station_{{ station_num }}_enabled"
       continue_on_error: true
 
-# # - id: espyrain_sync_bypass_interval_to_esp
-  # # alias: "ESPyRain: Sync Bypass Interval Check to ESP"
-  # # description: "When HA input_boolean bypass_interval_check changes, update ESP switch"
-  # # trigger:
-    # # - platform: state
-      # # entity_id: input_boolean.espyrain_bypass_interval_check
-  # # condition:
-    # # - condition: state
-      # # entity_id: input_boolean.espyrain_sync_lock
-      # # state: 'off'
-  # # action:
-    # # - service: "switch.turn_{{ trigger.to_state.state }}"
-      # # target:
-        # # entity_id: switch.espyrain_controller_bypass_interval_check
-      # # continue_on_error: true
-
-# # - id: espyrain_sync_bypass_interval_from_esp
-  # # alias: "ESPyRain: Sync Bypass Interval Check from ESP"
-  # # description: "Keep HA helper in sync when ESP bypass switch is changed from ESP/dashboard"
-  # # trigger:
-    # # - platform: state
-      # # entity_id: switch.espyrain_controller_bypass_interval_check
-  # # condition:
-    # # - condition: state
-      # # entity_id: input_boolean.espyrain_sync_lock
-      # # state: 'off'
-    # # - condition: template
-      # # value_template: >
-        # # {{
-          # # trigger.to_state is not none and
-          # # trigger.to_state.state in ['on', 'off'] and
-          # # states('input_boolean.espyrain_bypass_interval_check') in ['on', 'off'] and
-          # # trigger.to_state.state != states('input_boolean.espyrain_bypass_interval_check')
-        # # }}
-  # # action:
-    # # - service: "input_boolean.turn_{{ trigger.to_state.state }}"
-      # # target:
-        # # entity_id: input_boolean.espyrain_bypass_interval_check
+# ================================================================
+# SYNC STATION ENABLED FROM ESP (DIRECT ESP/DASHBOARD CHANGE)
+# ================================================================
+- id: espyrain_sync_station_enabled_from_esp
+  alias: "ESPyRain: Sync Station Enabled from ESP"
+  description: "When an ESP station enabled switch changes directly, update the matching HA helper"
+  trigger:
+    - platform: state
+      entity_id:
+        - switch.espyrain_controller_station_1_enabled
+        - switch.espyrain_controller_station_2_enabled
+        - switch.espyrain_controller_station_3_enabled
+        - switch.espyrain_controller_station_4_enabled
+        - switch.espyrain_controller_station_5_enabled
+        - switch.espyrain_controller_station_6_enabled
+        - switch.espyrain_controller_station_7_enabled
+        - switch.espyrain_controller_station_8_enabled
+        - switch.espyrain_controller_station_9_enabled
+        - switch.espyrain_controller_station_10_enabled
+        - switch.espyrain_controller_station_11_enabled
+        - switch.espyrain_controller_station_12_enabled
+        - switch.espyrain_controller_station_13_enabled
+        - switch.espyrain_controller_station_14_enabled
+        - switch.espyrain_controller_station_15_enabled
+        - switch.espyrain_controller_station_16_enabled
+  condition:
+    - condition: state
+      entity_id: input_boolean.espyrain_sync_lock
+      state: 'off'
+    - condition: template
+      value_template: >
+        {{
+          trigger.to_state is not none and
+          trigger.to_state.state in ['on', 'off'] and
+          (trigger.from_state is none or trigger.to_state.state != trigger.from_state.state)
+        }}
+  action:
+    - variables:
+        station_num: "{{ trigger.entity_id | regex_findall('station_(\\d+)') | first }}"
+    - service: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.espyrain_sync_lock
+    - service: "input_boolean.turn_{{ trigger.to_state.state }}"
+      target:
+        entity_id: "input_boolean.espyrain_station_{{ station_num }}_enabled"
+    - service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.espyrain_sync_lock
 
 # ================================================================
 # REVERSE SYNC: ESP -> HA (optional, for full state visibility)
-# Disabled by default. Enable if you want HA to always show ESP reality.
 # ================================================================
-# Note: Enabling these creates bidirectional sync which can be risky
-# if not carefully gated. The primary sync (HA->ESP on boot) should
-# be sufficient for most use cases.
+# Station enabled reverse sync is active because user-driven direct ESP
+# changes should survive reconnects and ESP restarts.

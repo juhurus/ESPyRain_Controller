@@ -1,0 +1,81 @@
+# ================================================================
+#
+#                Soil Moisture Skip
+#
+# ================================================================
+
+- sensor:
+    - name: "ESPyRain Soil Moisture Value"
+      unique_id: espyrain_soil_moisture_value
+      unit_of_measurement: "%"
+      icon: mdi:water-percent
+      state: >
+        {% set members = state_attr('group.espyrain_soil_moisture_sensors', 'entity_id') or [] %}
+        {% set ns = namespace(values=[]) %}
+        {% for entity_id in members %}
+          {% set raw = states(entity_id) %}
+          {% if raw not in ['unknown', 'unavailable', 'none', 'None', ''] %}
+            {% set ns.values = ns.values + [raw | float(0)] %}
+          {% endif %}
+        {% endfor %}
+        {% if ns.values | length > 0 %}
+          {{ ((ns.values | sum) / (ns.values | length)) | round(1) }}
+        {% else %}
+          unknown
+        {% endif %}
+      attributes:
+        group_member_count: >
+          {{ (state_attr('group.espyrain_soil_moisture_sensors', 'entity_id') or []) | length }}
+        valid_sensor_count: >
+          {% set members = state_attr('group.espyrain_soil_moisture_sensors', 'entity_id') or [] %}
+          {% set ns = namespace(count=0) %}
+          {% for entity_id in members %}
+            {% set raw = states(entity_id) %}
+            {% if raw not in ['unknown', 'unavailable', 'none', 'None', ''] %}
+              {% set ns.count = ns.count + 1 %}
+            {% endif %}
+          {% endfor %}
+          {{ ns.count }}
+        contributing_sensors: >
+          {% set members = state_attr('group.espyrain_soil_moisture_sensors', 'entity_id') or [] %}
+          {% set ns = namespace(names=[]) %}
+          {% for entity_id in members %}
+            {% set raw = states(entity_id) %}
+            {% if raw not in ['unknown', 'unavailable', 'none', 'None', ''] %}
+              {% set ns.names = ns.names + [entity_id] %}
+            {% endif %}
+          {% endfor %}
+          {{ ns.names | join(', ') if ns.names else 'None' }}
+
+- binary_sensor:
+    - name: "ESPyRain Soil Moisture Block Active"
+      unique_id: espyrain_soil_moisture_block_active
+      icon: mdi:sprinkler-variant-off
+      state: >
+        {% if not is_state('input_boolean.espyrain_soil_moisture_skip_enabled', 'on') %}
+          false
+        {% else %}
+          {% set value = states('sensor.espyrain_soil_moisture_value') %}
+          {% if value in ['unknown', 'unavailable', 'none', 'None', ''] %}
+            false
+          {% else %}
+            {{ (value | float(0)) > (states('input_number.espyrain_soil_moisture_skip_threshold') | float(50)) }}
+          {% endif %}
+        {% endif %}
+      attributes:
+        value: "{{ states('sensor.espyrain_soil_moisture_value') }}"
+        threshold: "{{ states('input_number.espyrain_soil_moisture_skip_threshold') }}"
+        valid_sensor_count: "{{ state_attr('sensor.espyrain_soil_moisture_value', 'valid_sensor_count') }}"
+        reason: >
+          {% if not is_state('input_boolean.espyrain_soil_moisture_skip_enabled', 'on') %}
+            Disabled
+          {% else %}
+            {% set value = states('sensor.espyrain_soil_moisture_value') %}
+            {% if value in ['unknown', 'unavailable', 'none', 'None', ''] %}
+              No valid moisture sensors available
+            {% elif (value | float(0)) > (states('input_number.espyrain_soil_moisture_skip_threshold') | float(50)) %}
+              Soil moisture above threshold
+            {% else %}
+              Soil moisture below threshold
+            {% endif %}
+          {% endif %}

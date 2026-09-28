@@ -96,6 +96,24 @@ views:
                   icon:
                     - color: orange
               - type: custom:button-card
+                entity: button.espyrain_controller_next_station
+                name: Next
+                icon: mdi:skip-next-circle
+                show_state: false
+                tap_action:
+                  action: call-service
+                  service: button.press
+                  service_data:
+                    entity_id: button.espyrain_controller_next_station
+                styles:
+                  card:
+                    - background: >-
+                        radial-gradient(circle, rgba(39, 66, 77, 0.8) 0%,
+                        rgba(20, 33, 38, 0.9) 100%)
+                    - border: 1px solid rgba(0, 206, 209, 0.3)
+                  icon:
+                    - color: deepskyblue
+              - type: custom:button-card
                 entity: button.espyrain_controller_resume
                 name: Resume
                 icon: mdi:play-circle
@@ -206,6 +224,30 @@ views:
           - type: conditional
             conditions:
               - condition: state
+                entity: binary_sensor.espyrain_auto_run_block_active
+                state: 'on'
+            card:
+              type: markdown
+              content: >
+                ## HIGH SOIL MOISTURE
+
+                Automatic scheduled watering is currently being skipped.
+
+                Reason: **{{ states('sensor.espyrain_auto_run_block_reason') }}**.
+
+                Current value: **{{ states('sensor.espyrain_soil_moisture_value') }}%**.
+
+                Threshold: **{{ states('input_number.espyrain_soil_moisture_skip_threshold') | int(0) }}%**.
+              card_mod:
+                style: |
+                  ha-card {
+                    background: linear-gradient(135deg, rgba(0, 150, 136, 0.22) 0%, rgba(39, 66, 77, 0.85) 100%);
+                    border: 2px solid #009688;
+                    border-left: 6px solid #26A69A;
+                  }
+          - type: conditional
+            conditions:
+              - condition: state
                 entity: switch.espyrain_controller_winter_mode
                 state: 'on'
             card:
@@ -298,7 +340,7 @@ views:
                     set station_rem =
                     states('sensor.espyrain_controller_station_time_remaining_formatted')
                     %} {% set soak_delay =
-                    states('number.espyrain_controller_number_of_schedules')%}
+                    states('number.espyrain_controller_soak_rest_minutes')%}
 
 
                     {% set ns = namespace(schedule=0) %} {% set sched_src =
@@ -818,6 +860,24 @@ views:
                     - border: 1px solid rgba(0, 206, 209, 0.3)
                   icon:
                     - color: orange
+              - type: custom:button-card
+                entity: button.espyrain_controller_next_station
+                name: Next
+                icon: mdi:skip-next-circle
+                show_state: false
+                tap_action:
+                  action: call-service
+                  service: button.press
+                  service_data:
+                    entity_id: button.espyrain_controller_next_station
+                styles:
+                  card:
+                    - background: >-
+                        radial-gradient(circle, rgba(39, 66, 77, 0.8) 0%,
+                        rgba(20, 33, 38, 0.9) 100%)
+                    - border: 1px solid rgba(0, 206, 209, 0.3)
+                  icon:
+                    - color: deepskyblue
               - type: custom:button-card
                 entity: button.espyrain_controller_resume
                 name: Resume
@@ -3926,6 +3986,24 @@ views:
                   icon:
                     - color: orange
               - type: custom:button-card
+                entity: button.espyrain_controller_next_station
+                name: Next
+                icon: mdi:skip-next-circle
+                show_state: false
+                tap_action:
+                  action: call-service
+                  service: button.press
+                  service_data:
+                    entity_id: button.espyrain_controller_next_station
+                styles:
+                  card:
+                    - background: >-
+                        radial-gradient(circle, rgba(39, 66, 77, 0.8) 0%,
+                        rgba(20, 33, 38, 0.9) 100%)
+                    - border: 1px solid rgba(0, 206, 209, 0.3)
+                  icon:
+                    - color: deepskyblue
+              - type: custom:button-card
                 entity: button.espyrain_controller_resume
                 name: Resume
                 icon: mdi:play-circle
@@ -4443,6 +4521,24 @@ views:
                     - border: 1px solid rgba(0, 206, 209, 0.3)
                   icon:
                     - color: orange
+              - type: custom:button-card
+                entity: button.espyrain_controller_next_station
+                name: Next
+                icon: mdi:skip-next-circle
+                show_state: false
+                tap_action:
+                  action: call-service
+                  service: button.press
+                  service_data:
+                    entity_id: button.espyrain_controller_next_station
+                styles:
+                  card:
+                    - background: >-
+                        radial-gradient(circle, rgba(39, 66, 77, 0.8) 0%,
+                        rgba(20, 33, 38, 0.9) 100%)
+                    - border: 1px solid rgba(0, 206, 209, 0.3)
+                  icon:
+                    - color: deepskyblue
               - type: custom:button-card
                 entity: button.espyrain_controller_resume
                 name: Resume
@@ -6962,6 +7058,24 @@ views:
                   icon:
                     - color: orange
               - type: custom:button-card
+                entity: button.espyrain_controller_next_station
+                name: Next
+                icon: mdi:skip-next-circle
+                show_state: false
+                tap_action:
+                  action: call-service
+                  service: button.press
+                  service_data:
+                    entity_id: button.espyrain_controller_next_station
+                styles:
+                  card:
+                    - background: >-
+                        radial-gradient(circle, rgba(39, 66, 77, 0.8) 0%,
+                        rgba(20, 33, 38, 0.9) 100%)
+                    - border: 1px solid rgba(0, 206, 209, 0.3)
+                  icon:
+                    - color: deepskyblue
+              - type: custom:button-card
                 entity: button.espyrain_controller_resume
                 name: Resume
                 icon: mdi:play-circle
@@ -7304,6 +7418,39 @@ views:
               - entity: number.espyrain_controller_auto_resume_after_minutes
                 name: Auto resume after (min)
                 icon: mdi:timer-play-outline
+              - type: custom:fold-entity-row
+                head:
+                  type: section
+                  label: Soil Moisture Skip
+                open: false
+                entities:
+                  - type: custom:hui-markdown-card
+                    content: |
+                      Private installation-only feature.
+
+                      Automatic scheduled runs are skipped when the average of
+                      the configured soil sensors is above the threshold.
+
+                      Manual runs are not blocked.
+                    card_mod:
+                      style: |
+                        ha-card {
+                          background: rgba(39, 66, 77, 0.5);
+                          border-left: 3px solid #FFA500;
+                          font-size: 0.95em;
+                          padding: 12px;
+                        }
+                        ha-markdown {
+                          padding: 0 !important;
+                        }
+                  - entity: input_boolean.espyrain_soil_moisture_skip_enabled
+                    name: Enable soil moisture skip
+                  - entity: input_number.espyrain_soil_moisture_skip_threshold
+                    name: Soil moisture threshold (%)
+                  - entity: sensor.espyrain_soil_moisture_value
+                    name: Soil moisture average
+                  - entity: binary_sensor.espyrain_soil_moisture_block_active
+                    name: Soil moisture block active
               - type: custom:fold-entity-row
                 head:
                   type: section
@@ -7719,3 +7866,5 @@ views:
     icon: mdi:cog
     show_icon_and_title: true
     cards: []
+
+

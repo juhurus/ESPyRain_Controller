@@ -35,6 +35,23 @@ views:
             name: Wi-Fi signal
           - entity: sensor.espyrain_controller_firmware_version
             name: Firmware version
+      - type: conditional
+        conditions:
+          - condition: state
+            entity: binary_sensor.espyrain_auto_run_block_active
+            state: "on"
+        card:
+          type: markdown
+          content: >
+            ## HIGH SOIL MOISTURE
+
+            Automatic scheduled watering is currently being skipped.
+
+            Reason: **{{ states('sensor.espyrain_auto_run_block_reason') }}**.
+
+            Current value: **{{ states('sensor.espyrain_soil_moisture_value') }}%**.
+
+            Threshold: **{{ states('input_number.espyrain_soil_moisture_skip_threshold') | int(0) }}%**.
       - type: horizontal-stack
         cards:
           - type: button
@@ -46,6 +63,15 @@ views:
               perform_action: button.press
               target:
                 entity_id: button.espyrain_controller_pause
+          - type: button
+            entity: button.espyrain_controller_next_station
+            name: Next
+            icon: mdi:skip-next-circle
+            tap_action:
+              action: perform-action
+              perform_action: button.press
+              target:
+                entity_id: button.espyrain_controller_next_station
           - type: button
             entity: button.espyrain_controller_resume
             name: Resume
@@ -104,6 +130,14 @@ views:
             name: Auto resume after (minutes)
           - entity: switch.espyrain_controller_bypass_interval_check
             name: Bypass interval check
+          - entity: input_boolean.espyrain_soil_moisture_skip_enabled
+            name: Soil moisture skip
+          - entity: input_number.espyrain_soil_moisture_skip_threshold
+            name: Soil moisture threshold (%)
+          - entity: sensor.espyrain_soil_moisture_value
+            name: Soil moisture average
+          - entity: binary_sensor.espyrain_soil_moisture_block_active
+            name: Soil moisture block active
           - entity: input_boolean.espyrain_notifications
           - entity: input_text.espyrain_notify_service
             name: Notification service(s)
@@ -1352,5 +1386,4 @@ views:
                 name: S15
               - entity: input_boolean.espyrain_station_16_coupled_16
                 name: S16
-
 

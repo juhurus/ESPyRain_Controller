@@ -84,7 +84,7 @@ web_server:
 # LOGGER
 # ════════════════════════════════════════════════════════════
 logger:
-  #level: DEBUG # Use DEBUG only when actively troubleshooting.
+  # level: DEBUG # Use DEBUG only when actively troubleshooting.
   level: INFO  # Use INFO for normal run
 
 # ════════════════════════════════════════════════════════════

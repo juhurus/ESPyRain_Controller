@@ -1,0 +1,25 @@
+# ================================================================
+#
+#                Auto Run Block Framework
+#
+# ================================================================
+
+- binary_sensor:
+    - name: "ESPyRain Auto Run Block Active"
+      unique_id: espyrain_auto_run_block_active
+      icon: mdi:block-helper
+      state: >
+        {{
+          is_state('binary_sensor.espyrain_soil_moisture_block_active', 'on')
+        }}
+
+- sensor:
+    - name: "ESPyRain Auto Run Block Reason"
+      unique_id: espyrain_auto_run_block_reason
+      icon: mdi:message-alert-outline
+      state: >
+        {% if is_state('binary_sensor.espyrain_soil_moisture_block_active', 'on') %}
+          Soil moisture above threshold
+        {% else %}
+          None
+        {% endif %}

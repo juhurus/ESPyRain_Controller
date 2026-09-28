@@ -70,6 +70,8 @@ substitutions:
 # ================================================================
 packages:
   espyrain_controller: !include ESPyRain-controller/package.yaml
+  integrations_auto_run_block: !include ESPyRain-controller/integrations_auto_run_block.yaml
+
   
   
   
@@ -82,4 +84,7 @@ packages:
   
   
   
+
+
+
 

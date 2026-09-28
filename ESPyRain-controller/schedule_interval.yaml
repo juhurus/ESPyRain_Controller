@@ -18,6 +18,16 @@ script:
               continue;
             }
 
+            if (id(auto_run_block_active_from_ha).has_state() && id(auto_run_block_active_from_ha).state) {
+              if (id(auto_run_block_reason_from_ha).has_state()) {
+                ESP_LOGI("schedule_check", "Skipping Schedule %d due to auto-run block: %s",
+                         sched, id(auto_run_block_reason_from_ha).state.c_str());
+              } else {
+                ESP_LOGI("schedule_check", "Skipping Schedule %d due to auto-run block", sched);
+              }
+              continue;
+            }
+
             ESP_LOGI("schedule_check", "AUTO-TRIGGERING Schedule %d at %02d:%02d:%02d",
                      sched, now.hour, now.minute, now.second);
 
@@ -30,3 +40,6 @@ script:
 
             break;
           }
+
+
+

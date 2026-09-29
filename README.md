@@ -302,15 +302,32 @@ Detailed setup steps are documented in:
 At a high level, installation looks like this:
 
 1. Copy the package files into Home Assistant
-2. Create a temporary ESPHome device to harvest the API key and board settings
-3. Prepare [`ESPyRain-controller/espyrain_controller_wrapper.yaml`](ESPyRain-controller/espyrain_controller_wrapper.yaml) and `/config/esphome/secrets.yaml`
-4. Compile and flash the ESP32
-5. Add the newly discovered ESPyRain device in Home Assistant
-6. Enable Home Assistant package loading in `configuration.yaml`
-7. Restart Home Assistant and confirm the helpers appear
-8. Import the simple dashboard first, or the full dashboard if you already installed its dependencies
-9. Configure stations, schedules, coupling, and notification settings
-10. Run the first manual and scheduled tests
+2. Enable Home Assistant package loading in `configuration.yaml`
+3. Open **ESPHome Device Builder**, add a new device, and select your ESP32 board
+4. Configure ESPHome Core, Platform, Logger, API, OTA, Wi-Fi, and Captive Portal in the Device Builder
+5. Add the ESPyRain packages to the device configuration:
+
+   ```yaml
+   packages:
+     espyrain_controller: !include ESPyRain-controller/package.yaml
+     integrations_auto_run_block: !include ESPyRain-controller/integrations_auto_run_block.yaml
+   ```
+
+6. Add your local timezone as a substitution:
+
+   ```yaml
+   substitutions:
+     user_timezone: America/Denver
+   ```
+
+7. Compile and install the firmware over USB; later updates can be installed wirelessly
+8. Add the newly discovered ESPyRain device under **Settings -> Devices & Services**
+9. Restart Home Assistant and confirm the ESPyRain helpers and controller entities appear
+10. Import the simple dashboard, or install its dependencies and import the full dashboard
+11. Configure stations, GPIO assignments, schedules, coupling, pump/master-valve settings, and notifications
+12. Test each station manually before enabling automatic schedules
+
+Replace `America/Denver` with the appropriate [IANA timezone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) for your location. See the [installation checklist](INSTALL_CHECKLIST.md) for the complete Device Builder procedure, directory layout, flashing instructions, and first-time configuration steps.
 
 ## Notifications
 

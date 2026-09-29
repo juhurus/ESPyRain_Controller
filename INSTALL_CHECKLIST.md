@@ -272,7 +272,7 @@ Next configure the stations:
 > Allows to set a positive or negative value in milli seconds for the master valve to open before or after the start of the sprinkler valves
 > 
 > - use a negative value when you want the master valve to open after the station valves.
-> - use a positive value when you want the master valve to open bevor the station valves. 
+> - use a positive value when you want the master valve to open before the station valves. 
 
 
 

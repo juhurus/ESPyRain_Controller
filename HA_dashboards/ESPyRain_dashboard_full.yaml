@@ -6948,7 +6948,7 @@ views:
                   after the station valves.
 
                   - use a positive value when you want the master valve to open
-                  bevor the station valves.
+                  before the station valves.
                 card_mod:
                   style: |
                     ha-card {

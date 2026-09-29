@@ -11,8 +11,8 @@ Edit the ESPHome files here:
 The main ESPHome device YAML is:
 - [`ESPyRain-controller/espyrain_controller_wrapper.yaml`](espyrain_controller_wrapper.yaml)
 
-This is the file you typically copy into:
-- `/config/esphome/espyrain_controller_wrapper.yaml`
+The content of this file is basically the ESPhome config file, typically:
+- `/config/esphome/espyrain_controller.yaml`
 
 ## Package entry point
 The ESPHome package entry point is:
@@ -44,7 +44,7 @@ That package pulls in the rest of the ESPyRain controller YAML files in this fol
 
 ## Site-specific setup
 Before compiling, review and adjust the settings in:
-- [`ESPyRain-controller/espyrain_controller_wrapper.yaml`](espyrain_controller_wrapper.yaml)
+- [`ESPyRain-controller/espyrain_controller.yaml`](espyrain_controller.yaml)
 
 At minimum, check:
 - board type

@@ -1,20 +1,20 @@
 substitutions:
-  device_name: espyrain-controller
-  friendly_name: "ESPyRain Controller"
+  # device_name: espyrain-controller
+  # friendly_name: "ESPyRain Controller"
   version: !include VERSION
 
 # ════════════════════════════════════════════════════════════
 # WiFi
 # ════════════════════════════════════════════════════════════
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-  ap:
-    ssid: !secret espyrain_ap_ssid
-    password: !secret espyrain_ap_password
-  power_save_mode: none
-  fast_connect: true
-  reboot_timeout: 15min
+# wifi:
+  # ssid: !secret wifi_ssid
+  # password: !secret wifi_password
+  # ap:
+    # ssid: !secret espyrain_ap_ssid
+    # password: !secret espyrain_ap_password
+  # power_save_mode: none
+  # fast_connect: true
+  # reboot_timeout: 15min
   # Package-safe default: use DHCP.
   # If you want a static IP, add a local override file based on
   # ESPyRain-controller/network_static_ip.example.yaml
@@ -72,7 +72,7 @@ time:
 # ════════════════════════════════════════════════════════════
 # CAPTIVE PORTAL
 # ════════════════════════════════════════════════════════════
-captive_portal:
+# captive_portal:
 
 # ════════════════════════════════════════════════════════════
 # WEB SERVER
@@ -85,7 +85,7 @@ web_server:
 # ════════════════════════════════════════════════════════════
 logger:
   # level: DEBUG # Use DEBUG only when actively troubleshooting.
-  level: INFO  # Use INFO for normal run
+  # level: INFO  # Use INFO for normal run
 
 # ════════════════════════════════════════════════════════════
 # DEBUG
@@ -96,9 +96,9 @@ debug:
 # ════════════════════════════════════════════════════════════
 # OTA
 # ════════════════════════════════════════════════════════════
-ota:
-  - platform: esphome
-    password: !secret espyrain_ota_password
+# ota:
+  # - platform: esphome
+    # password: !secret espyrain_ota_password
 
 # ════════════════════════════════════════════════════════════
 # API
@@ -157,8 +157,8 @@ api:
 # ESP HOME
 # ════════════════════════════════════════════════════════════
 esphome:
-  name: ${device_name}
-  friendly_name: ${friendly_name}
+  # name: ${device_name}
+  # friendly_name: ${friendly_name}
   comment: "ESPyRain Controller v${version}"
   on_boot:
     - priority: 600

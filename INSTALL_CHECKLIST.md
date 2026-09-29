@@ -12,6 +12,12 @@ Note that there might be two different `secrets.yaml` files:
 - one for Home Assistant
 - one for ESPHome
 
+Copy from the downloaded ZIP like this:
+- `ESPyRain_Controller-main/package_sources/` -> `/config/package_sources/`
+- `ESPyRain_Controller-main/packages/` -> `/config/packages/`
+- `ESPyRain_Controller-main/ESPyRain-controller/` -> `/config/esphome/ESPyRain-controller/`
+- `images/www/espyrain/` -> `/config/www/espyrain/`
+
 Your final layout should look like this:
 
 ```text
@@ -55,129 +61,12 @@ Your final layout should look like this:
         `-- your_property_overhead.jpg
 ```
 
-Copy from the downloaded ZIP like this:
-- `ESPyRain_Controller-main/package_sources/` -> `/config/package_sources/`
-- `ESPyRain_Controller-main/packages/` -> `/config/packages/`
-- `ESPyRain_Controller-main/ESPyRain-controller/` -> `/config/esphome/ESPyRain-controller/`
-- `images/www/espyrain/` -> `/config/www/espyrain/`
 
 Optional, if you want to use the supplied ESPyRain theme together with the full HA dashboard rather than the simple dashboard:
 - `ESPyRain_Controller-main/themes/espyrain_theme.yaml` -> `/config/themes/espyrain_theme.yaml`
 
-## 2. Create a temporary ESPHome device
-There are different ways to do this depending on your HA and ESPHome version. The method below works reliably:
-- Click **New Device** in the ESPHome dashboard
-- Click **Continue**
-- Choose **New Device Setup**
-- Name it `Temp` for now. We will delete it later.
-- Enter your Wi-Fi SSID
-- Enter your Wi-Fi password
-- Click **Next**
-- Select the board type you are going to use
-- Click **Skip**
-- ESPHome will create `temp.yaml`
-- Copy `/config/esphome/ESPyRain-controller/espyrain_controller_wrapper.yaml` into `/config/esphome/`
 
-## 3. Edit site-specific ESPHome settings
-Review and update `/config/esphome/espyrain_controller_wrapper.yaml` before compiling.
-
-At minimum, check:
-- board type
-- framework type
-- `user_timezone`
-
-Hint:
-- take the ESP board details from the `temp.yaml` you created earlier
-
-Examples:
-
-```yaml
-esp32:
-  board: esp32-s3-devkitc-1
-  framework:
-    type: esp-idf
-```
-
-```yaml
-substitutions:
-  user_timezone: America/Denver
-```
-
-### Optional static IP configuration
-By default ESPyRain uses DHCP.
-
-If you require a static IP address, uncomment the appropriate lines in `/config/esphome/espyrain_controller_wrapper.yaml` and edit the network settings to suit your network.
-
-Example:
-
-```yaml
-wifi:
-  manual_ip:
-    static_ip: 192.168.1.88
-    gateway: 192.168.1.1
-    subnet: 255.255.255.0
-    dns1: 192.168.1.50
-    dns2: 8.8.8.8
-```
-
-## 4. Add the required ESPHome secrets
-Add these lines to `/config/esphome/secrets.yaml` and edit them with your own details.
-
-Hint:
-- use the API key from the `temp.yaml` you created earlier
-
-```yaml
-wifi_ssid: "your_wifi_ssid"
-wifi_password: "your_wifi_password"
-
-espyrain_ota_password: "your_espyrain_ota_password"
-espyrain_api_key: "your_espyrain_api_key"
-
-espyrain_ap_ssid: "espyrain_ap_ssid"
-espyrain_ap_password: "your_espyrain_ap_password"
-```
-
-## 5. Compile and flash the ESPHome device
-There are several ways to do this. The method below is known to work well:
-1. Open the ESPHome dashboard in Home Assistant.
-2. Click the three-dot menu on the `espyrain_controller` card.
-3. Click **Validate**.
-4. If validation fails, fix the issue first. If validation succeeds, continue.
-5. Click **Install**.
-6. Select **Plug into this computer**.
-7. Wait until the file is ready for download.
-8. Download the file.
-9. Choose **Factory format for use with ESPHome Web**.
-10. Open **ESPHome Web**.
-11. Click **Connect**.
-12. Select your device port.
-13. Click **Install**.
-14. Choose the file you just downloaded.
-15. Click **Install** again.
-16. When flashing is complete, close the ESPHome Web tab.
-17. Reboot the ESP by unplugging and reconnecting the USB cable.
-18. Go back to the ESPHome dashboard.
-19. `espyrain_controller` should now show **Online**.
-
-Next you need to add ESPyRain as a newly discovered device in Home Assistant:
-- Go to **Settings -> Devices & Services**
-- You should see `ESPyRain Controller (espyrain-controller)` under discovered devices
-- Click **Add** to create all the ESPyRain entities
-
-Confirm that entities appear in **Developer Tools -> States**, for example:
-- `sensor.espyrain_controller_status`
-- `button.espyrain_controller_pause`
-- `number.espyrain_controller_number_of_stations`
-- to see all related entities, type `espyrain` into **Filter entities**
-
-Please note:
-- `button.*` entities may show `unknown` in HA. This is normal for stateless action buttons.
-
-From now on you can usually select **wireless** to update and reflash the device remotely instead of connecting it by USB.
-
-At this stage you can delete the temporary `Temp` device because it is no longer required.
-
-## 6. Home Assistant configuration
+## 2. Home Assistant configuration
 In `configuration.yaml`, make sure Home Assistant includes packages:
 
 ```yaml
@@ -192,21 +81,128 @@ frontend:
   themes: !include_dir_merge_named themes
 ```
 
-## 7. Restart Home Assistant and validate the config
+
+## 3. Create a new ESPHome device
+There are different ways to do this depending on your HA and ESPHome version. This method below works for me:
+- open "ESPHome Device Builder"
+- add new device
+- create new project
+- select your ESP board
+- name device e.g. "ESPyRain Controller"
+- go through the tabs and setup ESPHome Core, Platform, Logger, API, OTA, WiFI and Captive Portal
+
+- add configuration -> Packages - and paste this yaml:
+```yaml
+packages:
+  integrations_auto_run_block: !include ESPyRain-  controller/integrations_auto_run_block.yaml
+```
+ 
+ 
+- add configuration -> Substitutions - and paste this yaml:
+```yaml
+substitutions:
+  user_timezone: America/Denver
+```
+
+- adjust the user_timezone to your location
+
+### Your config should look similar to this example:
+*** Note: By default ESPyRain uses DHCP. The example below uses a static IP address.
+```example
+# Board: ESP32-S3 DevKitC-1 (Espressif)
+# Definition: definitions/boards/esp32-s3-devkitc-1/manifest.yaml
+
+esphome:
+  name: espyrain89
+  friendly_name: ESPyRain89
+esp32:
+  variant: ESP32S3
+  flash_size: 16MB
+  framework:
+    type: esp-idf
+
+logger:
+  level: INFO
+
+api:
+  encryption:
+    key: !secret espyrain_api_key
+ota:
+  - platform: esphome
+    encryption:
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  ap:
+    ssid: ESPyRain temp Fallback Hotspot
+    password: "kjshdfkhKALlkUdk"
+
+  manual_ip:
+    gateway: 192.168.1.1
+    static_ip: 192.168.1.89
+    subnet: 255.255.255.0
+    dns2: 1.1.1.1
+    dns1: 192.168.1.50
+  fast_connect: true
+  power_save_mode: NONE
+captive_portal:
+
+packages:
+  espyrain_controller: !include ESPyRain-controller/package.yaml
+  integrations_auto_run_block: !include ESPyRain-controller/integrations_auto_run_block.yaml
+
+substitutions:
+  user_timezone: America/Denver
+  
+```
+
+
+## 4. Compile and flash the ESPHome device
+Once you happy with the setup in your config:
+- click INSTALL
+- Plug in your device using USB and follow the on screen instructions
+- This should upload the firmware to your ESP and it will take a few minutes
+- After the first USB upload subsequent uploads can be done over-the-air (OTA)
+
+1. Reboot the ESP by unplugging and reconnecting the USB cable.
+2. Go back to the ESPHome Device Builder dashboard.
+3. `ESPyRain Controller` should now show **Online**.
+
+Next you need to add ESPyRain as a newly discovered device in Home Assistant:
+- Go to **Settings -> Devices & Services**
+- You should see `ESPyRain Controller (espyrain-controller)` under discovered devices
+- Click **Add** to create all the ESPyRain entities
+
+Confirm that entities appear in **Settings -> Tools -> States**, for example:
+- `sensor.espyrain_controller_status`
+- `button.espyrain_controller_pause`
+- `number.espyrain_controller_number_of_stations`
+- to see all related entities, type `espyrain` into **Filter entities**
+
+Please note:
+- `button.*` entities may show `unknown` in HA. This is normal for stateless action buttons.
+
+From then on you can select **wireless** to update and reflash the device remotely instead of connecting it by USB.
+
+
+## 5. Restart Home Assistant and validate the config
 After copying the files as explained above:
 1. Check the YAML / configuration in Home Assistant.
 2. Restart Home Assistant.
-3. Confirm there are no package or secret errors.
+3. Check HA log to confirm there are no package or secret errors.
 4. Confirm that the new helpers exist, for example:
    - `input_text.espyrain_station_1_name`
    - `input_boolean.espyrain_notifications`
    - `input_text.espyrain_notify_service`
 
-## 8. Choose a dashboard path
+
+## 6. Choose a dashboard path
 You have two dashboard options.
 
+
 ### Option A: Simple dashboard
-Use this first if you want the easiest install path.
+Use this first if you want the easiest install path and not having to install HACS custom cards, but note that this is only a very basic dashboard. You can use this as a starting point to create your own custom dashboard.
 
 File:
 - [`HA_dashboards/ESPyRain_dashboard_simple.yaml`](HA_dashboards/ESPyRain_dashboard_simple.yaml)
@@ -221,7 +217,7 @@ To install:
 - Add a new dashboard from scratch and paste the content from `ESPyRain_dashboard_simple.yaml` into the raw configuration editor, replacing everything in that new dashboard.
 
 ### Option B: Full dashboard
-Use this if you want the richer ESPyRain dashboard.
+Use this if you want the richer ESPyRain dashboard with all feature.
 
 File:
 - [`HA_dashboards/ESPyRain_dashboard_full.yaml`](HA_dashboards/ESPyRain_dashboard_full.yaml)
@@ -231,7 +227,7 @@ This dashboard:
 - uses image assets under `/config/www/espyrain/`
 - is much more polished, but has more setup steps
 
-Required custom cards for the full dashboard:
+Required HACS custom cards for the full dashboard:
 - `button-card`
 - `card-mod`
 - `fold-entity-row`
@@ -240,31 +236,45 @@ Required custom cards for the full dashboard:
 - `template-entity-row`
 - `time-picker-card`
 
+**Install all of the above custom cards through HACS**
+
 For more detail, see:
 - [`HA_dashboards/README.md`](HA_dashboards/README.md)
 
-## 9. Import or create the dashboard
+
+## 7. Import or create the dashboard
 Once Home Assistant and the ESP are both up:
 1. Add the simple dashboard first, or the full dashboard if you already installed its dependencies.
 2. Refresh the browser once after importing the dashboard.
 3. If you are using the full dashboard, verify that the image paths load correctly.
 
-## 10. First-time controller setup
+
+## 8. First-time controller setup
 Once the ESPyRain entities appear in Home Assistant:
-1. Set the number of stations you need.
+1. Find the **System Configuration** card and set the number of stations(valves) you have.
 2. Set the number of schedules you need.
-3. Set rain delay to `0`.
+3. Set rain delay to `0` for now.
 4. Turn winter mode off unless you actually want it on.
 
-Then configure the stations:
-- name each station as you wish
+Next configure the stations:
 - enable the stations you currently use
+- name each of the station as you wish- 
 - set runtime in minutes
 - assign the GPIO pin for each valve
 - set coupled stations if needed
 - enable the master valve / pump if used
-- choose the master valve / pump GPIO pin
+- select the master valve / pump GPIO pin
 - set the master valve delay in milliseconds
+
+
+> **What does Delay(ms) start timer do?**
+> 
+> Allows to set a positive or negative value in milli seconds for the master valve to open before or after the start of the sprinkler valves
+> 
+> - use a negative value when you want the master valve to open after the station valves.
+> - use a positive value when you want the master valve to open bevor the station valves. 
+
+
 
 Where to find the coupled-station toggles:
 - **Simple dashboard:** open the `Coupling` tab. Each station has its own card with `S1` to `S16` toggles.
@@ -290,7 +300,45 @@ Where to find the schedule station-selection toggles:
 - **Simple dashboard:** open the `Schedule Stations` tab. Each schedule has its own card with `S1` to `S16` toggles.
 - **Full dashboard:** open the `Schedules` tab, then open the station-selection section for the schedule you want to edit.
 
-## 11. Notification check
+
+## 9. Optional soil moisture skip setup
+This feature is optional and is ignored unless you enable it.
+
+What it does:
+- checks the average of the sensors in group.espyrain_soil_moisture_sensors
+- ignores sensors that are currently unknown or unavailable
+- skips automatic scheduled runs when the average is above the configured threshold
+- does not block manual runs
+- does not stop a schedule that is already running
+
+Setup steps:
+1. Create a Home Assistant group named group.espyrain_soil_moisture_sensors.
+2. Add one or more soil moisture sensors to that group.
+3. Reload Home Assistant groups or restart Home Assistant if needed.
+4. Open the ESPyRain dashboard Config tab.
+5. Turn on Soil Moisture Skip.
+6. Set Soil Moisture Skip Threshold to the moisture percentage above which automatic runs should be skipped.
+7. Verify these public entities exist and update correctly:
+   - sensor.espyrain_soil_moisture_value
+   - binary_sensor.espyrain_soil_moisture_block_active
+   - binary_sensor.espyrain_auto_run_block_active
+   - sensor.espyrain_auto_run_block_reason
+
+Example group YAML:
+
+~~~yaml
+group:
+  espyrain_soil_moisture_sensors:
+    name: ESPyRain Soil Moisture Sensors
+    entities:
+      - sensor.hobeian_zg_303z_humidity
+      - sensor.hobeian_zg_303z_humidity_2
+      - sensor.hobeian_zg_303z_humidity_3
+      - sensor.hobeian_zg_303z_humidity_4
+~~~
+
+
+## 10. Notification check
 Turn ESPyRain notifications on if you want to be notified by the many events that trigger messages. Notifications are especially useful during setup because they show what is supposed to run and when.
 
 Notifications can also report:
@@ -303,5 +351,7 @@ Notifications can also report:
 Examples:
 - `notify.mobile_app_my_phone`
 - `notify.telegram_bot_xxx_xxx, notify.mobile_app_my_phone`
+
+
 
 

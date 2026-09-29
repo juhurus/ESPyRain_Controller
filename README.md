@@ -3,17 +3,17 @@
 
 An ESP32-based sprinkler controller with Home Assistant integration. It was designed with two main goals in mind:
 - to be fully configurable through Home Assistant, no yaml reload, no HA restart, no ESP reflash needed after the initial installation.
-- to keep scheduled irrigation running autonomously even if Home Assistant or Wi-Fi is temporarily unavailable.
+- to keep scheduled irrigation running autonomously even if Home Assistant or Wi-Fi is patchy or temporarily unavailable.
 
 ESPyRain is built for users who want a powerful, transparent, highly configurable irrigation system without depending on a cloud service or a closed commercial controller.
 
-There is already a wide selection of ESP-based sprinkler systems available. More common solutions like [ESPHome Sprinkler Controller](https://esphome.io/components/sprinkler/#sprinkler-controller-sprinkler_controller_queue) and [Irrigation Unlimited](https://github.com/rgc99/irrigation_unlimited) are both capable and reliable, but they usually require recompiling and reflashing the ESP32 when you want to make changes to the controller itself.
+There is already a wide selection of ESP-based sprinkler systems available. Common solutions like [ESPHome Sprinkler Controller](https://esphome.io/components/sprinkler/#sprinkler-controller-sprinkler_controller_queue) and [Irrigation Unlimited](https://github.com/rgc99/irrigation_unlimited) are both capable and reliable, but they usually require recompiling and reflashing the ESP32 when you want to make changes to the controller itself.
 
-The aim of ESPyRain is different. The goal is to avoid reflashing or reloading YAML files for everyday changes. Users should be able to set and control everything through Home Assistant, so even a partner or family member can change a schedule start time or a station runtime without editing YAML files, reloading Home Assistant, or recompiling and reflashing the ESP.
+The aim of ESPyRain is different. The goal is to avoid reflashing or reloading YAML files for everyday changes. Users should be able to set and control everything through Home Assistant, so even less experienced user, a partner or family member can change a schedule start time or a station runtime without editing YAML files, reloading Home Assistant, or recompiling and reflashing the ESP.
 
-ESPyRain Controller gives users full control of their watering requirements through Home Assistant without needing to restart Home Assistant or reflash the ESP after the initial setup.
+ESPyRain Controller gives users full control of their watering requirements through Home Assistant.
 
-Another important design goal is autonomy. The ESP32 continues scheduled watering even if Home Assistant or Wi-Fi is temporarily unavailable. ESPyRain stores all schedules directly on the ESP device to allow fully autonomous watering.
+The important design goal is autonomy. The ESP32 continues scheduled watering even if Home Assistant or Wi-Fi is temporarily unavailable. ESPyRain stores all schedules directly on the ESP device to allow fully autonomous watering.
 
 ![Sprinkler Controller](images/screenshots/controller_head.png)
 
@@ -182,6 +182,8 @@ Home Assistant is the management and visibility layer, but not the only thing ke
 
 This system includes a real pause function for active watering. The pause feature removes the need to cancel and restart a schedule later just to finish watering.
 
+![operational buttons](operational_buttons.png)
+
 Pausing can be useful when you quickly need to stop watering without losing the run state.
 Examples are:
 - sprinkler maintenance while you replace or adjust a sprinkler head
@@ -200,6 +202,8 @@ ESPyRain also supports an optional automatic resume timer. If a run stays paused
 
 If one schedule is already active and another schedule becomes due, the new run is added to the end of the queue. This can happen when two schedules were originally programmed to run one after another, but seasonal adjust causes them to overlap.
 
+![queued stations list](queued_stations.png)
+
 This is an important reliability feature. The system is designed so irrigation runs are not silently cancelled or skipped just because something else is already watering.
 
 To stop the queue from growing without limit during long pauses or heavy overlap, ESPyRain enforces a hard cap of 100 total queued station items. Manual additions and scheduled runs that would exceed that limit are rejected, and users can be notified when that happens.
@@ -208,12 +212,14 @@ To stop the queue from growing without limit during long pauses or heavy overlap
 
 If multiple valves need to operate together, they can be linked.
 
+![](coupled_stations_dashboard.png)
+
 Selecting or starting any station in a linked group can resolve to the whole group, so coupled irrigation zones behave consistently in both manual and scheduled operation.
 
 ### Seasonal Adjust %
 
 Each schedule supports individual seasonal adjustment between `50%` and `150%`.
-
+![seasonal adjustment %](sesonal_adjustment.png)
 This is useful on its own, but it also makes weather-based runtime adjustment easy to add for users who have reliable local weather or rainfall data in Home Assistant and want to use that data to adjust runtimes automatically.
 
 Rather than building one fixed weather model into the controller, this project lets advanced users drive `Seasonal Adjust %` per schedule through HA automations if they want that behavior.
@@ -310,6 +316,8 @@ At a high level, installation looks like this:
 
 Notifications work out of the box without Telegram or any other third-party service.
 
+![Notification config](notifications_dashboard.png)
+
 Default behavior:
 - if notifications are enabled and no custom service is configured, ESPyRain creates a Home Assistant persistent notification
 
@@ -400,20 +408,50 @@ Weather data quality varies a lot by location, and some users have much more rel
 
 This gives flexibility without forcing unreliable forecast assumptions on every installation.
 
-## Roadmap / Future Ideas
+## Optional Soil Moisture Skip
 
-Potential future improvements include:
+ESPyRain includes an optional soil-moisture-based skip feature for automatic scheduled runs. It reads one or more soil moisture sensors, averages its values and prevents schedules to run if the moisture level is above the selected threshold.
 
-- optional weather/rain-based skip logic
-- notification selection option
-- further public package polish
-- installation simplification
-- additional diagnostics and onboarding improvements
-- optional flow/leak monitoring if supporting hardware is added
+![](soil_moisture_dashboard.png)
+
+Requirements:
+- At least one HA integrated soil moisture sensor. Better to have multiple sensors dotted around your lawn area.
+For example a Zigbee soil moisture sensor (ZG-303Z by HOBEIAN).
+
+How it works:
+- it reads the members of group.espyrain_soil_moisture_sensors
+- it ignores any group members that are currently unknown or unavailable
+- it averages only the valid current sensor values
+- if the averaged value is above the configured threshold, automatic scheduled runs are skipped
+- manual runs are not blocked
+- schedules that are already running continue normally
+
+Setup in Home Assistant:
+1. Create a group named group.espyrain_soil_moisture_sensors.
+2. Add one or more soil moisture sensors to that group.
+3. Enable Soil Moisture Skip in the ESPyRain dashboard config section.
+4. Set the Soil Moisture Skip Threshold to the level that should block automatic runs.
+
+Example group YAML:
+
+~~~yaml
+group:
+  espyrain_soil_moisture_sensors:
+    name: ESPyRain Soil Moisture Sensors
+    entities:
+      - sensor.my_soil_sensor_1
+      - sensor.my_soil_sensor_2
+~~~
+
+The dashboards expose these public entities:
+- input_boolean.espyrain_soil_moisture_skip_enabled
+- input_number.espyrain_soil_moisture_skip_threshold
+- sensor.espyrain_soil_moisture_value
+- binary_sensor.espyrain_soil_moisture_block_active
+- binary_sensor.espyrain_auto_run_block_active
+- sensor.espyrain_auto_run_block_reason
 
 ## Status
-
-This project is actively being refined and packaged for cleaner public installation.
 
 The goal is a reliable, transparent, local-first irrigation controller that can be adapted to different properties and watering needs.
 
@@ -426,10 +464,11 @@ This project is licensed under the Apache License 2.0. See [`LICENSE`](LICENSE).
 The code is licensed under Apache 2.0, but the `ESPyRain` name, branding, and presentation assets are not granted for reuse beyond what the license and applicable law allow. If you create a derivative project, please use your own name and branding.
 
 ## Thank you
-Special thanks to Robert, the creator of [Irrigation Unlimited](https://github.com/rgc99/irrigation_unlimited), where I pinched a few ideas from, and also [ESPHome Sprinkler](https://esphome.io/components/sprinkler/#sprinkler-controller-sprinkler_controller_queue).
+Special thanks to Robert, the creator of [Irrigation Unlimited](https://github.com/rgc99/irrigation_unlimited), where we pinched a few ideas from, and also [ESPHome Sprinkler](https://esphome.io/components/sprinkler/#sprinkler-controller-sprinkler_controller_queue).
 
 ## Installation
 For step-by-step installation see [INSTALL_CHECKLIST.md](INSTALL_CHECKLIST.md).
+
 
 
 

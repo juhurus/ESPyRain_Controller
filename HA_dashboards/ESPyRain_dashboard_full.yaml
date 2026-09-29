@@ -233,11 +233,15 @@ views:
 
                 Automatic scheduled watering is currently being skipped.
 
-                Reason: **{{ states('sensor.espyrain_auto_run_block_reason') }}**.
+                Reason: **{{ states('sensor.espyrain_auto_run_block_reason')
+                }}**.
 
-                Current value: **{{ states('sensor.espyrain_soil_moisture_value') }}%**.
+                Current value: **{{
+                states('sensor.espyrain_soil_moisture_value') }}%**.
 
-                Threshold: **{{ states('input_number.espyrain_soil_moisture_skip_threshold') | int(0) }}%**.
+                Threshold: **{{
+                states('input_number.espyrain_soil_moisture_skip_threshold') |
+                int(0) }}%**.
               card_mod:
                 style: |
                   ha-card {
@@ -6943,7 +6947,7 @@ views:
                   - use a negative value when you want the master valve to open
                   after the station valves.
 
-                  - use a positive valvue when you want the master valve to open
+                  - use a positive value when you want the master valve to open
                   bevor the station valves.
                 card_mod:
                   style: |
@@ -7866,5 +7870,3 @@ views:
     icon: mdi:cog
     show_icon_and_title: true
     cards: []
-
-

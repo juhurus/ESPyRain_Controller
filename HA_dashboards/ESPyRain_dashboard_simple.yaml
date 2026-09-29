@@ -39,7 +39,7 @@ views:
         conditions:
           - condition: state
             entity: binary_sensor.espyrain_auto_run_block_active
-            state: "on"
+            state: 'on'
         card:
           type: markdown
           content: >
@@ -49,9 +49,12 @@ views:
 
             Reason: **{{ states('sensor.espyrain_auto_run_block_reason') }}**.
 
-            Current value: **{{ states('sensor.espyrain_soil_moisture_value') }}%**.
+            Current value: **{{ states('sensor.espyrain_soil_moisture_value')
+            }}%**.
 
-            Threshold: **{{ states('input_number.espyrain_soil_moisture_skip_threshold') | int(0) }}%**.
+            Threshold: **{{
+            states('input_number.espyrain_soil_moisture_skip_threshold') |
+            int(0) }}%**.
       - type: horizontal-stack
         cards:
           - type: button
@@ -107,7 +110,7 @@ views:
           - entity: script.espyrain_manual_run
             name: Start Manual Run
       - type: entities
-        title: Core Settings
+        title: System Confirguration
         show_header_toggle: false
         entities:
           - entity: number.espyrain_controller_number_of_stations
@@ -489,6 +492,16 @@ views:
           - entity: number.espyrain_controller_station_16_pin
             name: GPIO pin
           - entity: binary_sensor.espyrain_station_16_watering
+      - type: entities
+        title: Master Valve / Pump
+        show_header_toggle: false
+        entities:
+          - entity: switch.espyrain_controller_master_valve_enabled
+            name: Master valve enabled
+          - entity: number.espyrain_controller_master_valve_pin
+            name: Master valve pin
+          - entity: number.espyrain_controller_master_valve_delay_ms
+            name: Master valve delay
   - title: Schedule Stations
     path: schedule-stations
     icon: mdi:playlist-check
@@ -1386,4 +1399,3 @@ views:
                 name: S15
               - entity: input_boolean.espyrain_station_16_coupled_16
                 name: S16
-

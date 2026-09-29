@@ -94,7 +94,7 @@ There are different ways to do this depending on your HA and ESPHome version. Th
 - add configuration -> Packages - and paste this yaml:
 ```yaml
 packages:
-  integrations_auto_run_block: !include ESPyRain-  controller/integrations_auto_run_block.yaml
+  integrations_auto_run_block: !include ESPyRain-controller/integrations_auto_run_block.yaml
 ```
  
  
@@ -136,7 +136,7 @@ wifi:
   password: !secret wifi_password
   ap:
     ssid: ESPyRain temp Fallback Hotspot
-    password: "kjshdfkhKALlkUdk"
+    password: "change_me_to_a_secure_password"
 
   manual_ip:
     gateway: 192.168.1.1

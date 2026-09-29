@@ -108,7 +108,7 @@ substitutions:
 
 ### Your config should look similar to this example:
 *** Note: By default ESPyRain uses DHCP. The example below uses a static IP address.
-```example
+```yaml
 # Board: ESP32-S3 DevKitC-1 (Espressif)
 # Definition: definitions/boards/esp32-s3-devkitc-1/manifest.yaml
 

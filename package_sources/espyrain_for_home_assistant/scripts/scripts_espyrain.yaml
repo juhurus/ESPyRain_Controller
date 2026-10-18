@@ -48,7 +48,7 @@ espyrain_manual_run:
 # ================================================================
 espyrain_sync_esp_time_now:
   alias: "ESPyRain: Sync ESP Time Now"
-  icon: mdi:clock-sync
+  icon: mdi:clock-time-eight-outline
   mode: single
   sequence:
     - choose:

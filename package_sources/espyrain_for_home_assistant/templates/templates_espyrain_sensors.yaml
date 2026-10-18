@@ -1335,7 +1335,7 @@
       unit_of_measurement: s
       device_class: duration
       state: >
-        {% set esp = states('sensor.espyrain_controller_esp_time') %}
+        {% set esp = states('sensor.espyrain_controller_esp_date_time') %}
         {% set ha = now() %}
         {% if esp in ['unknown', 'unavailable', 'none', ''] %}
           0

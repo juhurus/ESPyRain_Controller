@@ -331,10 +331,8 @@ group:
   espyrain_soil_moisture_sensors:
     name: ESPyRain Soil Moisture Sensors
     entities:
-      - sensor.hobeian_zg_303z_humidity
-      - sensor.hobeian_zg_303z_humidity_2
-      - sensor.hobeian_zg_303z_humidity_3
-      - sensor.hobeian_zg_303z_humidity_4
+      - sensor.front_lawn_soil_moisture
+      - sensor.back_lawn_soil_moisture
 ~~~
 
 
